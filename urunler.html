@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOZATECH | Tüm Ürünlerimiz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Site genelinde Inter fontunu kullan */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            /* Açık gri arka plan */
+        }
+
+        /* Ana renkler */
+        .primary-color {
+            background-color: #0F4C81;
+            /* Koyu Mavi */
+        }
+
+        .primary-text {
+            color: #0F4C81;
+        }
+
+        .accent-color {
+            background-color: #10B981;
+            /* Zümrüt Yeşili (CTA için) */
+        }
+
+        /* Logo için özel stil (80px'e yükseltildi) */
+        .header-logo {
+            max-height: 80px;
+            width: auto;
+        }
+
+        /* Ürün kartı görseli stili - Genel ayar (cover) korundu */
+        .product-image {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px 8px 0 0;
+        }
+
+        /* Görsel kalkınca yerine geçecek placeholder kutu */
+        .placeholder-box {
+            height: 250px;
+            width: 100%;
+            background-color: #f0f0f0;
+            /* Hafif gri arka plan */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px 8px 0 0;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* --- YENİ EFEKT STİLLERİ BAŞLANGIÇ --- */
+        /* Animasyon için anahtar kareler */
+        @keyframes product-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+                /* Hafifçe alttan kaydır */
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Kartların varsayılan durumu (görünmez) */
+        .product-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            /* Animasyon geçiş süresi */
+        }
+
+        /* JavaScript ile eklenecek animasyon sınıfı */
+        .product-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- YENİ EFEKT STİLLERİ BİTİŞ --- */
+    </style>
+</head>
+
+<body>
+
+    <!-- Üst Menü (Header) -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo: DOZATECH - Ana sayfaya tam yönlendirme -->
+                <a href="dozatech_website.html" class="flex items-center h-full py-2">
+                    <img src="dozatech_logo.jpg" alt="DOZATECH Logo" class="header-logo"
+                        onerror="this.onerror=null; this.src='https://placehold.co/150x80/0F4C81/FFFFFF?text=DOZA+TECH';">
+                </a>
+                <!-- Navigasyon Linkleri (Masaüstü) -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="dozatech_website.html"
+                        class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Ana Sayfa</a>
+                    <a href="#"
+                        class="text-teal-500 font-bold transition duration-300 border-b-2 border-teal-500">Ürünler</a>
+                    <a href="dozatech_website.html#cozumler"
+                        class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Neden Biz?</a>
+                    <a href="dozatech_website.html#hakkimizda"
+                        class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Hakkımızda</a>
+                    <a href="dozatech_website.html#iletisim"
+                        class="text-white bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-lg transition duration-300 shadow-md">İletişim</a>
+                </nav>
+                <!-- Mobil Menü Butonu -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-teal-500 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobil Menü İçeriği -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl">
+            <a href="dozatech_website.html"
+                class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Ana Sayfa</a>
+            <a href="#" class="block py-3 px-4 text-teal-500 bg-gray-100 transition duration-300 font-bold">Ürünler</a>
+            <a href="dozatech_website.html#cozumler"
+                class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Neden Biz?</a>
+            <a href="dozatech_website.html#hakkimizda"
+                class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Hakkımızda</a>
+            <a href="dozatech_website.html#iletisim"
+                class="block py-3 px-4 text-white bg-teal-500 hover:bg-teal-600 text-center">İletişim</a>
+        </div>
+    </header>
+
+    <!-- Ürünler (Products Section) - Detaylı Galeri -->
+    <section id="urunler" class="py-20 sm:py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold primary-text text-center mb-4">DOZATECH Tüm Ürün Kataloğu</h1>
+            <p class="text-xl text-gray-500 text-center mb-16">Endüstriyel bulaşık makineleri, dozaj sistemleri ve
+                yüksek performanslı kimyasalların tamamı.</p>
+
+            <!-- Grid Yapısı: 3 ana kategori -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="product-grid">
+
+                <!-- Ürün Kartı 1: Endüstriyel Bulaşık Makineleri -->
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card">
+                    <img src="makineler_kolaj.png" alt="" class="product-image" style="object-fit: contain;"
+                        onerror="this.onerror=null; this.src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold primary-text mb-2">Endüstriyel Bulaşık Makineleri</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Giyotin ve konveyör tipi, otel ve restoranlar için yüksek
+                            hızlı ve enerji verimli yıkama çözümleri.</p>
+                        <!-- YENİ LİNK: Bulaşık Makineleri Sayfası -->
+                        <a href="urunler_bulasikmakineleri.html"
+                            class="text-teal-500 font-semibold hover:text-teal-600 transition duration-300 flex items-center">
+                            Detayları İncele
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Ürün Kartı 2: Dozaj Pompaları -->
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card">
+                    <img src="pompa_atiker.jpeg" alt="" class="product-image" style="object-position: 50% 15%;"
+                        onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Dozaj+Pompası';">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold primary-text mb-2">Hassas Dozaj Pompaları</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Kimyasal israfını sıfırlayan, otomatik ayarlanabilir,
+                            yüksek hassasiyetli dozaj sistemleri.</p>
+                        <!-- Pompalar Sayfası -->
+                        <a href="urunler_pompa.html"
+                            class="text-teal-500 font-semibold hover:text-teal-600 transition duration-300 flex items-center">
+                            Detayları İncele
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Ürün Kartı 3: Endüstriyel Kimyasallar -->
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card">
+                    <!-- YENİ GÖRSEL: det_pat_kolaj.png -->
+                    <img src="det_pat_kolaj.png" alt="Endüstriyel Kimyasallar" class="product-image"
+                        style="object-fit: cover;"
+                        onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Endüstriyel+Kimyasallar';">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold primary-text mb-2">Endüstriyel Kimyasallar</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            Konsantre bulaşık deterjanı, parlatıcı, kireç ve yağ sökücü ürünlerimizin tamamı tek çatı
+                            altında.
+                        </p>
+                        <!-- YENİ LİNK: Kimyasallar Sayfası -->
+                        <a href="urunler_kimyasallar.html"
+                            class="text-teal-500 font-semibold hover:text-teal-600 transition duration-300 flex items-center">
+                            Detayları İncele
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-16">
+                <!-- CTA LİNKİ -->
+                <a href="https://wa.me/905322063859?text=Merhaba,%20web%20sitenizden%20toplu%20sipari%C5%9F%20ve%20fiyat%20teklifi%20i%C3%A7in%20ileti%C5%9Fime%20ge%C3%A7mek%20istiyorum."
+                    target="_blank"
+                    class="inline-block primary-color hover:bg-teal-600 text-white text-lg font-semibold px-8 py-4 rounded-full transition duration-300 transform hover:scale-105 shadow-xl">
+                    Toplu Sipariş ve Fiyat Teklifi İçin Hemen İletişime Geçin (WhatsApp)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="primary-color text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="mb-6">
+                <a href="dozatech_website.html" class="text-3xl font-extrabold tracking-tight text-white">
+                    <span class="text-teal-400">DOZA</span>TECH
+                </a>
+                <p class="text-sm text-gray-400 mt-2">Endüstriyel Hijyen Çözümleri</p>
+            </div>
+            <div class="flex justify-center space-x-6 text-sm mb-6">
+                <a href="dozatech_website.html" class="text-gray-300 hover:text-teal-400 transition duration-300">Ana
+                    Sayfa</a>
+                <a href="#" class="text-teal-400 transition duration-300 font-bold">Ürünler</a>
+                <a href="dozatech_website.html#cozumler"
+                    class="text-gray-300 hover:text-teal-400 transition duration-300">Neden Biz?</a>
+                <a href="dozatech_website.html#hakkimizda"
+                    class="text-gray-300 hover:text-teal-400 transition duration-300">Hakkımızda</a>
+                <a href="dozatech_website.html#iletisim"
+                    class="text-gray-300 hover:text-teal-400 transition duration-300">İletişim</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 DOZATECH. Tüm Hakları Saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu and Product Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (link.getAttribute('href').startsWith('dozatech_website.html')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach((card, index) => {
+                const delay = index * 150;
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, delay);
+            });
+        });
+    </script>
+</body>
+
+</html>
