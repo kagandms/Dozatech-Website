@@ -91,12 +91,55 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            animation: whatsapp-pulse 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes whatsapp-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 4px 25px rgba(37, 211, 102, 0.7);
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- Header -->
     <header class="bg-white shadow-lg sticky top-0 z-50">
+        <!-- Üst Bar: Telefon -->
+        <div class="bg-teal-500 text-white text-sm py-2">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <span>📞 Hemen Arayın: <a href="tel:+905322063859" class="font-bold hover:underline">0532 206 38
+                        59</a></span>
+                <span class="hidden sm:inline">🕐 Pzt-Cmt: 09:00 - 18:00</span>
+            </div>
+        </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex items-center h-full py-2">
@@ -109,23 +152,34 @@
                     <a href="index.html#iletisim"
                         class="text-white bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-lg shadow-md">İletişim</a>
                 </nav>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-teal-500 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
             </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl">
+            <a href="index.html" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Ana Sayfa</a>
+            <a href="urunler.html" class="block py-3 px-4 text-teal-500 bg-gray-100 font-bold">Ürünler</a>
+            <a href="index.html#iletisim" class="block py-3 px-4 text-white bg-teal-500 text-center">İletişim</a>
         </div>
     </header>
 
     <!-- Ana İçerik -->
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Geri Dön Linki -->
-            <div class="mb-8">
-                <a href="urunler.html" class="text-teal-500 hover:underline flex items-center font-medium">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                        </path>
-                    </svg>
-                    Tüm Ürünlere Geri Dön
-                </a>
-            </div>
+            <!-- Breadcrumb -->
+            <nav class="mb-8 text-sm" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li><a href="index.html" class="text-gray-500 hover:text-teal-500">Ana Sayfa</a></li>
+                    <li class="text-gray-400">/</li>
+                    <li><a href="urunler.html" class="text-gray-500 hover:text-teal-500">Ürünler</a></li>
+                    <li class="text-gray-400">/</li>
+                    <li class="text-teal-500 font-medium">Dozaj Pompaları</li>
+                </ol>
+            </nav>
 
             <div class="text-center mb-16">
                 <h1 class="text-4xl font-extrabold primary-text mb-4">Hassas Dozaj Pompası Modellerimiz</h1>
@@ -259,6 +313,15 @@
             }
         });
     </script>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/905322063859?text=Merhaba,%20DOZATECH%20Dozaj%20Pompas%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
+        class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+            <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+        </svg>
+    </a>
 </body>
 
 </html>
