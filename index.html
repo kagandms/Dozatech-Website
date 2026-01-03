@@ -248,6 +248,50 @@
                 box-shadow: 0 4px 25px rgba(37, 211, 102, 0.7);
             }
         }
+
+        /* Hero Slideshow */
+        .hero-slideshow {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide-1 {
+            background-image: url('montaj1.jpeg');
+        }
+
+        .hero-slide-2 {
+            background-image: url('montaj2.jpeg');
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 76, 129, 0.85) 0%, rgba(15, 76, 129, 0.7) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -260,7 +304,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                 <span>📞 Hemen Arayın: <a href="tel:+905322063859" class="font-bold hover:underline">0532 206 38
                         59</a></span>
-                
+
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -308,18 +352,26 @@
         </div>
     </header>
 
-    <!-- 1. Ana Sayfa (Hero Section) -->
-    <section id="home" class="primary-color text-white py-24 sm:py-32">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 scroll-reveal" data-delay="1">
+    <!-- 1. Ana Sayfa (Hero Section with Slideshow) -->
+    <section id="home" class="hero-slideshow text-white py-24 sm:py-32 min-h-[600px] flex items-center">
+        <!-- Arka Plan Slaytları -->
+        <div class="hero-slide hero-slide-1 active"></div>
+        <div class="hero-slide hero-slide-2"></div>
+        <!-- Overlay -->
+        <div class="hero-overlay"></div>
+        <!-- İçerik -->
+        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 scroll-reveal drop-shadow-lg"
+                data-delay="1">
                 Endüstriyel Temizlikte <span class="text-teal-400">Güvenilir Çözüm Ortağınız</span>
             </h1>
-            <p class="text-xl sm:text-2xl font-light mb-10 max-w-4xl mx-auto scroll-reveal" data-delay="2">
+            <p class="text-xl sm:text-2xl font-light mb-10 max-w-4xl mx-auto scroll-reveal drop-shadow-md"
+                data-delay="2">
                 Yüksek performanslı bulaşık makineleri, hassas dozaj sistemleri ve güçlü temizlik kimyasalları ile
                 işletmenizin hijyen standartlarını en üst seviyeye taşıyın.
             </p>
             <a href="urunler.html"
-                class="inline-block accent-color hover:bg-teal-600 text-white text-lg font-semibold px-8 py-4 rounded-full transition duration-300 transform hover:scale-105 shadow-xl scroll-reveal"
+                class="inline-block bg-teal-500 hover:bg-teal-600 text-white text-lg font-semibold px-8 py-4 rounded-full transition duration-300 transform hover:scale-105 shadow-xl scroll-reveal"
                 data-delay="3">
                 Ürünlerimizi Keşfedin
             </a>
@@ -592,6 +644,19 @@
             revealElements.forEach(element => {
                 observer.observe(element);
             });
+
+            // 4. Hero Slideshow
+            const slides = document.querySelectorAll('.hero-slide');
+            let currentSlide = 0;
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            // Her 3.5 saniyede bir slayt değiştir
+            setInterval(nextSlide, 3500);
         });
     </script>
 
