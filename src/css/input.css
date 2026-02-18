@@ -5,6 +5,20 @@
 @layer components {
     /* Custom Components Recreated from Original CSS */
 
+    .primary-color {
+        @apply bg-[#002B49];
+        /* Deep Navy Blue */
+    }
+
+    .accent-color {
+        @apply bg-teal-500;
+    }
+
+    .primary-text {
+        @apply text-[#002B49];
+    }
+
+
     .header-logo {
         @apply max-h-[80px] w-auto;
     }
