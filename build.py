@@ -104,7 +104,10 @@ def process_html():
         
         # FIX PATHS FOR DIST
         # 1. CSS Path: 'dist/css/style.css' -> 'css/style.css'
-        content = content.replace('dist/css/style.css', 'css/style.css')
+        # 1. CSS Path: 'dist/css/style.css' -> 'css/style.css'
+        import time
+        timestamp = int(time.time())
+        content = content.replace('dist/css/style.css', f'css/style.css?v={timestamp}')
 
         # INJECT SECURITY HEADERS
         security_headers = """
