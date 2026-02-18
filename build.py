@@ -109,15 +109,22 @@ def process_html():
         timestamp = int(time.time())
         content = content.replace('dist/css/style.css', f'css/style.css?v={timestamp}')
 
-        # INJECT SECURITY HEADERS
+        # INJECT SECURITY HEADERS (Skill: security-auditor)
+        # Updated CSP to allow Google Analytics and GTM
         security_headers = """
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
         """
         if '<head>' in content:
-            content = content.replace('<head>', '<head>' + security_headers)
+            # Inject Analytics Code (Skill: growth-hacker)
+            analytics_code = ""
+            if os.path.exists('src/analytics.html'):
+                with open('src/analytics.html', 'r', encoding='utf-8') as af:
+                    analytics_code = af.read()
+            
+            content = content.replace('<head>', '<head>' + analytics_code + security_headers)
         
         # Minify
         minified_content = minify_html(content)
