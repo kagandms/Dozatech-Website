@@ -1,0 +1,23 @@
+{
+  "name": "dozatech_web",
+  "version": "1.0.0",
+  "description": "DOZATECH, endüstriyel hijyen ve temizlik sektöründe hizmet veren kurumsal bir firmanın web sitesidir. Bu proje, işletmenin ürünlerini (endüstriyel bulaşık makineleri, dozaj pompaları ve kimyasallar) tanıtmak ve müşterilerle iletişim kurmak amacıyla hazırlanmıştır.",
+  "main": "index.js",
+  "scripts": {
+    "build": "python3 build.py",
+    "watch": "echo 'Watch mode not supported in Python build yet. Use manual build.'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kagandms/dozatech_website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kagandms/dozatech_website/issues"
+  },
+  "homepage": "https://github.com/kagandms/dozatech_website#readme"
+}

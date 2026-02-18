@@ -1,0 +1,36 @@
+name: DOZATECH Web CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Run Build Script
+      run: |
+        python3 build.py
+
+    - name: Verify Build Output
+      run: |
+        if [ ! -f "dist/index.html" ]; then echo "Error: dist/index.html missing"; exit 1; fi
+        if [ ! -f "dist/css/style.css" ]; then echo "Error: dist/css/style.css missing"; exit 1; fi
+        echo "Build Verified Successfully!"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dozatech-build
+        path: dist/

@@ -21,14 +21,14 @@
         content="dozaj pompası, Atiker pompa, Dualdose, tekli pompa, deterjan dozajlama, parlatıcı dozajlama">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dozatech.com.tr/urunler_pompa.html">
-    <link rel="icon" type="image/jpeg" href="dozatech_logo.jpg">
+    <link rel="icon" type="image/webp" href="assets/images/dozatech_logo.webp">
     <!-- Open Graph -->
     <meta property="og:type" content="product">
     <meta property="og:url" content="https://dozatech.com.tr/urunler_pompa.html">
     <meta property="og:title" content="DOZATECH | Dozaj Pompası Modelleri">
     <meta property="og:description"
         content="Atiker uyumlu pompa, Dualdose pompa ve tekli dozaj pompaları. Hassas dozaj sistemleri.">
-    <meta property="og:image" content="https://dozatech.com.tr/prof_dualdose.png">
+    <meta property="og:image" content="https://dozatech.com.tr/assets/images/prof_dualdose.webp">
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -44,7 +44,7 @@
                 "position": 1,
                 "name": "Atiker Uyumlu Dozaj Pompası",
                 "description": "Endüstriyel bulaşık makineleri için standart uyumlu, yüksek performanslı dozaj pompası",
-                "image": "https://dozatech.com.tr/pompa_atiker.jpeg",
+                "image": "https://dozatech.com.tr/assets/images/pompa_atiker.webp",
                 "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY"}
             },
             {
@@ -52,7 +52,7 @@
                 "position": 2,
                 "name": "Özel Dualdose Dozaj Pompası",
                 "description": "Deterjan ve parlatıcıyı aynı anda kontrol eden çiftli sistem",
-                "image": "https://dozatech.com.tr/prof_dualdose.png",
+                "image": "https://dozatech.com.tr/assets/images/prof_dualdose.webp",
                 "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY"}
             },
             {
@@ -60,83 +60,18 @@
                 "position": 3,
                 "name": "Tekli Dozaj Pompası",
                 "description": "Sadece deterjan veya parlatıcı için ideal ekonomik çözüm",
-                "image": "https://dozatech.com.tr/pompa_tekli.jpeg",
+                "image": "https://dozatech.com.tr/assets/images/pompa_tekli.webp",
                 "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY"}
             }
         ]
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Local Tailwind CSS -->
+    <link href="dist/css/style.css" rel="stylesheet">
+    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fb;
-        }
-
-        .primary-color {
-            background-color: #0F4C81;
-        }
-
-        .primary-text {
-            color: #0F4C81;
-        }
-
-        .accent-color {
-            background-color: #10B981;
-        }
-
-        .header-logo {
-            max-height: 80px;
-            width: auto;
-        }
-
-        /* Kartların hover efekti */
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* WhatsApp Floating Button */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            animation: whatsapp-pulse 2s infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes whatsapp-pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 4px 25px rgba(37, 211, 102, 0.7);
-            }
-        }
-    </style>
+    /* Site genelinde Inter fontunu kullan */
 </head>
 
 <body>
@@ -153,7 +88,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex items-center h-full py-2">
-                    <img src="dozatech_logo.jpg" alt="DOZATECH" class="header-logo"
+                    <img src="assets/images/dozatech_logo.webp" alt="DOZATECH" class="header-logo"
                         onerror="this.onerror=null; this.src='https://placehold.co/150x80/0F4C81/FFFFFF?text=DOZA+TECH';">
                 </a>
                 <nav class="hidden md:flex space-x-8">
@@ -206,8 +141,8 @@
                 <div
                     class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card flex flex-col h-full">
                     <div class="h-64 overflow-hidden bg-gray-100 flex items-center justify-center p-4">
-                        <img src="pompa_atiker.jpeg" alt="Atiker Pompa" class="max-h-full max-w-full object-contain"
-                            loading="lazy"
+                        <img src="assets/images/pompa_atiker.webp" alt="Atiker Pompa"
+                            class="max-h-full max-w-full object-contain" loading="lazy"
                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Atiker+Pompa';">
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
@@ -240,8 +175,8 @@
                 <div
                     class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card flex flex-col h-full">
                     <div class="h-64 overflow-hidden bg-gray-100 flex items-center justify-center p-4">
-                        <img src="prof_dualdose.png" alt="Dualdose Pompa" class="max-h-full max-w-full object-contain"
-                            loading="lazy"
+                        <img src="assets/images/prof_dualdose.webp" alt="Dualdose Pompa"
+                            class="max-h-full max-w-full object-contain" loading="lazy"
                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Dualdose+Pompa';">
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
@@ -274,8 +209,8 @@
                 <div
                     class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card flex flex-col h-full">
                     <div class="h-64 overflow-hidden bg-gray-100 flex items-center justify-center p-4">
-                        <img src="pompa_tekli.jpeg" alt="Tekli Pompalar" class="max-h-full max-w-full object-contain"
-                            loading="lazy"
+                        <img src="assets/images/pompa_tekli.webp" alt="Tekli Pompalar"
+                            class="max-h-full max-w-full object-contain" loading="lazy"
                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Tekli+Pompa';">
                     </div>
                     <div class="p-6 flex flex-col flex-grow">

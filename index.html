@@ -22,14 +22,14 @@
     <meta name="author" content="DOZATECH">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dozatech.com.tr/">
-    <link rel="icon" type="image/jpeg" href="dozatech_logo.jpg">
+    <link rel="icon" type="image/webp" href="assets/images/dozatech_logo.webp">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dozatech.com.tr/">
     <meta property="og:title" content="DOZATECH | Endüstriyel Temizlik ve Dozaj Sistemleri">
     <meta property="og:description"
         content="Endüstriyel bulaşık makineleri, hassas dozaj pompaları ve temizlik kimyasalları ile işletmenizin hijyen standartlarını yükseltin.">
-    <meta property="og:image" content="https://dozatech.com.tr/dozatech_logo.jpg">
+    <meta property="og:image" content="https://dozatech.com.tr/assets/images/dozatech_logo.webp">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DOZATECH | Endüstriyel Temizlik ve Dozaj Sistemleri">
@@ -49,7 +49,7 @@
                 "url": "https://dozatech.com.tr",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://dozatech.com.tr/dozatech_logo.jpg"
+                    "url": "https://dozatech.com.tr/assets/images/dozatech_logo.webp"
                 },
                 "description": "Endüstriyel bulaşık makineleri, dozaj pompaları ve temizlik kimyasalları tedarikçisi",
                 "contactPoint": {
@@ -64,7 +64,7 @@
                 "@type": "LocalBusiness",
                 "@id": "https://dozatech.com.tr/#localbusiness",
                 "name": "DOZATECH - Endüstriyel Temizlik ve Dozaj Sistemleri",
-                "image": "https://dozatech.com.tr/dozatech_logo.jpg",
+                "image": "https://dozatech.com.tr/assets/images/dozatech_logo.webp",
                 "url": "https://dozatech.com.tr",
                 "telephone": "+90-532-206-3859",
                 "priceRange": "$$",
@@ -147,164 +147,11 @@
     }
     </script>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Local Tailwind CSS -->
+    <link href="dist/css/style.css" rel="stylesheet">
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <style>
-        /* Site genelinde Inter fontunu kullan */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fb;
-            /* Açık gri arka plan */
-        }
-
-        /* Ana renkler */
-        .primary-color {
-            background-color: #0F4C81;
-            /* Koyu Mavi */
-        }
-
-        .primary-text {
-            color: #0F4C81;
-        }
-
-        .accent-color {
-            background-color: #10B981;
-            /* Zümrüt Yeşili (CTA için) */
-        }
-
-        /* Logo için özel stil (80px'e yükseltildi) */
-        .header-logo {
-            max-height: 80px;
-            width: auto;
-        }
-
-        /* Hakkımızda görselinin responsive hale gelmesi için */
-        .about-image {
-            max-height: 450px;
-            object-fit: cover;
-        }
-
-        /* --- SCROLL REVEAL (Kaydırma Efekti) STİLLERİ --- */
-        /* Animasyon başlangıç durumu: Görünmez ve hafifçe aşağı kaymış */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        /* Animasyon bitiş durumu: Görünür ve orijinal pozisyonunda */
-        .scroll-reveal.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Farklı gecikmeler için CSS değişkenleri tanımlanıyor */
-        .scroll-reveal[data-delay="1"] {
-            transition-delay: 0.1s;
-        }
-
-        .scroll-reveal[data-delay="2"] {
-            transition-delay: 0.2s;
-        }
-
-        .scroll-reveal[data-delay="3"] {
-            transition-delay: 0.3s;
-        }
-
-        .scroll-reveal[data-delay="4"] {
-            transition-delay: 0.4s;
-        }
-
-        .scroll-reveal[data-delay="5"] {
-            transition-delay: 0.5s;
-        }
-
-        /* WhatsApp Floating Button */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            animation: whatsapp-pulse 2s infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
-        }
-
-        @keyframes whatsapp-pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 4px 25px rgba(37, 211, 102, 0.7);
-            }
-        }
-
-        /* Hero Slideshow */
-        .hero-slideshow {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center 30%;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        .hero-slide.active {
-            opacity: 1;
-        }
-
-        .hero-slide-1 {
-            background-image: url('montaj1.jpeg');
-            background-position: center 15%;
-        }
-
-        .hero-slide-2 {
-            background-image: url('montaj2.jpeg');
-            background-position: center 10%;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(15, 76, 129, 0.85) 0%, rgba(15, 76, 129, 0.7) 100%);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-        }
-    </style>
+    <!-- Custom Styles moved to src/css/input.css -->
 </head>
 
 <body>
@@ -323,7 +170,7 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Logo: DOZATECH -->
                 <a href="#" class="flex items-center h-full py-2">
-                    <img src="dozatech_logo.jpg" alt="DOZATECH Logo" class="header-logo"
+                    <img src="assets/images/dozatech_logo.webp" alt="DOZATECH Logo" class="header-logo"
                         onerror="this.onerror=null; this.src='https://placehold.co/150x80/0F4C81/FFFFFF?text=DOZA+TECH';">
                 </a>
                 <!-- Navigasyon Linkleri (Masaüstü) -->
@@ -514,7 +361,7 @@
                 <!-- Görsel Alanı -->
                 <div class="md:w-1/2 flex justify-center items-center scroll-reveal" data-delay="3">
                     <!-- Hakkımızda Görseli -->
-                    <img src="dozatech_logo.jpg" alt="DOZATECH Logo/Ekipman"
+                    <img src="assets/images/dozatech_logo.webp" alt="DOZATECH Logo/Ekipman"
                         class="w-full h-auto rounded-xl shadow-2xl about-image" loading="lazy"
                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/CCCCCC/333333?text=G%C3%B6rsel+Y%C3%BCkleme+Hatası';">
                 </div>

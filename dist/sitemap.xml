@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://dozatech.com.tr/index.html</loc>
+    <lastmod>2026-02-18</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dozatech.com.tr/urunler.html</loc>
+    <lastmod>2026-02-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dozatech.com.tr/urunler_bulasikmakineleri.html</loc>
+    <lastmod>2026-02-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dozatech.com.tr/urunler_kimyasallar.html</loc>
+    <lastmod>2026-02-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dozatech.com.tr/urunler_pompa.html</loc>
+    <lastmod>2026-02-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+</urlset>

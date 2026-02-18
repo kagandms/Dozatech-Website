@@ -21,14 +21,14 @@
         content="endüstriyel deterjan, parlatıcı, kireç sökücü, yağ sökücü, bulaşık makinesi kimyasalları">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dozatech.com.tr/urunler_kimyasallar.html">
-    <link rel="icon" type="image/jpeg" href="dozatech_logo.jpg">
+    <link rel="icon" type="image/webp" href="assets/images/dozatech_logo.webp">
     <!-- Open Graph -->
     <meta property="og:type" content="product">
     <meta property="og:url" content="https://dozatech.com.tr/urunler_kimyasallar.html">
     <meta property="og:title" content="DOZATECH | Endüstriyel Kimyasallar">
     <meta property="og:description"
         content="Konsantre deterjan, parlatıcı, kireç sökücü ve yağ sökücü. Endüstriyel hijyen kimyasalları.">
-    <meta property="og:image" content="https://dozatech.com.tr/det_pat_kolaj.png">
+    <meta property="og:image" content="https://dozatech.com.tr/assets/images/det_pat_kolaj.webp">
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -44,7 +44,7 @@
                 "position": 1,
                 "name": "DOZATECH Konsantre Deterjan",
                 "description": "Güçlü yağ çözücü formül, ekonomik konsantre yapı, tüm su sertliklerine uygun",
-                "image": "https://dozatech.com.tr/deterjan_larox.jpeg",
+                "image": "https://dozatech.com.tr/assets/images/deterjan_larox.webp",
                 "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY"}
             },
             {
@@ -52,7 +52,7 @@
                 "position": 2,
                 "name": "DOZATECH Endüstriyel Parlatıcı",
                 "description": "Hızlı kuruma, leke ve iz bırakmayan parlak görünüm sağlayan parlatıcı",
-                "image": "https://dozatech.com.tr/parlatici_larox.jpeg",
+                "image": "https://dozatech.com.tr/assets/images/parlatici_larox.webp",
                 "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY"}
             },
             {
@@ -73,76 +73,11 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Local Tailwind CSS -->
+    <link href="dist/css/style.css" rel="stylesheet">
+    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fb;
-        }
-
-        .primary-color {
-            background-color: #0F4C81;
-        }
-
-        .primary-text {
-            color: #0F4C81;
-        }
-
-        .accent-color {
-            background-color: #10B981;
-        }
-
-        .header-logo {
-            max-height: 80px;
-            width: auto;
-        }
-
-        /* Kartların hover efekti - Diğer sayfalarla aynı */
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* WhatsApp Floating Button */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            animation: whatsapp-pulse 2s infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes whatsapp-pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 4px 25px rgba(37, 211, 102, 0.7);
-            }
-        }
-    </style>
+    /* Site genelinde Inter fontunu kullan */
 </head>
 
 <body>
@@ -159,7 +94,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex items-center h-full py-2">
-                    <img src="dozatech_logo.jpg" alt="DOZATECH" class="header-logo"
+                    <img src="assets/images/dozatech_logo.webp" alt="DOZATECH" class="header-logo"
                         onerror="this.onerror=null; this.src='https://placehold.co/150x80/0F4C81/FFFFFF?text=DOZA+TECH';">
                 </a>
                 <nav class="hidden md:flex space-x-8">
@@ -211,7 +146,7 @@
                 <div
                     class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card flex flex-col h-full">
                     <div class="h-64 bg-gray-100 flex items-center justify-center p-4">
-                        <img src="deterjan_larox.jpeg" alt="Konsantre Deterjan"
+                        <img src="assets/images/deterjan_larox.webp" alt="Konsantre Deterjan"
                             class="max-h-full max-w-full object-contain" loading="lazy">
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
@@ -242,7 +177,7 @@
                 <div
                     class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card flex flex-col h-full">
                     <div class="h-64 bg-gray-100 flex items-center justify-center p-4">
-                        <img src="parlatici_larox.jpeg" alt="Endüstriyel Parlatıcı"
+                        <img src="assets/images/parlatici_larox.webp" alt="Endüstriyel Parlatıcı"
                             class="max-h-full max-w-full object-contain" loading="lazy">
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
@@ -273,7 +208,7 @@
                 <div
                     class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card flex flex-col h-full">
                     <div class="h-64 bg-gray-100 flex items-center justify-center p-4">
-                        <img src="kirecsokucu.jpeg" alt="Güçlü Kireç Sökücü"
+                        <img src="assets/images/kirecsokucu.webp" alt="Güçlü Kireç Sökücü"
                             class="max-h-full max-w-full object-contain" loading="lazy">
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
@@ -304,7 +239,7 @@
                 <div
                     class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card flex flex-col h-full">
                     <div class="h-64 bg-gray-100 flex items-center justify-center p-4">
-                        <img src="yagsokucu.jpeg" alt="Endüstriyel Yağ Sökücü"
+                        <img src="assets/images/yagsokucu.webp" alt="Endüstriyel Yağ Sökücü"
                             class="max-h-full max-w-full object-contain" loading="lazy">
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
