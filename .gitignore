@@ -1,0 +1,14 @@
+.DS_Store
+
+__pycache__/
+*.py[cod]
+
+.env
+.env.*
+!.env.example
+
+tailwindcss-macos-arm64
+tailwindcss-macos-x64
+tailwindcss-linux-arm64
+tailwindcss-linux-x64
+tailwindcss-windows-x64.exe
