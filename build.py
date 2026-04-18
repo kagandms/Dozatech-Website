@@ -14,9 +14,10 @@ DIST_DIR = 'dist'
 SRC_CSS = 'src/css/input.css'
 ASSETS_DIR = 'assets'
 TAILWIND_VERSION = 'v3.4.17'
+NODE_TAILWIND_CLI = os.path.join('node_modules', '.bin', 'tailwindcss')
 
 def print_step(message):
-    print(f"\033[1;34m[BUILD]\033[0m {message}")
+    print(f"\033[1;34m[BUILD]\033[0m {message}", flush=True)
 
 def get_tailwind_cli_name():
     system = platform.system().lower()
@@ -56,6 +57,15 @@ def download_tailwind_cli(cli_name):
         print(f"Failed to download Tailwind CLI: {e}")
         sys.exit(1)
 
+def get_tailwind_command():
+    if os.path.exists(NODE_TAILWIND_CLI):
+        print_step("Using project-local Tailwind CLI...")
+        return NODE_TAILWIND_CLI
+
+    cli_name = get_tailwind_cli_name()
+    download_tailwind_cli(cli_name)
+    return f"./{cli_name}"
+
 def clean_dist():
     print_step("Cleaning dist directory...")
     if os.path.exists(DIST_DIR):
@@ -64,12 +74,10 @@ def clean_dist():
     os.makedirs(os.path.join(DIST_DIR, 'css'))
 
 def build_css():
-    cli_name = get_tailwind_cli_name()
-    download_tailwind_cli(cli_name)
-    
+    cli_path = get_tailwind_command()
+
     print_step("Compiling Tailwind CSS...")
-    cli_path = f"./{cli_name}"
-    
+
     try:
         subprocess.run([
             cli_path, 
@@ -77,6 +85,9 @@ def build_css():
             '-o', f'{DIST_DIR}/css/style.css', 
             '--minify'
         ], check=True)
+    except OSError as e:
+        print(f"Error executing Tailwind CLI: {e}")
+        sys.exit(1)
     except subprocess.CalledProcessError as e:
         print(f"Error building CSS: {e}")
         sys.exit(1)
@@ -170,7 +181,7 @@ Sitemap: {base_url}/sitemap.xml
 def copy_assets():
     print_step("Copying Assets...")
     if os.path.exists(ASSETS_DIR):
-        shutil.copytree(ASSETS_DIR, os.path.join(DIST_DIR, 'assets'))
+        shutil.copytree(ASSETS_DIR, os.path.join(DIST_DIR, 'assets'), dirs_exist_ok=True)
 
 def main():
     print_step("Starting Build Process...")
