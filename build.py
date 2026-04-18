@@ -15,6 +15,20 @@ SRC_CSS = 'src/css/input.css'
 ASSETS_DIR = 'assets'
 TAILWIND_VERSION = 'v3.4.17'
 NODE_TAILWIND_CLI = os.path.join('node_modules', '.bin', 'tailwindcss')
+PAGE_ROUTES = {
+    'index.html': '/',
+    'urunler.html': '/urunler',
+    'urunler_bulasikmakineleri.html': '/urunler/bulasik-makineleri',
+    'urunler_kimyasallar.html': '/urunler/kimyasallar',
+    'urunler_pompa.html': '/urunler/dozaj-pompalari',
+}
+PAGE_PRIORITIES = {
+    'index.html': '1.0',
+    'urunler.html': '0.9',
+    'urunler_bulasikmakineleri.html': '0.8',
+    'urunler_kimyasallar.html': '0.8',
+    'urunler_pompa.html': '0.8',
+}
 
 def print_step(message):
     print(f"\033[1;34m[BUILD]\033[0m {message}", flush=True)
@@ -104,6 +118,9 @@ def minify_html(content):
     
     return content.strip()
 
+def get_public_page_path(filename):
+    return PAGE_ROUTES.get(filename, f'/{filename}')
+
 def process_html():
     print_step("Processing and Minifying HTML files...")
     html_files = [f for f in os.listdir('.') if f.endswith('.html')]
@@ -113,15 +130,12 @@ def process_html():
         with open(filename, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        # FIX PATHS FOR DIST
-        # 1. CSS Path: 'dist/css/style.css' -> 'css/style.css'
-        # 1. CSS Path: 'dist/css/style.css' -> 'css/style.css'
+        # Nested clean URLs must resolve assets and CSS from the site root.
         import time
         timestamp = int(time.time())
-        content = content.replace('dist/css/style.css', f'css/style.css?v={timestamp}')
+        content = content.replace('dist/css/style.css', f'/css/style.css?v={timestamp}')
 
-        # INJECT SECURITY HEADERS (Skill: security-auditor)
-        # Updated CSP to allow Google Analytics and GTM
+        # INJECT SECURITY HEADERS
         security_headers = """
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;">
@@ -129,12 +143,11 @@ def process_html():
     <meta name="referrer" content="strict-origin-when-cross-origin">
         """
         if '<head>' in content:
-            # Inject Analytics Code (Skill: growth-hacker)
             analytics_code = ""
             if os.path.exists('src/analytics.html'):
-                with open('src/analytics.html', 'r', encoding='utf-8') as af:
-                    analytics_code = af.read()
-            
+                with open('src/analytics.html', 'r', encoding='utf-8') as analytics_file:
+                    analytics_code = analytics_file.read()
+
             content = content.replace('<head>', '<head>' + analytics_code + security_headers)
         
         # Minify
@@ -165,10 +178,14 @@ Sitemap: {base_url}/sitemap.xml
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     
-    for filename in html_files:
-        priority = "1.0" if filename == "index.html" else "0.8"
+    ordered_files = [filename for filename in PAGE_ROUTES if filename in html_files]
+    remaining_files = sorted(filename for filename in html_files if filename not in PAGE_ROUTES)
+
+    for filename in ordered_files + remaining_files:
+        priority = PAGE_PRIORITIES.get(filename, "0.8")
+        public_path = get_public_page_path(filename)
         xml_content += f'  <url>\n'
-        xml_content += f'    <loc>{base_url}/{filename}</loc>\n'
+        xml_content += f'    <loc>{base_url}{public_path}</loc>\n'
         xml_content += f'    <lastmod>{date_str}</lastmod>\n'
         xml_content += f'    <priority>{priority}</priority>\n'
         xml_content += f'  </url>\n'

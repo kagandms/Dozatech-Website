@@ -2,5 +2,50 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/urunler.html",
+      "destination": "/urunler",
+      "permanent": true
+    },
+    {
+      "source": "/urunler_bulasikmakineleri.html",
+      "destination": "/urunler/bulasik-makineleri",
+      "permanent": true
+    },
+    {
+      "source": "/urunler_kimyasallar.html",
+      "destination": "/urunler/kimyasallar",
+      "permanent": true
+    },
+    {
+      "source": "/urunler_pompa.html",
+      "destination": "/urunler/dozaj-pompalari",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/urunler",
+      "destination": "/urunler.html"
+    },
+    {
+      "source": "/urunler/bulasik-makineleri",
+      "destination": "/urunler_bulasikmakineleri.html"
+    },
+    {
+      "source": "/urunler/kimyasallar",
+      "destination": "/urunler_kimyasallar.html"
+    },
+    {
+      "source": "/urunler/dozaj-pompalari",
+      "destination": "/urunler_pompa.html"
+    }
+  ]
 }
