@@ -180,13 +180,13 @@
                 </a>
                 <!-- Navigasyon Linkleri (Masaüstü) -->
                 <nav class="hidden md:flex space-x-8">
-                    <a href="/" class="text-teal-500 font-bold transition duration-300 border-b-2 border-teal-500">Ana
+                    <a href="/" data-nav-section="home" class="text-teal-500 font-bold transition duration-300 border-b-2 border-teal-500">Ana
                         Sayfa</a>
                     <a href="/urunler"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Ürünler</a>
-                    <a href="#cozumler"
+                    <a href="#cozumler" data-nav-section="cozumler"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Neden Biz?</a>
-                    <a href="#hakkimizda"
+                    <a href="#hakkimizda" data-nav-section="hakkimizda"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Hakkımızda</a>
                     <a href="#iletisim"
                         class="text-white bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-lg transition duration-300 shadow-md">İletişim</a>
@@ -543,6 +543,13 @@
                 revealElements.forEach(element => {
                     observer.observe(element);
                 });
+
+                // Immediately animate hero elements that are already visible
+                const heroSection = document.getElementById('home');
+                if (heroSection) {
+                    const heroReveals = heroSection.querySelectorAll('.scroll-reveal');
+                    heroReveals.forEach(el => animateRevealElement(el));
+                }
             } else {
                 // Eski tarayıcılar için varsayılan olarak hepsini göster
                 revealElements.forEach(element => {
@@ -550,14 +557,14 @@
                 });
             }
 
-            // Güvenlik önlemi: Eğer observer bir hatadan dolayı tetiklenmezse, 2 saniye sonra her şeyi görünür yap
+            // Güvenlik önlemi: Eğer observer bir hatadan dolayı tetiklenmezse, 1 saniye sonra her şeyi görünür yap
             setTimeout(() => {
                 revealElements.forEach(element => {
                     if (!element.classList.contains('animate-in')) {
                         animateRevealElement(element);
                     }
                 });
-            }, 2000);
+            }, 1000);
 
             bindSectionReplayLinks();
 
@@ -573,6 +580,43 @@
 
             // Her 3.5 saniyede bir slayt değiştir
             setInterval(nextSlide, 3500);
+
+            // 5. Navigation Scroll Spy
+            const navLinks = document.querySelectorAll('nav a[data-nav-section]');
+            const sections = document.querySelectorAll('section[id]');
+            const ACTIVE_CLASSES = ['text-teal-500', 'font-bold', 'border-b-2', 'border-teal-500'];
+            const INACTIVE_CLASSES = ['text-gray-600'];
+
+            function setActiveNav(sectionId) {
+                navLinks.forEach(link => {
+                    const linkSection = link.dataset.navSection;
+                    if (linkSection === sectionId) {
+                        link.classList.remove(...INACTIVE_CLASSES);
+                        link.classList.add(...ACTIVE_CLASSES);
+                    } else {
+                        link.classList.remove(...ACTIVE_CLASSES);
+                        link.classList.add(...INACTIVE_CLASSES);
+                    }
+                });
+            }
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        // Map section IDs to nav section values
+                        if (id === 'home') setActiveNav('home');
+                        else if (id === 'cozumler') setActiveNav('cozumler');
+                        else if (id === 'hakkimizda') setActiveNav('hakkimizda');
+                    }
+                });
+            }, { root: null, rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+            sections.forEach(section => {
+                if (['home', 'cozumler', 'hakkimizda'].includes(section.id)) {
+                    sectionObserver.observe(section);
+                }
+            });
         });
     </script>
 
