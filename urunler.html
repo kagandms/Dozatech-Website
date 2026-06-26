@@ -131,8 +131,8 @@
     <!-- Ürünler (Products Section) - Detaylı Galeri -->
     <section id="urunler" class="py-20 sm:py-28 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-extrabold primary-text text-center mb-4">DOZATECH Tüm Ürün Kataloğu</h1>
-            <p class="text-xl text-gray-500 text-center mb-16">Endüstriyel bulaşık makineleri, dozaj sistemleri ve
+            <h1 class="text-4xl font-extrabold primary-text text-center mb-4 scroll-reveal">DOZATECH Tüm Ürün Kataloğu</h1>
+            <p class="text-xl text-gray-500 text-center mb-16 scroll-reveal" data-delay="1">Endüstriyel bulaşık makineleri, dozaj sistemleri ve
                 yüksek performanslı kimyasalların tamamı.</p>
 
             <!-- Grid Yapısı: 3 ana kategori -->
@@ -140,7 +140,7 @@
 
                 <!-- Ürün Kartı 1: Endüstriyel Bulaşık Makineleri -->
                 <div
-                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card">
+                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card scroll-reveal" data-delay="2">
                     <img src="/assets/images/makineler_kolaj.webp" alt="Endüstriyel Bulaşık Makineleri Kolaj"
                         class="product-image" loading="lazy" style="object-fit: contain;"
                         onerror="this.onerror=null; this.src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='">
@@ -163,7 +163,7 @@
 
                 <!-- Ürün Kartı 2: Dozaj Pompaları -->
                 <div
-                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card">
+                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card scroll-reveal" data-delay="3">
                     <img src="/assets/images/prof_dualdose.webp" alt="Hassas Dozaj Pompası" class="product-image"
                         loading="lazy" style="object-position: 50% 15%;"
                         onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Dozaj+Pompası';">
@@ -186,7 +186,7 @@
 
                 <!-- Ürün Kartı 3: Endüstriyel Kimyasallar -->
                 <div
-                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card">
+                    class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 border border-gray-200 product-card scroll-reveal" data-delay="4">
                     <!-- YENİ GÖRSEL: det_pat_kolaj.png -->
                     <img src="/assets/images/det_pat_kolaj.webp" alt="Endüstriyel Kimyasallar" class="product-image"
                         loading="lazy" style="object-fit: cover;"
@@ -247,7 +247,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu and Product Animation -->
+    <!-- JavaScript for Mobile Menu and Scroll Reveal Animation -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -264,14 +264,42 @@
                 });
             });
 
-            const productCards = document.querySelectorAll('.product-card');
+            // Scroll Reveal Animation (index.html ile aynı)
+            const revealElements = document.querySelectorAll('.scroll-reveal');
 
-            productCards.forEach((card, index) => {
-                const delay = index * 150;
-                setTimeout(() => {
-                    card.classList.add('animate-in');
-                }, delay);
-            });
+            function getRevealDelay(element) {
+                return Number(element.dataset.delay || 0) * 100;
+            }
+
+            function animateRevealElement(element) {
+                window.setTimeout(() => {
+                    element.classList.add('animate-in');
+                }, getRevealDelay(element));
+            }
+
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateRevealElement(entry.target);
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, { root: null, rootMargin: '0px', threshold: 0 });
+
+                revealElements.forEach(el => observer.observe(el));
+            } else {
+                revealElements.forEach(el => el.classList.add('animate-in'));
+            }
+
+            // Fallback: 2 saniye sonra hepsini göster
+            setTimeout(() => {
+                revealElements.forEach(el => {
+                    if (!el.classList.contains('animate-in')) {
+                        animateRevealElement(el);
+                    }
+                });
+            }, 2000);
         });
     </script>
 

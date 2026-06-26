@@ -131,6 +131,19 @@ def minify_html(content: str) -> str:
 def get_public_page_path(filename):
     return PAGE_ROUTES.get(filename, f'/{filename}')
 
+
+def write_clean_route(filename: str, content: str) -> None:
+    public_path = get_public_page_path(filename).strip('/')
+    if not public_path:
+        return
+
+    route_dir = os.path.join(DIST_DIR, public_path)
+    os.makedirs(route_dir, exist_ok=True)
+
+    with open(os.path.join(route_dir, 'index.html'), 'w', encoding='utf-8') as f:
+        f.write(content)
+
+
 def process_html():
     print_step("Processing and Minifying HTML files...")
     html_files = [f for f in os.listdir('.') if f.endswith('.html')]
@@ -148,7 +161,7 @@ def process_html():
         # INJECT SECURITY HEADERS
         security_headers = """
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
         """
@@ -167,6 +180,8 @@ def process_html():
         dest_path = os.path.join(DIST_DIR, filename)
         with open(dest_path, 'w', encoding='utf-8') as f:
             f.write(minified_content)
+
+        write_clean_route(filename, minified_content)
 
 def generate_sitemap_and_robots():
     print_step("Generating sitemap.xml and robots.txt...")

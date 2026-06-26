@@ -93,10 +93,12 @@
                         onerror="this.onerror=null; this.src='https://placehold.co/150x80/0F4C81/FFFFFF?text=DOZA+TECH';">
                 </a>
                 <nav class="hidden md:flex space-x-8">
-                    <a href="/" class="text-gray-600 hover:text-teal-500 font-medium">Ana Sayfa</a>
-                    <a href="/urunler" class="text-teal-500 font-bold border-b-2 border-teal-500">Ürünler</a>
+                    <a href="/" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Ana Sayfa</a>
+                    <a href="/urunler" class="text-teal-500 font-bold transition duration-300 border-b-2 border-teal-500">Ürünler</a>
+                    <a href="/#cozumler" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Neden Biz?</a>
+                    <a href="/#hakkimizda" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Hakkımızda</a>
                     <a href="/#iletisim"
-                        class="text-white bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-lg shadow-md">İletişim</a>
+                        class="text-white bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-lg transition duration-300 shadow-md">İletişim</a>
                 </nav>
                 <!-- Mobil Menü Butonu -->
                 <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-teal-500 focus:outline-none">
@@ -109,9 +111,11 @@
         </div>
         <!-- Mobil Menü İçeriği -->
         <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl">
-            <a href="/" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Ana Sayfa</a>
-            <a href="/urunler" class="block py-3 px-4 text-teal-500 bg-gray-100 font-bold">Ürünler</a>
-            <a href="/#iletisim" class="block py-3 px-4 text-white bg-teal-500 text-center">İletişim</a>
+            <a href="/" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Ana Sayfa</a>
+            <a href="/urunler" class="block py-3 px-4 text-teal-500 bg-gray-100 transition duration-300 font-bold">Ürünler</a>
+            <a href="/#cozumler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Neden Biz?</a>
+            <a href="/#hakkimizda" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Hakkımızda</a>
+            <a href="/#iletisim" class="block py-3 px-4 text-white bg-teal-500 hover:bg-teal-600 text-center">İletişim</a>
         </div>
     </header>
 
@@ -130,8 +134,8 @@
             </nav>
 
             <div class="text-center mb-16">
-                <h1 class="text-4xl font-extrabold primary-text mb-4">Endüstriyel Bulaşık Makineleri</h1>
-                <p class="text-xl text-gray-500 max-w-3xl mx-auto">
+                <h1 class="text-4xl font-extrabold primary-text mb-4 scroll-reveal">Endüstriyel Bulaşık Makineleri</h1>
+                <p class="text-xl text-gray-500 max-w-3xl mx-auto scroll-reveal" data-delay="1">
                     İşletmenizin kapasitesine uygun, dünya markası yüksek performanslı yıkama çözümleri.
                 </p>
             </div>
@@ -140,7 +144,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <!-- 1. Makine: Electrolux -->
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card">
+                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="2">
                     <div class="h-64 bg-white flex items-center justify-center overflow-hidden">
                         <img src="/assets/images/makine_electrolux.webp" alt="Electrolux Bulaşık Makinesi"
                             class="w-full h-full object-cover" loading="lazy"
@@ -165,7 +169,7 @@
                 </div>
 
                 <!-- 2. Makine: Öztiryakiler -->
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card">
+                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="3">
                     <div class="h-64 bg-white flex items-center justify-center overflow-hidden">
                         <img src="/assets/images/makine_oztiryakiler.webp" alt="Öztiryakiler Bulaşık Makinesi"
                             class="w-full h-full object-cover" loading="lazy"
@@ -190,7 +194,7 @@
                 </div>
 
                 <!-- 3. Makine: Giyotin -->
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card">
+                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="4">
                     <div class="h-64 bg-white flex items-center justify-center overflow-hidden">
                         <img src="/assets/images/giyotin_makine.webp" alt="Giyotin Tip Bulaşık Makinesi"
                             class="w-full h-full object-cover" loading="lazy"
@@ -224,6 +228,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenuBtn && mobileMenu) {
@@ -231,6 +236,43 @@
                     mobileMenu.classList.toggle('hidden');
                 });
             }
+
+            // Scroll Reveal Animation (index.html ile aynı)
+            const revealElements = document.querySelectorAll('.scroll-reveal');
+
+            function getRevealDelay(element) {
+                return Number(element.dataset.delay || 0) * 100;
+            }
+
+            function animateRevealElement(element) {
+                window.setTimeout(() => {
+                    element.classList.add('animate-in');
+                }, getRevealDelay(element));
+            }
+
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateRevealElement(entry.target);
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, { root: null, rootMargin: '0px', threshold: 0 });
+
+                revealElements.forEach(el => observer.observe(el));
+            } else {
+                revealElements.forEach(el => el.classList.add('animate-in'));
+            }
+
+            // Fallback: 2 saniye sonra hepsini göster
+            setTimeout(() => {
+                revealElements.forEach(el => {
+                    if (!el.classList.contains('animate-in')) {
+                        animateRevealElement(el);
+                    }
+                });
+            }, 2000);
         });
     </script>
 

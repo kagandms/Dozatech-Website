@@ -483,6 +483,45 @@
 
             // 3. Scroll Reveal (Intersection Observer) İşlevi
             const revealElements = document.querySelectorAll('.scroll-reveal');
+
+            function getRevealDelay(element) {
+                return Number(element.dataset.delay || 0) * 100;
+            }
+
+            function animateRevealElement(element) {
+                window.setTimeout(() => {
+                    element.classList.add('animate-in');
+                }, getRevealDelay(element));
+            }
+
+            function replaySectionAnimation(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+
+                const sectionRevealElements = section.querySelectorAll('.scroll-reveal');
+                sectionRevealElements.forEach(element => {
+                    element.classList.remove('animate-in');
+                });
+
+                window.requestAnimationFrame(() => {
+                    sectionRevealElements.forEach(animateRevealElement);
+                });
+            }
+
+            function bindSectionReplayLinks() {
+                const sectionLinks = document.querySelectorAll('a[href^="#"], a[href^="/#"]');
+
+                sectionLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        const targetId = link.getAttribute('href').split('#')[1];
+                        if (!targetId) return;
+
+                        window.setTimeout(() => {
+                            replaySectionAnimation(targetId);
+                        }, 450);
+                    });
+                });
+            }
             
             if ('IntersectionObserver' in window) {
                 const observerOptions = {
@@ -495,7 +534,7 @@
                 const observer = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('animate-in');
+                            animateRevealElement(entry.target);
                             observer.unobserve(entry.target);
                         }
                     });
@@ -515,10 +554,12 @@
             setTimeout(() => {
                 revealElements.forEach(element => {
                     if (!element.classList.contains('animate-in')) {
-                        element.classList.add('animate-in');
+                        animateRevealElement(element);
                     }
                 });
             }, 2000);
+
+            bindSectionReplayLinks();
 
             // 4. Hero Slideshow
             const slides = document.querySelectorAll('.hero-slide');
