@@ -583,11 +583,14 @@
 
             // 5. Navigation Scroll Spy
             const navLinks = document.querySelectorAll('nav a[data-nav-section]');
-            const sections = document.querySelectorAll('section[id]');
+            const spySections = ['home', 'cozumler', 'hakkimizda'];
             const ACTIVE_CLASSES = ['text-teal-500', 'font-bold', 'border-b-2', 'border-teal-500'];
             const INACTIVE_CLASSES = ['text-gray-600'];
+            let currentActive = 'home';
 
             function setActiveNav(sectionId) {
+                if (currentActive === sectionId) return;
+                currentActive = sectionId;
                 navLinks.forEach(link => {
                     const linkSection = link.dataset.navSection;
                     if (linkSection === sectionId) {
@@ -600,23 +603,20 @@
                 });
             }
 
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id;
-                        // Map section IDs to nav section values
-                        if (id === 'home') setActiveNav('home');
-                        else if (id === 'cozumler') setActiveNav('cozumler');
-                        else if (id === 'hakkimizda') setActiveNav('hakkimizda');
+            function onScroll() {
+                const scrollY = window.scrollY + 200; // offset for sticky header
+                let active = 'home';
+                for (const id of spySections) {
+                    const el = document.getElementById(id);
+                    if (el && el.offsetTop <= scrollY) {
+                        active = id;
                     }
-                });
-            }, { root: null, rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-
-            sections.forEach(section => {
-                if (['home', 'cozumler', 'hakkimizda'].includes(section.id)) {
-                    sectionObserver.observe(section);
                 }
-            });
+                setActiveNav(active);
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll(); // initial call
         });
     </script>
 
