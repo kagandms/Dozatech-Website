@@ -476,9 +476,6 @@
                 const mobileMenu = document.getElementById('mobile-menu');
 
                 if (mobileMenuBtn && mobileMenu) {
-                    mobileMenuBtn.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
                 }
 
                 // 3. Scroll Reveal (Intersection Observer) İşlevi
@@ -558,14 +555,7 @@
                     });
                 }
 
-                // Güvenlik önlemi: Eğer observer bir hatadan dolayı tetiklenmezse
-                setTimeout(() => {
-                    revealElements.forEach(element => {
-                        if (!element.classList.contains('animate-in')) {
-                            animateRevealElement(element);
-                        }
-                    });
-                }, 1000);
+
 
                 bindSectionReplayLinks();
 
