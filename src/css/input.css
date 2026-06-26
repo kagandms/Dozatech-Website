@@ -85,6 +85,15 @@
     .scroll-reveal.animate-in {
         @apply opacity-100 translate-y-0;
     }
+
+    /* Mobilde scroll-reveal iptal (garanti görünürlük) */
+    @media (max-width: 768px) {
+        .scroll-reveal {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+    }
 }
 
 @layer utilities {
