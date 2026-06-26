@@ -106,17 +106,27 @@ def build_css():
         print(f"Error building CSS: {e}")
         sys.exit(1)
 
-def minify_html(content):
-    # Remove HTML Comments
+def minify_html_fragment(content: str) -> str:
     content = re.sub(r'<!--(.*?)-->', '', content, flags=re.DOTALL)
-    
-    # Simple Minification: 
-    # 1. Replace multiple spaces/newlines with single space
     content = re.sub(r'\s+', ' ', content)
-    # 2. Remove space between tags
-    content = re.sub(r'> <', '><', content)
-    
-    return content.strip()
+    return re.sub(r'> <', '><', content)
+
+
+def minify_html(content: str) -> str:
+    protected_block_pattern = re.compile(
+        r'(<(?:script|style)\b[^>]*>)(.*?)(</(?:script|style)>)',
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    minified_parts: list[str] = []
+    last_index = 0
+
+    for match in protected_block_pattern.finditer(content):
+        minified_parts.append(minify_html_fragment(content[last_index:match.start()]))
+        minified_parts.append(f'{match.group(1)}{match.group(2).strip()}{match.group(3)}')
+        last_index = match.end()
+
+    minified_parts.append(minify_html_fragment(content[last_index:]))
+    return ''.join(minified_parts).strip()
 
 def get_public_page_path(filename):
     return PAGE_ROUTES.get(filename, f'/{filename}')
