@@ -152,6 +152,11 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <!-- Custom Styles moved to src/css/input.css -->
+    <noscript>
+        <style>
+            .scroll-reveal { opacity: 1 !important; transform: none !important; }
+        </style>
+    </noscript>
 </head>
 
 <body>
@@ -477,32 +482,43 @@
             // Eski demo kodları Formspree ile çakışmaması için kaldırıldı.
 
             // 3. Scroll Reveal (Intersection Observer) İşlevi
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                // Element %10'u göründüğünde tetikle
-                threshold: 0.1
-            };
+            const revealElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    // Element hemen görünür olması için eşiği 0'a çektik
+                    threshold: 0
+                };
 
-            // Observer her bir scroll-reveal elementini dinleyecek
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Element görünür hale geldiğinde animasyon sınıfını ekle
-                        entry.target.classList.add('animate-in');
-                        // Tekrar tetiklenmemesi için gözlemeyi durdur
-                        observer.unobserve(entry.target);
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                revealElements.forEach(element => {
+                    observer.observe(element);
+                });
+            } else {
+                // Eski tarayıcılar için varsayılan olarak hepsini göster
+                revealElements.forEach(element => {
+                    element.classList.add('animate-in');
+                });
+            }
+
+            // Güvenlik önlemi: Eğer observer bir hatadan dolayı tetiklenmezse, 2 saniye sonra her şeyi görünür yap
+            setTimeout(() => {
+                revealElements.forEach(element => {
+                    if (!element.classList.contains('animate-in')) {
+                        element.classList.add('animate-in');
                     }
                 });
-            }, observerOptions);
-
-            // Animasyon uygulanacak tüm elementleri seç
-            const revealElements = document.querySelectorAll('.scroll-reveal');
-
-            // Her bir elementi gözlemlemeye başla
-            revealElements.forEach(element => {
-                observer.observe(element);
-            });
+            }, 2000);
 
             // 4. Hero Slideshow
             const slides = document.querySelectorAll('.hero-slide');
