@@ -212,6 +212,7 @@ Sitemap: {base_url}/sitemap.xml
         xml_content += f'  <url>\n'
         xml_content += f'    <loc>{base_url}{public_path}</loc>\n'
         xml_content += f'    <lastmod>{date_str}</lastmod>\n'
+        xml_content += f'    <changefreq>weekly</changefreq>\n'
         xml_content += f'    <priority>{priority}</priority>\n'
         xml_content += f'  </url>\n'
         
