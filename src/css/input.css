@@ -45,23 +45,19 @@
     }
 
     .hero-slide {
-        @apply absolute top-0 left-0 w-full h-full bg-cover opacity-0 transition-opacity duration-[1500ms] ease-in-out;
-        background-position: center 30%;
+        @apply absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-[1500ms] ease-in-out object-cover;
     }
 
     .hero-slide.active {
         @apply opacity-100;
     }
 
-    /* Note: Background images will need to be referenced correctly */
     .hero-slide-1 {
-        background-image: url('../../assets/images/montaj1.webp');
-        background-position: center 15%;
+        object-position: center 15%;
     }
 
     .hero-slide-2 {
-        background-image: url('../../assets/images/montaj2.webp');
-        background-position: center 10%;
+        object-position: center 10%;
     }
 
     .hero-overlay {
