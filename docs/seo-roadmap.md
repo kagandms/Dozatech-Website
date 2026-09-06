@@ -182,21 +182,36 @@ Kabul kriteri: Her içerik en az bir ticari kategori sayfasına, bir ürün sayf
 - [x] GA4 ölçüm ID’sini ve mevcut event listesini doğrula
 - [x] Formspree endpoint’inin yapılandırılmış olduğunu doğrula
 - [x] Teknik yayının production’da olduğunu doğrula
-- [ ] Search Console property erişimini doğrula
+- [x] Search Console export dosyalarını al ve property verisini doğrula
 - [ ] GA4 property erişimini doğrula
-- [ ] GSC ve GA4 export formatını kesinleştir
+- [x] GSC export formatını kesinleştir
+- [ ] GA4 export formatını kesinleştir
 
-Gün 1 bulgusu: Site tarafında GA4 ID `G-QBSSV93GCS` ve temel event’ler mevcut. Gerçek hesap verileri bu çalışma alanına aktarılmadığı için gösterim, CTR ve lead baseline’ı henüz sayısal olarak doldurulmadı.
+Gün 1 bulgusu: Site tarafında GA4 ID `G-QBSSV93GCS` ve temel event’ler mevcut. Search Console verisi Gün 2’de sağlandı; GA4 hesabı ve site içi davranış verisi henüz sağlanmadı.
 
 ### Gün 2 — Search Console baseline
 
-- [ ] Son 28 gün ve 90 gün karşılaştırmasını çıkar
-- [ ] Sayfa bazında gösterim, tıklama ve CTR tablosu oluştur
-- [ ] Markalı ve markasız sorguları ayır
-- [ ] Cihaz ve ülke kırılımını ekle
-- [ ] İlk 20 fırsat sorgusunu seç
+- [x] Son 28 gün ve 90 gün karşılaştırmasını çıkar
+- [x] Sayfa bazında gösterim, tıklama ve CTR tablosu oluştur
+- [x] Markalı ve markasız sorguları ayır
+- [x] Cihaz ve ülke kırılımını ekle
+- [x] İlk fırsat sorgularını seç
 
 Çıktı: `search-console-baseline.csv` veya eşdeğer rapor.
+
+Gün 2 baseline bulguları:
+
+- Search Console Chart toplamı: 28 gün `6 tıklama / 188 gösterim / %3,19 CTR`; 90 gün `23 tıklama / 372 gösterim / %6,18 CTR`.
+- `/urunler/dozaj-pompalari`: 28 gün `157 gösterim / 3 tıklama / %1,91 CTR / 24,87 pozisyon`; 90 gün `304 / 11 / %3,62 / 30,78`. En büyük görünürlük fırsatı bu sayfadır.
+- Ana sayfa: 28 gün `%12 CTR`, 90 gün `%12 CTR`; 90 günlük ortalama pozisyon `5,76`. Snippet ve marka niyeti güçlüdür.
+- `/urunler`: 90 gün `66 gösterim / 5 tıklama / %7,58 CTR / 14,73 pozisyon`; son 28 günde `29 gösterim / 0 tıklama / 22,45 pozisyon`. Yakın dönem düşüşü izlenecektir.
+- `/urunler/bulasik-makineleri`: 90 gün `33 gösterim / 1 tıklama / %3,03 CTR / 9,55 pozisyon`; pozisyon iyi, CTR geliştirme adayıdır.
+- Cihaz farkı: 28 günde mobil `%5,49 CTR / 9,6 pozisyon`; masaüstü `%1,03 CTR / 36,86 pozisyon`. 90 günde mobil `%11,04 CTR / 11 pozisyon`; masaüstü `%2,75 CTR / 39,84 pozisyon`. Masaüstü görünürlüğü ve sıralaması öncelikli inceleme alanıdır.
+- 90 günlük sorgularda `dozaj pompası` `54 gösterim / 0 tıklama / 59,2 pozisyon`, `dozaj sistemleri` `15 / 0 / 77,07`, `kimyasal dozaj pompası` `10 / 0 / 86,3` değerindedir. Bunlar içerik ve sıralama fırsatıdır.
+- 90 günlük marka sorgusu `dozatech`: `37 gösterim / 16 tıklama / %43,24 CTR / 1,86 pozisyon`. Marka bilinirliği var; markasız talep büyütülmelidir.
+- Türkiye verisi baskındır: 28 günde `173 gösterim / 6 tıklama`, 90 günde `328 / 23`. Öncelik Türkiye ve Türkçe ticari sorgular olmalıdır.
+
+Not: Search Console boyut tablolarındaki toplamlar Chart toplamıyla birebir eşleşmeyebilir; karar için dönem toplamında Chart, fırsat tespitinde Pages ve Queries kullanılacaktır.
 
 ### Gün 3 — GA4 funnel baseline
 
@@ -303,6 +318,16 @@ Yarının ilk işi:
 - **Karar:** Sayısal baseline uydurulmayacak; Gün 2–3 için hesap erişimi veya export bekleniyor.
 - **Bloker:** Search Console 28/90 günlük export’u ve GA4 funnel verisi henüz alınmadı.
 - **Yarının ilk işi:** Search Console sorgu/sayfa baseline’ını çıkarmak.
+
+### 2026-09-06 — Sprint 1 / Gün 2
+
+- **Bugünkü hedef:** 28 ve 90 günlük Search Console verisini karşılaştırmak.
+- **Tamamlanan işler:** Chart, Pages, Queries, Countries ve Devices export’ları analiz edildi; sayfa, sorgu, cihaz ve ülke fırsatları çıkarıldı.
+- **Kanıt/çıktı:** 28 günlük toplam `%3,19 CTR`; 90 günlük toplam `%6,18 CTR`. Dozaj pompası sayfası en yüksek gösterim alan ticari sayfa; masaüstü CTR ve pozisyonu mobilin belirgin biçimde gerisinde.
+- **Bulgu:** Marka sorgularında performans iyi; markasız `dozaj pompası` ve ilişkili sorgularda görünürlük var fakat tıklama yok veya pozisyon çok geride.
+- **Karar:** İlk optimizasyon odağı dozaj pompası kategorisi, masaüstü deneyimi ve markasız ticari sorgular olacak.
+- **Bloker:** Site içi giriş, etkileşim, çıkış ve gerçek lead kalitesi için GA4 funnel verisi eksik.
+- **Yarının ilk işi:** GA4 export’u veya ekran görüntüsüyle landing page ve event baseline’ını çıkarmak.
 
 ## 11. Değişiklik günlüğü
 
