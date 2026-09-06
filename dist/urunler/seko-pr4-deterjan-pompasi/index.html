@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="tr"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-QBSSV93GCS"></script> <script>window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', 'G-QBSSV93GCS');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const pagePath = window.location.pathname.replace(/\/$/, '') || '/';
+        const pageGroup = pagePath.startsWith('/cozumler')
+            ? 'solutions'
+            : pagePath.startsWith('/urunler')
+                ? 'products'
+                : 'home';
+
+        const sendEvent = (eventName, eventParams = {}) => {
+            window.gtag('event', eventName, {
+                page_path: pagePath,
+                page_group: pageGroup,
+                ...eventParams
+            });
+        };
+
+        const mobileMenuButton = document.querySelector('#mobile-menu-btn');
+        const mobileMenu = document.querySelector('#mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+            const setMobileMenuState = (isOpen) => {
+                mobileMenu.classList.toggle('hidden', !isOpen);
+                mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+                mobileMenuButton.setAttribute('aria-label', isOpen ? 'Menüyü kapat' : 'Menüyü aç');
+                mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+            };
+            mobileMenuButton.addEventListener('click', () => {
+                setMobileMenuState(mobileMenuButton.getAttribute('aria-expanded') !== 'true');
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => setMobileMenuState(false));
+            });
+        }
+
+        const getCtaPosition = (element) => {
+            const section = element.closest('section');
+            return section?.id || element.dataset.ctaPosition || 'content';
+        };
+
+        document.addEventListener('click', (event) => {
+            if (!(event.target instanceof Element)) return;
+            const link = event.target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href') || '';
+            const linkText = (link.textContent || '').trim().slice(0, 80);
+            const commonParams = {
+                link_text: linkText,
+                link_url: href,
+                cta_position: getCtaPosition(link)
+            };
+
+            if (href.startsWith('https://wa.me/')) {
+                sendEvent('whatsapp_click', commonParams);
+            }
+
+            if (href.startsWith('tel:')) {
+                sendEvent('phone_click', commonParams);
+            }
+
+            const isCta = link.dataset.analyticsEvent === 'cta_click'
+                || link.classList.contains('whatsapp-float')
+                || /teklif|incele|başlay|ulaş|ara|bilgi|keşfet/i.test(linkText);
+            if (isCta) sendEvent('cta_click', commonParams);
+        });
+
+        const productSchema = [...document.querySelectorAll('script[type="application/ld+json"]')]
+            .some(script => script.textContent?.includes('"@type":"Product"'));
+        if (productSchema) sendEvent('product_view');
+        if (pagePath.startsWith('/cozumler/')) sendEvent('solution_view');
+
+        const form = document.querySelector('#contact-form');
+        if (!form) return;
+
+        let formStarted = false;
+        const message = form.querySelector('#contact-message');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('focusin', () => {
+            if (formStarted) return;
+            formStarted = true;
+            sendEvent('form_start', { form_id: form.id });
+        });
+
+        form.addEventListener('submit', async (submitEvent) => {
+            submitEvent.preventDefault();
+            sendEvent('form_submit', { form_id: form.id });
+            if (submitButton) submitButton.disabled = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { Accept: 'application/json' }
+                });
+                if (!response.ok) throw new Error('Form submission failed');
+
+                if (message) {
+                    message.textContent = 'Mesajınız alındı. En kısa sürede size dönüş yapacağız.';
+                    message.className = 'mt-4 p-4 text-center bg-teal-100 border border-teal-400 text-teal-700 rounded-lg';
+                }
+                form.reset();
+                sendEvent('form_success', { form_id: form.id });
+            } catch (error) {
+                if (message) {
+                    message.textContent = 'Mesajınız gönderilemedi. Lütfen tekrar deneyin veya WhatsApp üzerinden ulaşın.';
+                    message.className = 'mt-4 p-4 text-center bg-red-100 border border-red-400 text-red-700 rounded-lg';
+                }
+                sendEvent('form_error', { form_id: form.id });
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+            }
+        });
+    });</script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://placehold.co data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com; form-action 'self' https://formspree.io;"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Seko PR4 Deterjan Pompası | Endüstriyel Dozaj | DOZATECH</title><meta name="description" content="Bulaşık makineleri için Seko PR4 peristaltik deterjan pompası: IP65 gövde, 230 Vac besleme ve 4 l/saat dozaj kapasitesi."><meta name="robots" content="index, follow"><link rel="canonical" href="https://dozatech.com.tr/urunler/seko-pr4-deterjan-pompasi"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Product","name":"Seko PR4 Deterjan Pompası","description":"Bulaşık makineleri için peristaltik deterjan pompası.","brand":{"@type":"Brand","name":"Seko"},"image":"https://dozatech.com.tr/assets/images/pompa_seko_pr4.webp","url":"https://dozatech.com.tr/urunler/seko-pr4-deterjan-pompasi"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Seko PR4 hangi kullanım alanı için uygundur?","acceptedAnswer":{"@type":"Answer","text":"Seko PR4, bulaşık makinelerinde deterjan dozajı için listelenen peristaltik pompadır."}},{"@type":"Question","name":"Seko PR4'ün dozaj kapasitesi nedir?","acceptedAnswer":{"@type":"Answer","text":"Listelenen teknik bilgiye göre 0,5 bar basınçta 4 l/saat dozaj kapasitesine sahiptir."}}]}]}</script><link href="/css/style.css?v=7e1b648cd07c" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"><meta property="og:type" content="product"><meta property="og:url" content="https://dozatech.com.tr/urunler/seko-pr4-deterjan-pompasi"><meta property="og:title" content="Seko PR4 Deterjan Pompası | Endüstriyel Dozaj | DOZATECH"><meta property="og:description" content="Bulaşık makineleri için Seko PR4 peristaltik deterjan pompası: IP65 gövde, 230 Vac besleme ve 4 l/saat dozaj kapasitesi."><meta property="og:image" content="https://dozatech.com.tr/assets/images/pompa_seko_pr4.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Seko PR4 Deterjan Pompası | Endüstriyel Dozaj | DOZATECH"><meta name="twitter:description" content="Bulaşık makineleri için Seko PR4 peristaltik deterjan pompası: IP65 gövde, 230 Vac besleme ve 4 l/saat dozaj kapasitesi."><meta name="twitter:image" content="https://dozatech.com.tr/assets/images/pompa_seko_pr4.webp"> <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://dozatech.com.tr/"}, {"@type": "ListItem", "position": 2, "name": "Ürünler", "item": "https://dozatech.com.tr/urunler"}, {"@type": "ListItem", "position": 3, "name": "Dozaj Pompaları", "item": "https://dozatech.com.tr/urunler/dozaj-pompalari"}, {"@type": "ListItem", "position": 4, "name": "Seko PR4", "item": "https://dozatech.com.tr/urunler/seko-pr4-deterjan-pompasi"}]}</script> <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></head><body class="bg-gray-50 text-gray-800"><header class="bg-white shadow-sm"><div class="max-w-7xl mx-auto px-4 py-5 flex justify-between items-center"><a href="/"><img src="/assets/images/dozatech_logo.webp" alt="DOZATECH" width="512" height="178" class="header-logo" decoding="async"></a><nav aria-label="Ana menü" class="flex gap-4 text-sm font-medium"><a href="/urunler">Ürünler</a><a href="/cozumler">Çözümler</a><a href="/#iletisim">İletişim</a></nav><button id="mobile-menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menüyü aç" class="md:hidden mt-4 w-full border border-gray-200 rounded-lg px-4 py-3 text-gray-700 font-semibold text-left"> Menü </button><div id="mobile-menu" aria-hidden="true" class="hidden md:hidden bg-white border-t border-gray-100 mt-3"><a href="/" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Ana Sayfa</a><a href="/urunler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Ürünler</a><a href="/cozumler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Çözümler</a><a href="/#iletisim" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">İletişim</a></div></div></header><main class="max-w-6xl mx-auto px-4 py-12"><nav aria-label="Breadcrumb" class="text-sm text-gray-500"><a href="/">Ana Sayfa</a> / <a href="/urunler">Ürünler</a> / <a href="/urunler/dozaj-pompalari">Dozaj Pompaları</a> / Seko PR4</nav><section class="grid md:grid-cols-2 gap-12 mt-8"><div class="bg-white rounded-xl border p-8 flex items-center justify-center"><img src="/assets/images/pompa_seko_pr4.webp" alt="Seko PR4 deterjan pompası" width="768" height="768" class="max-h-96 object-contain" decoding="async"></div><div><h1 class="text-4xl font-extrabold primary-text">Seko PR4 Deterjan Pompası</h1><p class="text-xl text-gray-600 mt-4">Bulaşık makineleri için peristaltik deterjan pompası.</p><a href="https://wa.me/905322063859?text=Merhaba,%20Seko%20PR4%20Deterjan%20Pompas%C4%B1%20i%C3%A7in%20teklif%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="inline-block mt-7 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg">WhatsApp ile Teklif Alın</a></div></section><section class="mt-14 grid md:grid-cols-2 gap-10"><div><h2 class="text-2xl font-bold primary-text">Teknik özellikler</h2><ul class="mt-4 space-y-2 text-gray-700 list-disc list-inside"><li>IP65 koruma sınıfı</li><li>Topraklama gerektirmez</li><li>Santoprene makara hortumu</li><li>230 Vac, 50–60 Hz besleme</li><li>3,5 W enerji tüketimi</li><li>Maksimum 0,1 bar çalışma basıncı</li><li>0,5 barda 4 l/saat dozaj kapasitesi</li></ul></div><div><h2 class="text-2xl font-bold primary-text">Sık sorulan sorular</h2><h3 class="font-bold mt-4">Seko PR4 hangi kullanım alanı için uygundur?</h3><p class="mt-1 text-gray-600">Bulaşık makinelerinde deterjan dozajı için listelenen peristaltik pompadır.</p><h3 class="font-bold mt-4">Montaj öncesi hangi bilgi gerekir?</h3><p class="mt-1 text-gray-600">Makine tipi ve mevcut bağlantı koşullarını paylaşarak uygunluğu teklif aşamasında değerlendirebilirsiniz.</p></div></section><section class="mt-14 border-t pt-8"><h2 class="text-2xl font-bold primary-text">İlgili çözümler</h2><a href="/cozumler/restoranlar-icin-bulasik-yikama-ve-dozaj-sistemleri" class="inline-block mt-4 text-teal-600 font-semibold hover:underline">Restoranlar için bulaşık yıkama ve dozaj sistemleri</a></section></main><footer class="primary-color text-white py-8 text-center"><p class="text-sm text-gray-300">© 2026 DOZATECH</p></footer></body></html>

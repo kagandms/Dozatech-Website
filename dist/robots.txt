@@ -1,3 +1,11 @@
+# DOZATECH Robots.txt
+# https://dozatech.com.tr
+
 User-agent: *
 Allow: /
+
+# Sitemap location
 Sitemap: https://dozatech.com.tr/sitemap.xml
+
+# Crawl-delay (optional - be nice to servers)
+Crawl-delay: 1

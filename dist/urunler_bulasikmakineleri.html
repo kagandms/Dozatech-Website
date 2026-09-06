@@ -1,7 +1,121 @@
-<!DOCTYPE html><html lang="tr"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com;"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"> <script async src="https://www.googletagmanager.com/gtag/js?id=G-QBSSV93GCS"></script> <script>window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-QBSSV93GCS');</script> <title>DOZATECH | Endüstriyel Bulaşık Makineleri</title><meta name="description" content="Electrolux, Öztiryakiler ve Giyotin tip endüstriyel bulaşık makineleri. Restoranlar, oteller ve toplu yemekhaneler için yüksek kapasiteli yıkama çözümleri."> content="endüstriyel bulaşık makinesi, Electrolux, Öztiryakiler, giyotin tip, otel mutfak ekipmanları"><meta name="robots" content="index, follow"><link rel="canonical" href="https://dozatech.com.tr/urunler/bulasik-makineleri"><link rel="icon" type="image/webp" href="/assets/images/dozatech_logo.webp"><meta property="og:type" content="product"><meta property="og:url" content="https://dozatech.com.tr/urunler/bulasik-makineleri"><meta property="og:title" content="DOZATECH | Endüstriyel Bulaşık Makineleri"><meta property="og:description" content="Electrolux, Öztiryakiler ve Giyotin tip endüstriyel bulaşık makineleri."><meta property="og:image" content="https://dozatech.com.tr/assets/images/makineler_kolaj.webp"> <script type="application/ld+json">{
+<!DOCTYPE html><html lang="tr"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-QBSSV93GCS"></script> <script>window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', 'G-QBSSV93GCS');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const pagePath = window.location.pathname.replace(/\/$/, '') || '/';
+        const pageGroup = pagePath.startsWith('/cozumler')
+            ? 'solutions'
+            : pagePath.startsWith('/urunler')
+                ? 'products'
+                : 'home';
+
+        const sendEvent = (eventName, eventParams = {}) => {
+            window.gtag('event', eventName, {
+                page_path: pagePath,
+                page_group: pageGroup,
+                ...eventParams
+            });
+        };
+
+        const mobileMenuButton = document.querySelector('#mobile-menu-btn');
+        const mobileMenu = document.querySelector('#mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+            const setMobileMenuState = (isOpen) => {
+                mobileMenu.classList.toggle('hidden', !isOpen);
+                mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+                mobileMenuButton.setAttribute('aria-label', isOpen ? 'Menüyü kapat' : 'Menüyü aç');
+                mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+            };
+            mobileMenuButton.addEventListener('click', () => {
+                setMobileMenuState(mobileMenuButton.getAttribute('aria-expanded') !== 'true');
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => setMobileMenuState(false));
+            });
+        }
+
+        const getCtaPosition = (element) => {
+            const section = element.closest('section');
+            return section?.id || element.dataset.ctaPosition || 'content';
+        };
+
+        document.addEventListener('click', (event) => {
+            if (!(event.target instanceof Element)) return;
+            const link = event.target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href') || '';
+            const linkText = (link.textContent || '').trim().slice(0, 80);
+            const commonParams = {
+                link_text: linkText,
+                link_url: href,
+                cta_position: getCtaPosition(link)
+            };
+
+            if (href.startsWith('https://wa.me/')) {
+                sendEvent('whatsapp_click', commonParams);
+            }
+
+            if (href.startsWith('tel:')) {
+                sendEvent('phone_click', commonParams);
+            }
+
+            const isCta = link.dataset.analyticsEvent === 'cta_click'
+                || link.classList.contains('whatsapp-float')
+                || /teklif|incele|başlay|ulaş|ara|bilgi|keşfet/i.test(linkText);
+            if (isCta) sendEvent('cta_click', commonParams);
+        });
+
+        const productSchema = [...document.querySelectorAll('script[type="application/ld+json"]')]
+            .some(script => script.textContent?.includes('"@type":"Product"'));
+        if (productSchema) sendEvent('product_view');
+        if (pagePath.startsWith('/cozumler/')) sendEvent('solution_view');
+
+        const form = document.querySelector('#contact-form');
+        if (!form) return;
+
+        let formStarted = false;
+        const message = form.querySelector('#contact-message');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('focusin', () => {
+            if (formStarted) return;
+            formStarted = true;
+            sendEvent('form_start', { form_id: form.id });
+        });
+
+        form.addEventListener('submit', async (submitEvent) => {
+            submitEvent.preventDefault();
+            sendEvent('form_submit', { form_id: form.id });
+            if (submitButton) submitButton.disabled = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { Accept: 'application/json' }
+                });
+                if (!response.ok) throw new Error('Form submission failed');
+
+                if (message) {
+                    message.textContent = 'Mesajınız alındı. En kısa sürede size dönüş yapacağız.';
+                    message.className = 'mt-4 p-4 text-center bg-teal-100 border border-teal-400 text-teal-700 rounded-lg';
+                }
+                form.reset();
+                sendEvent('form_success', { form_id: form.id });
+            } catch (error) {
+                if (message) {
+                    message.textContent = 'Mesajınız gönderilemedi. Lütfen tekrar deneyin veya WhatsApp üzerinden ulaşın.';
+                    message.className = 'mt-4 p-4 text-center bg-red-100 border border-red-400 text-red-700 rounded-lg';
+                }
+                sendEvent('form_error', { form_id: form.id });
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+            }
+        });
+    });</script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://placehold.co data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com; form-action 'self' https://formspree.io;"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>DOZATECH | Endüstriyel Bulaşık Makineleri</title><meta name="description" content="Electrolux, Öztiryakiler ve Giyotin tip endüstriyel bulaşık makineleri. Restoranlar, oteller ve toplu yemekhaneler için yüksek kapasiteli yıkama çözümleri."><meta name="robots" content="index, follow"><link rel="canonical" href="https://dozatech.com.tr/urunler/bulasik-makineleri"><link rel="icon" type="image/webp" href="/assets/images/dozatech_logo.webp"><meta property="og:type" content="product"><meta property="og:url" content="https://dozatech.com.tr/urunler/bulasik-makineleri"><meta property="og:title" content="DOZATECH | Endüstriyel Bulaşık Makineleri"><meta property="og:description" content="Electrolux, Öztiryakiler ve Giyotin tip endüstriyel bulaşık makineleri."><meta property="og:image" content="https://dozatech.com.tr/assets/images/makineler_kolaj.webp"> <script type="application/ld+json">{
         "@context": "https://schema.org",
         "@type": "ItemList",
         "name": "DOZATECH Endüstriyel Bulaşık Makineleri",
@@ -14,8 +128,7 @@
                 "name": "Electrolux Endüstriyel Bulaşık Makinesi",
                 "description": "Profesyonel mutfaklar için üstün İsveç teknolojisi ve enerji verimliliği",
                 "brand": {"@type": "Brand", "name": "Electrolux"},
-                "image": "https://dozatech.com.tr/assets/images/makine_electrolux.webp",
-                "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY", "price": "0"}
+                "image": "https://dozatech.com.tr/assets/images/makine_electrolux.webp"
             },
             {
                 "@type": "Product",
@@ -23,19 +136,17 @@
                 "name": "Öztiryakiler Endüstriyel Bulaşık Makinesi",
                 "description": "Yerli üretim gücüyle dayanıklı, yüksek kapasiteli ve ekonomik çözümler",
                 "brand": {"@type": "Brand", "name": "Öztiryakiler"},
-                "image": "https://dozatech.com.tr/assets/images/makine_oztiryakiler.webp",
-                "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY", "price": "0"}
+                "image": "https://dozatech.com.tr/assets/images/makine_oztiryakiler.webp"
             },
             {
                 "@type": "Product",
                 "position": 3,
                 "name": "Giyotin Tip Endüstriyel Bulaşık Makinesi",
                 "description": "1000 tabak/saat yıkama kapasiteli, orta ve büyük işletmeler için",
-                "image": "https://dozatech.com.tr/assets/images/giyotin_makine.webp",
-                "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "priceCurrency": "TRY", "price": "0"}
+                "image": "https://dozatech.com.tr/assets/images/giyotin_makine.webp"
             }
         ]
-    }</script> <link href="/css/style.css?v=1782839953" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"></head><body><header class="bg-white shadow-lg sticky top-0 z-50"><div class="bg-teal-500 text-white text-sm py-2"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center"><span>📞 Hemen Arayın: <a href="tel:+905322063859" class="font-bold hover:underline">0532 206 38 59</a></span></div></div><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20"><a href="/" class="flex items-center h-full py-2"><img src="/assets/images/dozatech_logo.webp" alt="DOZATECH" class="header-logo" onerror="this.onerror=null; this.src='https://placehold.co/150x80/0F4C81/FFFFFF?text=DOZA+TECH';" width="512" height="178"></a><nav class="hidden md:flex space-x-8"><a href="/" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Ana Sayfa</a><a href="/urunler" class="text-teal-500 font-bold transition duration-300 border-b-2 border-teal-500">Ürünler</a><a href="/#cozumler" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Neden Biz?</a><a href="/#hakkimizda" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Hakkımızda</a><a href="/#iletisim" class="text-white bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-lg transition duration-300 shadow-md">İletişim</a></nav><button id="mobile-menu-btn" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden text-gray-500 hover:text-teal-500 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div></div><div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl"><a href="/" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Ana Sayfa</a><a href="/urunler" class="block py-3 px-4 text-teal-500 bg-gray-100 transition duration-300 font-bold">Ürünler</a><a href="/#cozumler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Neden Biz?</a><a href="/#hakkimizda" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Hakkımızda</a><a href="/#iletisim" class="block py-3 px-4 text-white bg-teal-500 hover:bg-teal-600 text-center">İletişim</a></div></header><section class="py-16 bg-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><nav class="mb-8 text-sm" aria-label="Breadcrumb"><ol class="flex items-center space-x-2"><li><a href="/" class="text-gray-500 hover:text-teal-500">Ana Sayfa</a></li><li class="text-gray-400">/</li><li><a href="/urunler" class="text-gray-500 hover:text-teal-500">Ürünler</a></li><li class="text-gray-400">/</li><li class="text-teal-500 font-medium">Bulaşık Makineleri</li></ol></nav><div class="text-center mb-16"><h1 class="text-4xl font-extrabold primary-text mb-4 scroll-reveal">Endüstriyel Bulaşık Makineleri</h1><p class="text-xl text-gray-500 max-w-3xl mx-auto scroll-reveal" data-delay="1"> İşletmenizin kapasitesine uygun, dünya markası yüksek performanslı yıkama çözümleri. </p></div><div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="2"><div class="h-64 bg-white flex items-center justify-center overflow-hidden"><img src="/assets/images/makine_electrolux.webp" alt="Electrolux Bulaşık Makinesi" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Electrolux+Makine';" width="919" height="966"></div><div class="p-6 flex flex-col flex-grow"><h3 class="text-2xl font-bold primary-text mb-3">Electrolux Bulaşık Makinesi</h3><div class="flex-grow"><p class="text-gray-600 text-sm mb-4">Profesyonel mutfaklar için üstün İsveç teknolojisi ve enerji verimliliği.</p><ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-6"><li>Düşük su ve deterjan tüketimi</li><li>Ergonomik tasarım</li><li>Hızlı yıkama döngüleri</li></ul></div><a href="https://wa.me/905322063859?text=Merhaba,%20Electrolux%20Bula%C5%9F%C4%B1k%20Makinesi%20hakk%C4%B1nda%20fiyat%20teklifi%20almak%20istiyorum." target="_blank" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center">Teklif Alın</a></div></div><div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="3"><div class="h-64 bg-white flex items-center justify-center overflow-hidden"><img src="/assets/images/makine_oztiryakiler.webp" alt="Öztiryakiler Bulaşık Makinesi" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Öztiryakiler+Makine';" width="800" height="800"></div><div class="p-6 flex flex-col flex-grow"><h3 class="text-2xl font-bold primary-text mb-3">Öztiryakiler Bulaşık Makinesi</h3><div class="flex-grow"><p class="text-gray-600 text-sm mb-4">Yerli üretim gücüyle dayanıklı, yüksek kapasiteli ve ekonomik çözümler.</p><ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-6"><li>Paslanmaz çelik gövde</li><li>Yaygın servis ağı</li><li>Kolay kullanım paneli</li></ul></div><a href="https://wa.me/905322063859?text=Merhaba,%20%C3%96ztiryakiler%20Bula%C5%9F%C4%B1k%20Makinesi%20hakk%C4%B1nda%20fiyat%20teklifi%20almak%20istiyorum." target="_blank" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center">Teklif Alın</a></div></div><div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="4"><div class="h-64 bg-white flex items-center justify-center overflow-hidden"><img src="/assets/images/giyotin_makine.webp" alt="Giyotin Tip Bulaşık Makinesi" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Giyotin+Makine';" width="1167" height="975"></div><div class="p-6 flex flex-col flex-grow"><h3 class="text-2xl font-bold primary-text mb-3">Giyotin Tip Bulaşık Makinesi</h3><div class="flex-grow"><p class="text-gray-600 text-sm mb-4">Orta ve büyük ölçekli işletmeler için yüksek kapasiteli, kapaklı yıkama sistemi.</p><ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-6"><li>1000 tabak/saat yıkama kapasitesi</li><li>Otomatik başlama özelliği</li><li>Hijyenik yıkama performansı</li></ul></div><a href="https://wa.me/905322063859?text=Merhaba,%20Giyotin%20Tip%20Bula%C5%9F%C4%B1k%20Makinesi%20hakk%C4%B1nda%20fiyat%20teklifi%20almak%20istiyorum." target="_blank" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center">Teklif Alın</a></div></div></div></div></section><footer class="primary-color text-white py-8 text-center"><p class="text-sm text-gray-400">&copy; 2026 DOZATECH. Tüm Hakları Saklıdır.</p></footer> <script>document.addEventListener('DOMContentLoaded', () => {
+    }</script> <link href="/css/style.css?v=7e1b648cd07c" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></head><body><header class="bg-white shadow-lg sticky top-0 z-50"><div class="bg-teal-500 text-white text-sm py-2"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center"><span>📞 Hemen Arayın: <a href="tel:+905322063859" class="font-bold hover:underline">0532 206 38 59</a></span></div></div><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20"><a href="/" class="flex items-center h-full py-2"><img src="/assets/images/dozatech_logo.webp" alt="DOZATECH" class="header-logo" onerror="this.onerror=null; this.src='https://placehold.co/150x80/0F4C81/FFFFFF?text=DOZA+TECH';" width="512" height="178" decoding="async"></a><nav class="hidden md:flex space-x-8"><a href="/" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Ana Sayfa</a><a href="/urunler" class="text-teal-500 font-bold transition duration-300 border-b-2 border-teal-500">Ürünler</a><a href="/#cozumler" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Neden Biz?</a><a href="/#hakkimizda" class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Hakkımızda</a><a href="/#iletisim" class="text-white bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-lg transition duration-300 shadow-md">İletişim</a></nav><button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-teal-500 focus:outline-none" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menüyü aç" type="button"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div></div><div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl"><a href="/" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Ana Sayfa</a><a href="/urunler" class="block py-3 px-4 text-teal-500 bg-gray-100 transition duration-300 font-bold">Ürünler</a><a href="/#cozumler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Neden Biz?</a><a href="/#hakkimizda" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Hakkımızda</a><a href="/#iletisim" class="block py-3 px-4 text-white bg-teal-500 hover:bg-teal-600 text-center">İletişim</a></div></header><section class="py-16 bg-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><nav class="mb-8 text-sm" aria-label="Breadcrumb"><ol class="flex items-center space-x-2"><li><a href="/" class="text-gray-500 hover:text-teal-500">Ana Sayfa</a></li><li class="text-gray-400">/</li><li><a href="/urunler" class="text-gray-500 hover:text-teal-500">Ürünler</a></li><li class="text-gray-400">/</li><li class="text-teal-500 font-medium">Bulaşık Makineleri</li></ol></nav><div class="text-center mb-16"><h1 class="text-4xl font-extrabold primary-text mb-4 scroll-reveal">Endüstriyel Bulaşık Makineleri</h1><p class="text-xl text-gray-500 max-w-3xl mx-auto scroll-reveal" data-delay="1"> İşletmenizin kapasitesine uygun, dünya markası yüksek performanslı yıkama çözümleri. </p></div><div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="2"><div class="h-64 bg-white flex items-center justify-center overflow-hidden"><img src="/assets/images/makine_electrolux.webp" alt="Electrolux Bulaşık Makinesi" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Electrolux+Makine';" width="919" height="966" decoding="async"></div><div class="p-6 flex flex-col flex-grow"><h3 class="text-2xl font-bold primary-text mb-3">Electrolux Bulaşık Makinesi</h3><div class="flex-grow"><p class="text-gray-600 text-sm mb-4">Profesyonel mutfaklar için üstün İsveç teknolojisi ve enerji verimliliği.</p><ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-6"><li>Düşük su ve deterjan tüketimi</li><li>Ergonomik tasarım</li><li>Hızlı yıkama döngüleri</li></ul></div><a href="https://wa.me/905322063859?text=Merhaba,%20Electrolux%20Bula%C5%9F%C4%B1k%20Makinesi%20hakk%C4%B1nda%20fiyat%20teklifi%20almak%20istiyorum." target="_blank" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center" rel="noopener noreferrer">Teklif Alın</a></div></div><div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="3"><div class="h-64 bg-white flex items-center justify-center overflow-hidden"><img src="/assets/images/makine_oztiryakiler.webp" alt="Öztiryakiler Bulaşık Makinesi" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Öztiryakiler+Makine';" width="800" height="800" decoding="async"></div><div class="p-6 flex flex-col flex-grow"><h3 class="text-2xl font-bold primary-text mb-3">Öztiryakiler Bulaşık Makinesi</h3><div class="flex-grow"><p class="text-gray-600 text-sm mb-4">Yerli üretim gücüyle dayanıklı, yüksek kapasiteli ve ekonomik çözümler.</p><ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-6"><li>Paslanmaz çelik gövde</li><li>Yaygın servis ağı</li><li>Kolay kullanım paneli</li></ul></div><a href="https://wa.me/905322063859?text=Merhaba,%20%C3%96ztiryakiler%20Bula%C5%9F%C4%B1k%20Makinesi%20hakk%C4%B1nda%20fiyat%20teklifi%20almak%20istiyorum." target="_blank" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center" rel="noopener noreferrer">Teklif Alın</a></div></div><div class="bg-white rounded-xl border border-gray-200 overflow-hidden product-card scroll-reveal" data-delay="4"><div class="h-64 bg-white flex items-center justify-center overflow-hidden"><img src="/assets/images/giyotin_makine.webp" alt="Giyotin Tip Bulaşık Makinesi" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/f0f0f0/555555?text=Giyotin+Makine';" width="1167" height="975" decoding="async"></div><div class="p-6 flex flex-col flex-grow"><h3 class="text-2xl font-bold primary-text mb-3">Giyotin Tip Bulaşık Makinesi</h3><div class="flex-grow"><p class="text-gray-600 text-sm mb-4">Orta ve büyük ölçekli işletmeler için yüksek kapasiteli, kapaklı yıkama sistemi.</p><ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-6"><li>1000 tabak/saat yıkama kapasitesi</li><li>Otomatik başlama özelliği</li><li>Hijyenik yıkama performansı</li></ul></div><a href="https://wa.me/905322063859?text=Merhaba,%20Giyotin%20Tip%20Bula%C5%9F%C4%B1k%20Makinesi%20hakk%C4%B1nda%20fiyat%20teklifi%20almak%20istiyorum." target="_blank" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center" rel="noopener noreferrer">Teklif Alın</a></div></div></div></div></section><footer class="primary-color text-white py-8 text-center"><p class="text-sm text-gray-400">&copy; 2026 DOZATECH. Tüm Hakları Saklıdır.</p></footer> <script>document.addEventListener('DOMContentLoaded', () => {
             // Mobile menu
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -78,4 +189,4 @@
                     }
                 });
             }, 2000);
-        });</script> <a href="https://wa.me/905322063859?text=Merhaba,%20DOZATECH%20Bula%C5%9F%C4%B1k%20Makineleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." class="whatsapp-float" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" /></svg></a></body></html>
+        });</script> <a href="https://wa.me/905322063859?text=Merhaba,%20DOZATECH%20Bula%C5%9F%C4%B1k%20Makineleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." class="whatsapp-float" target="_blank" aria-label="WhatsApp" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" /></svg></a></body></html>

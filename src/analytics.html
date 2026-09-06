@@ -1,0 +1,121 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QBSSV93GCS"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', 'G-QBSSV93GCS');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const pagePath = window.location.pathname.replace(/\/$/, '') || '/';
+        const pageGroup = pagePath.startsWith('/cozumler')
+            ? 'solutions'
+            : pagePath.startsWith('/urunler')
+                ? 'products'
+                : 'home';
+
+        const sendEvent = (eventName, eventParams = {}) => {
+            window.gtag('event', eventName, {
+                page_path: pagePath,
+                page_group: pageGroup,
+                ...eventParams
+            });
+        };
+
+        const mobileMenuButton = document.querySelector('#mobile-menu-btn');
+        const mobileMenu = document.querySelector('#mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+            const setMobileMenuState = (isOpen) => {
+                mobileMenu.classList.toggle('hidden', !isOpen);
+                mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+                mobileMenuButton.setAttribute('aria-label', isOpen ? 'Menüyü kapat' : 'Menüyü aç');
+                mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+            };
+            mobileMenuButton.addEventListener('click', () => {
+                setMobileMenuState(mobileMenuButton.getAttribute('aria-expanded') !== 'true');
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => setMobileMenuState(false));
+            });
+        }
+
+        const getCtaPosition = (element) => {
+            const section = element.closest('section');
+            return section?.id || element.dataset.ctaPosition || 'content';
+        };
+
+        document.addEventListener('click', (event) => {
+            if (!(event.target instanceof Element)) return;
+            const link = event.target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href') || '';
+            const linkText = (link.textContent || '').trim().slice(0, 80);
+            const commonParams = {
+                link_text: linkText,
+                link_url: href,
+                cta_position: getCtaPosition(link)
+            };
+
+            if (href.startsWith('https://wa.me/')) {
+                sendEvent('whatsapp_click', commonParams);
+            }
+
+            if (href.startsWith('tel:')) {
+                sendEvent('phone_click', commonParams);
+            }
+
+            const isCta = link.dataset.analyticsEvent === 'cta_click'
+                || link.classList.contains('whatsapp-float')
+                || /teklif|incele|başlay|ulaş|ara|bilgi|keşfet/i.test(linkText);
+            if (isCta) sendEvent('cta_click', commonParams);
+        });
+
+        const productSchema = [...document.querySelectorAll('script[type="application/ld+json"]')]
+            .some(script => script.textContent?.includes('"@type":"Product"'));
+        if (productSchema) sendEvent('product_view');
+        if (pagePath.startsWith('/cozumler/')) sendEvent('solution_view');
+
+        const form = document.querySelector('#contact-form');
+        if (!form) return;
+
+        let formStarted = false;
+        const message = form.querySelector('#contact-message');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('focusin', () => {
+            if (formStarted) return;
+            formStarted = true;
+            sendEvent('form_start', { form_id: form.id });
+        });
+
+        form.addEventListener('submit', async (submitEvent) => {
+            submitEvent.preventDefault();
+            sendEvent('form_submit', { form_id: form.id });
+            if (submitButton) submitButton.disabled = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { Accept: 'application/json' }
+                });
+                if (!response.ok) throw new Error('Form submission failed');
+
+                if (message) {
+                    message.textContent = 'Mesajınız alındı. En kısa sürede size dönüş yapacağız.';
+                    message.className = 'mt-4 p-4 text-center bg-teal-100 border border-teal-400 text-teal-700 rounded-lg';
+                }
+                form.reset();
+                sendEvent('form_success', { form_id: form.id });
+            } catch (error) {
+                if (message) {
+                    message.textContent = 'Mesajınız gönderilemedi. Lütfen tekrar deneyin veya WhatsApp üzerinden ulaşın.';
+                    message.className = 'mt-4 p-4 text-center bg-red-100 border border-red-400 text-red-700 rounded-lg';
+                }
+                sendEvent('form_error', { form_id: form.id });
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+            }
+        });
+    });
+</script>

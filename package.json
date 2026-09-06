@@ -7,7 +7,7 @@
     "build": "python3 -u build.py",
     "preview": "npm run build && python3 -m http.server 4173 --directory dist",
     "watch": "echo 'Watch mode not supported in Python build yet. Use manual build.'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && python3 scripts/verify-build.py"
   },
   "repository": {
     "type": "git",

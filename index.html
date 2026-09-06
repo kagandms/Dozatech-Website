@@ -14,7 +14,7 @@
         gtag('config', 'G-QBSSV93GCS');
     </script>
 
-    <title>DOZATECH | Endüstriyel Dozaj Pompası, Deterjan ve Parlatıcı Sistemleri</title>
+    <title>Endüstriyel Dozaj Pompası ve Hijyen Sistemleri | DOZATECH</title>
     <meta name="description"
         content="Seko, Atiker, Dualdose endüstriyel bulaşık makinesi dozaj pompası, deterjan ve parlatıcı sistemleri. Kimyasal israfını sıfırlayan uzman çözümler.">
     <meta name="author" content="DOZATECH">
@@ -123,11 +123,6 @@
                 "description": "Endüstriyel Temizlik ve Dozaj Sistemleri",
                 "publisher": {
                     "@id": "https://dozatech.com.tr/#organization"
-                },
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://dozatech.com.tr/?s={search_term_string}",
-                    "query-input": "required name=search_term_string"
                 }
             },
             {
@@ -183,6 +178,8 @@
                         Sayfa</a>
                     <a href="/urunler"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Ürünler</a>
+                    <a href="/cozumler"
+                        class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Çözümler</a>
                     <a href="#cozumler" data-nav-section="cozumler"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Neden Biz?</a>
                     <a href="#hakkimizda" data-nav-section="hakkimizda"
@@ -206,6 +203,8 @@
                 Sayfa</a>
             <a href="/urunler"
                 class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Ürünler</a>
+            <a href="/cozumler"
+                class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Çözümler</a>
             <a href="#cozumler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Neden
                 Biz?</a>
             <a href="#hakkimizda"
@@ -257,7 +256,7 @@
                     <h3 class="text-2xl font-bold primary-text mb-3">Endüstriyel Bulaşık Makineleri</h3>
                     <p class="text-gray-600 mb-4">Restoranlar, oteller ve toplu yemekhaneler için yüksek kapasiteli,
                         enerji verimli giyotin ve konveyör tipi bulaşık makineleri.</p>
-                    <a href="/urunler"
+                    <a href="/urunler/bulasik-makineleri"
                         class="text-teal-500 font-semibold hover:text-teal-600 transition duration-300">Detaylı
                         İncele</a>
                 </div>
@@ -269,7 +268,7 @@
                     <h3 class="text-2xl font-bold primary-text mb-3">Dozaj Pompaları ve Otomasyon</h3>
                     <p class="text-gray-600 mb-4">Kimyasalların doğru ve ekonomik kullanımı için programlanabilir,
                         hassas dozaj pompaları ve entegre kontrol sistemleri.</p>
-                    <a href="/urunler"
+                    <a href="/urunler/dozaj-pompalari"
                         class="text-teal-500 font-semibold hover:text-teal-600 transition duration-300">Detaylı
                         İncele</a>
                 </div>
@@ -281,7 +280,7 @@
                     <h3 class="text-2xl font-bold primary-text mb-3">Yüksek Performanslı Kimyasallar</h3>
                     <p class="text-gray-600 mb-4">Tüm yıkama ve temizlik ihtiyaçlarını karşılayan, konsantre ve çevre
                         dostu formüller.</p>
-                    <a href="/urunler"
+                    <a href="/urunler/kimyasallar"
                         class="text-teal-500 font-semibold hover:text-teal-600 transition duration-300">Detaylı
                         İncele</a>
                 </div>
@@ -392,6 +391,10 @@
                     <input type="hidden" name="_subject" value="DOZATECH Web Sitesinden Yeni İletişim Mesajı">
                     <!-- Eğer form gönderildikten sonra kendi teşekkürler sayfanıza yönlendirmek isterseniz aşağıdaki satırdaki yorum işaretini kaldırın: -->
                     <!-- <input type="hidden" name="_next" value="https://babaminfirmasi.com/tesekkurler.html"> -->
+                    <div class="hidden" aria-hidden="true">
+                        <label for="website">Web sitesi</label>
+                        <input type="text" id="website" name="_gotcha" tabindex="-1" autocomplete="off">
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div class="scroll-reveal" data-delay="3">
@@ -399,6 +402,7 @@
                                 Şirket Adı</label>
                             <!-- name="Ad_Soyad" olarak değiştirildi -->
                             <input type="text" id="name" name="Ad_Soyad"
+                                autocomplete="name"
                                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 transition duration-150"
                                 placeholder="Adınız Soyadınız" required>
                         </div>
@@ -407,6 +411,7 @@
                                 Adresi</label>
                             <!-- name="_replyto" olarak değiştirildi, böylece gelen e-postaya kolayca cevap verebilirsiniz -->
                             <input type="email" id="email" name="_replyto"
+                                autocomplete="email"
                                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 transition duration-150"
                                 placeholder="ornek@sirket.com" required>
                         </div>
@@ -415,7 +420,8 @@
                     <div class="mb-6 scroll-reveal" data-delay="5">
                         <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefon Numarası</label>
                         <!-- name="Telefon" olarak değiştirildi -->
-                        <input type="tel" id="phone" name="Telefon"
+                    <input type="tel" id="phone" name="Telefon"
+                            autocomplete="tel" inputmode="tel"
                             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 transition duration-150"
                             placeholder="(5XX) XXX XX XX">
                     </div>
@@ -425,6 +431,7 @@
                             Özeti</label>
                         <!-- name="Mesaj" olarak değiştirildi -->
                         <textarea id="message" name="Mesaj" rows="4"
+                            autocomplete="off"
                             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 transition duration-150"
                             placeholder="Hangi ürünle veya hizmetle ilgileniyorsunuz?"></textarea>
                     </div>
@@ -438,7 +445,7 @@
                     <!-- Formspree kendi sayfasına yönlendirdiği için bu mesaj kutusu artık gerekli değildir. -->
                     <div id="contact-message"
                         class="mt-4 p-4 text-center bg-teal-100 border border-teal-400 text-teal-700 rounded-lg hidden"
-                        role="alert">
+                        role="alert" aria-live="polite">
                         <!-- Form gönderimi Formspree tarafından yönetiliyor. -->
                     </div>
                 </form>

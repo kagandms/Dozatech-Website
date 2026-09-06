@@ -3,6 +3,55 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), geolocation=(), microphone=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://placehold.co data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com; form-action 'self' https://formspree.io"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/css/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
   "redirects": [
     {
       "source": "/index.html",
@@ -28,6 +77,41 @@
       "source": "/urunler_pompa.html",
       "destination": "/urunler/dozaj-pompalari",
       "permanent": true
+    },
+    {
+      "source": "/cozumler.html",
+      "destination": "/cozumler",
+      "permanent": true
+    },
+    {
+      "source": "/cozumler_restoranlar.html",
+      "destination": "/cozumler/restoranlar-icin-bulasik-yikama-ve-dozaj-sistemleri",
+      "permanent": true
+    },
+    {
+      "source": "/cozumler_oteller.html",
+      "destination": "/cozumler/oteller-icin-endustriyel-hijyen-cozumleri",
+      "permanent": true
+    },
+    {
+      "source": "/cozumler_toplu_yemek.html",
+      "destination": "/cozumler/toplu-yemek-isletmeleri-icin-dozaj-sistemleri",
+      "permanent": true
+    },
+    {
+      "source": "/urun_seko_pr4.html",
+      "destination": "/urunler/seko-pr4-deterjan-pompasi",
+      "permanent": true
+    },
+    {
+      "source": "/urun_atiker_apm_0300.html",
+      "destination": "/urunler/atiker-apm-0300-deterjan-parlatici-pompasi",
+      "permanent": true
+    },
+    {
+      "source": "/urun_kirec_sokucu.html",
+      "destination": "/urunler/endustriyel-kirec-sokucu",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -46,6 +130,34 @@
     {
       "source": "/urunler/dozaj-pompalari",
       "destination": "/urunler_pompa.html"
+    },
+    {
+      "source": "/cozumler",
+      "destination": "/cozumler.html"
+    },
+    {
+      "source": "/cozumler/restoranlar-icin-bulasik-yikama-ve-dozaj-sistemleri",
+      "destination": "/cozumler_restoranlar.html"
+    },
+    {
+      "source": "/cozumler/oteller-icin-endustriyel-hijyen-cozumleri",
+      "destination": "/cozumler_oteller.html"
+    },
+    {
+      "source": "/cozumler/toplu-yemek-isletmeleri-icin-dozaj-sistemleri",
+      "destination": "/cozumler_toplu_yemek.html"
+    },
+    {
+      "source": "/urunler/seko-pr4-deterjan-pompasi",
+      "destination": "/urun_seko_pr4.html"
+    },
+    {
+      "source": "/urunler/atiker-apm-0300-deterjan-parlatici-pompasi",
+      "destination": "/urun_atiker_apm_0300.html"
+    },
+    {
+      "source": "/urunler/endustriyel-kirec-sokucu",
+      "destination": "/urun_kirec_sokucu.html"
     }
   ]
 }

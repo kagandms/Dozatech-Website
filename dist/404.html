@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="tr"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-QBSSV93GCS"></script> <script>window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', 'G-QBSSV93GCS');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const pagePath = window.location.pathname.replace(/\/$/, '') || '/';
+        const pageGroup = pagePath.startsWith('/cozumler')
+            ? 'solutions'
+            : pagePath.startsWith('/urunler')
+                ? 'products'
+                : 'home';
+
+        const sendEvent = (eventName, eventParams = {}) => {
+            window.gtag('event', eventName, {
+                page_path: pagePath,
+                page_group: pageGroup,
+                ...eventParams
+            });
+        };
+
+        const mobileMenuButton = document.querySelector('#mobile-menu-btn');
+        const mobileMenu = document.querySelector('#mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+            const setMobileMenuState = (isOpen) => {
+                mobileMenu.classList.toggle('hidden', !isOpen);
+                mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+                mobileMenuButton.setAttribute('aria-label', isOpen ? 'Menüyü kapat' : 'Menüyü aç');
+                mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+            };
+            mobileMenuButton.addEventListener('click', () => {
+                setMobileMenuState(mobileMenuButton.getAttribute('aria-expanded') !== 'true');
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => setMobileMenuState(false));
+            });
+        }
+
+        const getCtaPosition = (element) => {
+            const section = element.closest('section');
+            return section?.id || element.dataset.ctaPosition || 'content';
+        };
+
+        document.addEventListener('click', (event) => {
+            if (!(event.target instanceof Element)) return;
+            const link = event.target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href') || '';
+            const linkText = (link.textContent || '').trim().slice(0, 80);
+            const commonParams = {
+                link_text: linkText,
+                link_url: href,
+                cta_position: getCtaPosition(link)
+            };
+
+            if (href.startsWith('https://wa.me/')) {
+                sendEvent('whatsapp_click', commonParams);
+            }
+
+            if (href.startsWith('tel:')) {
+                sendEvent('phone_click', commonParams);
+            }
+
+            const isCta = link.dataset.analyticsEvent === 'cta_click'
+                || link.classList.contains('whatsapp-float')
+                || /teklif|incele|başlay|ulaş|ara|bilgi|keşfet/i.test(linkText);
+            if (isCta) sendEvent('cta_click', commonParams);
+        });
+
+        const productSchema = [...document.querySelectorAll('script[type="application/ld+json"]')]
+            .some(script => script.textContent?.includes('"@type":"Product"'));
+        if (productSchema) sendEvent('product_view');
+        if (pagePath.startsWith('/cozumler/')) sendEvent('solution_view');
+
+        const form = document.querySelector('#contact-form');
+        if (!form) return;
+
+        let formStarted = false;
+        const message = form.querySelector('#contact-message');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('focusin', () => {
+            if (formStarted) return;
+            formStarted = true;
+            sendEvent('form_start', { form_id: form.id });
+        });
+
+        form.addEventListener('submit', async (submitEvent) => {
+            submitEvent.preventDefault();
+            sendEvent('form_submit', { form_id: form.id });
+            if (submitButton) submitButton.disabled = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { Accept: 'application/json' }
+                });
+                if (!response.ok) throw new Error('Form submission failed');
+
+                if (message) {
+                    message.textContent = 'Mesajınız alındı. En kısa sürede size dönüş yapacağız.';
+                    message.className = 'mt-4 p-4 text-center bg-teal-100 border border-teal-400 text-teal-700 rounded-lg';
+                }
+                form.reset();
+                sendEvent('form_success', { form_id: form.id });
+            } catch (error) {
+                if (message) {
+                    message.textContent = 'Mesajınız gönderilemedi. Lütfen tekrar deneyin veya WhatsApp üzerinden ulaşın.';
+                    message.className = 'mt-4 p-4 text-center bg-red-100 border border-red-400 text-red-700 rounded-lg';
+                }
+                sendEvent('form_error', { form_id: form.id });
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+            }
+        });
+    });</script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://placehold.co data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com; form-action 'self' https://formspree.io;"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Sayfa Bulunamadı | DOZATECH</title><meta name="description" content="Aradığınız DOZATECH sayfası bulunamadı. Ürünlerimizi ve endüstriyel hijyen çözümlerimizi inceleyin."><meta name="robots" content="noindex, follow"><link rel="canonical" href="https://dozatech.com.tr/404.html"><link href="/css/style.css?v=7e1b648cd07c" rel="stylesheet"></head><body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col"><header class="bg-white shadow-sm"><div class="max-w-7xl mx-auto px-4 py-5"><a href="/" class="inline-flex items-center"><img src="/assets/images/dozatech_logo.webp" alt="DOZATECH" width="512" height="178" class="header-logo" decoding="async"></a></div></header><main class="flex-1 flex items-center"><section class="max-w-3xl mx-auto px-4 py-20 text-center"><p class="text-teal-600 font-bold tracking-widest">404</p><h1 class="text-4xl font-extrabold primary-text mt-3">Bu sayfayı bulamadık</h1><p class="text-lg text-gray-600 mt-4">Aradığınız içerik taşınmış veya kaldırılmış olabilir.</p><div class="flex flex-wrap justify-center gap-3 mt-8"><a href="/" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 py-3 rounded-lg">Ana sayfaya dön</a><a href="/urunler" class="border border-teal-600 text-teal-700 hover:bg-teal-50 font-bold px-6 py-3 rounded-lg">Ürünleri incele</a><a href="/cozumler" class="border border-gray-300 text-gray-700 hover:bg-gray-100 font-bold px-6 py-3 rounded-lg">Çözümleri incele</a></div></section></main></body></html>
