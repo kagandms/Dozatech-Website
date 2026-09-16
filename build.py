@@ -55,6 +55,42 @@ PAGE_PRIORITIES = {
     'urun_kirec_sokucu.html': '0.7',
 }
 PAGE_SOCIAL_METADATA = {
+    'index.html': (
+        'website',
+        'Endüstriyel Dozaj Pompası ve Hijyen Sistemleri | DOZATECH',
+        'Seko, Atiker, Dualdose endüstriyel bulaşık makinesi dozaj pompası, deterjan ve parlatıcı sistemleri. Kimyasal israfını sıfırlayan uzman çözümler.',
+        'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
+    ),
+    'urunler.html': (
+        'website',
+        'DOZATECH | Tüm Ürünlerimiz',
+        'Endüstriyel bulaşık makineleri, hassas dozaj pompaları ve yüksek performanslı kimyasallar.',
+        'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
+    ),
+    'urunler_bulasikmakineleri.html': (
+        'website',
+        'DOZATECH | Endüstriyel Bulaşık Makineleri',
+        'Electrolux, Öztiryakiler ve giyotin tip endüstriyel bulaşık makineleri. Restoranlar, oteller ve toplu yemekhaneler için yıkama çözümleri.',
+        'https://dozatech.com.tr/assets/images/makineler_kolaj.webp',
+    ),
+    'urunler_kimyasallar.html': (
+        'website',
+        'DOZATECH | Endüstriyel Kimyasallar',
+        'Güçlü kireç sökücü ve endüstriyel hijyen kimyasalları ile makine bakımını destekleyen çözümler.',
+        'https://dozatech.com.tr/assets/images/kirecsokucu.webp',
+    ),
+    'urunler_pompa.html': (
+        'website',
+        'Dozaj Pompası Modelleri: Seko, Atiker, Dualdose | DOZATECH',
+        'Endüstriyel bulaşık makineleri için Seko PR4, Atiker deterjan ve parlatıcı dozaj pompası modelleri.',
+        'https://dozatech.com.tr/assets/images/prof_dualdose.webp',
+    ),
+    'cozumler.html': (
+        'website',
+        'Restoran, Otel ve Toplu Yemek Hijyen Çözümleri | DOZATECH',
+        'Restoran, otel ve toplu yemek işletmeleri için endüstriyel bulaşık makinesi, dozaj pompası ve hijyen kimyasalı çözümleri.',
+        'https://dozatech.com.tr/assets/images/montaj1.webp',
+    ),
     'cozumler_restoranlar.html': (
         'website',
         'Restoranlar İçin Bulaşık Yıkama ve Dozaj Sistemleri | DOZATECH',
@@ -239,22 +275,26 @@ def load_analytics_code():
 
 def inject_social_metadata(content, filename):
     metadata = PAGE_SOCIAL_METADATA.get(filename)
-    if not metadata or 'property="og:type"' in content:
+    if not metadata:
         return content
 
     og_type, title, description, image = metadata
-    tags = f'''
-    <meta property="og:type" content="{og_type}">
-    <meta property="og:url" content="{BASE_URL}{PAGE_ROUTES[filename]}">
-    <meta property="og:title" content="{title}">
-    <meta property="og:description" content="{description}">
-    <meta property="og:image" content="{image}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{title}">
-    <meta name="twitter:description" content="{description}">
-    <meta name="twitter:image" content="{image}">
-    '''
-    return content.replace('</head>', f'{tags}</head>', 1)
+    page_url = f'{BASE_URL}{PAGE_ROUTES[filename]}'
+    tag_definitions = (
+        ('property="og:type"', f'<meta property="og:type" content="{og_type}">'),
+        ('property="og:url"', f'<meta property="og:url" content="{page_url}">'),
+        ('property="og:title"', f'<meta property="og:title" content="{title}">'),
+        ('property="og:description"', f'<meta property="og:description" content="{description}">'),
+        ('property="og:image"', f'<meta property="og:image" content="{image}">'),
+        ('name="twitter:card"', '<meta name="twitter:card" content="summary_large_image">'),
+        ('name="twitter:title"', f'<meta name="twitter:title" content="{title}">'),
+        ('name="twitter:description"', f'<meta name="twitter:description" content="{description}">'),
+        ('name="twitter:image"', f'<meta name="twitter:image" content="{image}">'),
+    )
+    missing_tags = [tag for marker, tag in tag_definitions if marker not in content]
+    if not missing_tags:
+        return content
+    return content.replace('</head>', ''.join(missing_tags) + '</head>', 1)
 
 
 def inject_breadcrumb_schema(content, filename):
