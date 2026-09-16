@@ -154,6 +154,21 @@ def verify_mobile_and_security_output() -> None:
         fail('Reduced-motion CSS support is missing.')
 
 
+def verify_mobile_detail_navigation() -> None:
+    detail_paths = (
+        '/cozumler/restoranlar-icin-bulasik-yikama-ve-dozaj-sistemleri',
+        '/urunler/seko-pr4-deterjan-pompasi',
+    )
+    for public_path in detail_paths:
+        html = get_route_output(public_path).read_text(encoding='utf-8')
+        match = re.search(
+            r'<nav\b[^>]*aria-label="Ana menü"[^>]*class="([^"]+)"',
+            html,
+        )
+        if not match or 'hidden' not in match.group(1) or 'md:flex' not in match.group(1):
+            fail(f'Header navigation is not desktop-only on {public_path}.')
+
+
 def verify_vercel_headers() -> None:
     configuration = json.loads((ROOT_DIR / 'vercel.json').read_text(encoding='utf-8'))
     header_rules = configuration.get('headers', [])
@@ -186,6 +201,7 @@ def main() -> None:
     verify_analytics_injection()
     verify_seo_enrichment()
     verify_mobile_and_security_output()
+    verify_mobile_detail_navigation()
     verify_vercel_headers()
     print('Build verification passed: routes, sitemap, redirects, and output assets are valid.')
 

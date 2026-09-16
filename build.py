@@ -293,10 +293,43 @@ def get_mobile_navigation_markup():
     </div>'''
 
 
+def hide_mobile_header_navigation(content):
+    header_match = re.search(r'<header\b.*?</header>', content, flags=re.IGNORECASE | re.DOTALL)
+    if not header_match:
+        return content
+
+    header_html = header_match.group(0)
+    navigation_match = re.search(
+        r'<nav\b(?=[^>]*aria-label="Ana menü")[^>]*>',
+        header_html,
+        flags=re.IGNORECASE,
+    )
+    if not navigation_match:
+        return content
+
+    navigation_tag = navigation_match.group(0)
+    class_match = re.search(r'class="([^"]+)"', navigation_tag, flags=re.IGNORECASE)
+    if not class_match:
+        return content
+
+    classes = class_match.group(1).split()
+    for required_class in ('hidden', 'md:flex'):
+        if required_class not in classes:
+            classes.insert(0, required_class)
+    updated_tag = navigation_tag.replace(
+        class_match.group(1),
+        ' '.join(classes),
+        1,
+    )
+    updated_header = header_html.replace(navigation_tag, updated_tag, 1)
+    return content.replace(header_html, updated_header, 1)
+
+
 def normalize_mobile_navigation(content, filename):
     if filename in NON_ROUTE_HTML_FILES:
         return content
 
+    content = hide_mobile_header_navigation(content)
     content = re.sub(
         r'\s+onclick="document\.getElementById\(\'mobile-menu\'\)\.classList\.toggle\(\'hidden\'\)"',
         '',
