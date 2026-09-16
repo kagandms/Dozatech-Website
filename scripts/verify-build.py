@@ -81,6 +81,15 @@ def verify_vercel_routes() -> None:
             redirect = redirects.get(f'/{source_file}')
             if not redirect or redirect.get('destination') != public_path:
                 fail(f'Missing legacy redirect for /{source_file}.')
+        if public_path == '/':
+            continue
+        slash_redirect = redirects.get(f'{public_path}/')
+        if (
+            not slash_redirect
+            or slash_redirect.get('destination') != public_path
+            or slash_redirect.get('permanent') is not True
+        ):
+            fail(f'Missing permanent trailing-slash redirect for {public_path}.')
 
 
 def verify_generated_html() -> None:

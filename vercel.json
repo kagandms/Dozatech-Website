@@ -112,6 +112,61 @@
       "source": "/urun_kirec_sokucu.html",
       "destination": "/urunler/endustriyel-kirec-sokucu",
       "permanent": true
+    },
+    {
+      "source": "/urunler/",
+      "destination": "/urunler",
+      "permanent": true
+    },
+    {
+      "source": "/urunler/bulasik-makineleri/",
+      "destination": "/urunler/bulasik-makineleri",
+      "permanent": true
+    },
+    {
+      "source": "/urunler/kimyasallar/",
+      "destination": "/urunler/kimyasallar",
+      "permanent": true
+    },
+    {
+      "source": "/urunler/dozaj-pompalari/",
+      "destination": "/urunler/dozaj-pompalari",
+      "permanent": true
+    },
+    {
+      "source": "/cozumler/",
+      "destination": "/cozumler",
+      "permanent": true
+    },
+    {
+      "source": "/cozumler/restoranlar-icin-bulasik-yikama-ve-dozaj-sistemleri/",
+      "destination": "/cozumler/restoranlar-icin-bulasik-yikama-ve-dozaj-sistemleri",
+      "permanent": true
+    },
+    {
+      "source": "/cozumler/oteller-icin-endustriyel-hijyen-cozumleri/",
+      "destination": "/cozumler/oteller-icin-endustriyel-hijyen-cozumleri",
+      "permanent": true
+    },
+    {
+      "source": "/cozumler/toplu-yemek-isletmeleri-icin-dozaj-sistemleri/",
+      "destination": "/cozumler/toplu-yemek-isletmeleri-icin-dozaj-sistemleri",
+      "permanent": true
+    },
+    {
+      "source": "/urunler/seko-pr4-deterjan-pompasi/",
+      "destination": "/urunler/seko-pr4-deterjan-pompasi",
+      "permanent": true
+    },
+    {
+      "source": "/urunler/atiker-apm-0300-deterjan-parlatici-pompasi/",
+      "destination": "/urunler/atiker-apm-0300-deterjan-parlatici-pompasi",
+      "permanent": true
+    },
+    {
+      "source": "/urunler/endustriyel-kirec-sokucu/",
+      "destination": "/urunler/endustriyel-kirec-sokucu",
+      "permanent": true
     }
   ],
   "rewrites": [
