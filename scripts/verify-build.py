@@ -169,6 +169,14 @@ def verify_mobile_detail_navigation() -> None:
             fail(f'Header navigation is not desktop-only on {public_path}.')
 
 
+def verify_seko_faq_alignment() -> None:
+    public_path = '/urunler/seko-pr4-deterjan-pompasi'
+    html = get_route_output(public_path).read_text(encoding='utf-8')
+    expected_question = 'Montaj öncesi hangi bilgi gerekir?'
+    if f'"name":"{expected_question}"' not in html:
+        fail(f'Seko FAQ schema is not aligned with visible content on {public_path}.')
+
+
 def verify_vercel_headers() -> None:
     configuration = json.loads((ROOT_DIR / 'vercel.json').read_text(encoding='utf-8'))
     header_rules = configuration.get('headers', [])
@@ -202,6 +210,7 @@ def main() -> None:
     verify_seo_enrichment()
     verify_mobile_and_security_output()
     verify_mobile_detail_navigation()
+    verify_seko_faq_alignment()
     verify_vercel_headers()
     print('Build verification passed: routes, sitemap, redirects, and output assets are valid.')
 
