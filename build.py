@@ -129,6 +129,25 @@ PAGE_SOCIAL_METADATA = {
     ),
 }
 PAGE_BREADCRUMBS = {
+    'urunler.html': [
+        ('Ana Sayfa', '/'),
+        ('Ürünler', PAGE_ROUTES['urunler.html']),
+    ],
+    'urunler_bulasikmakineleri.html': [
+        ('Ana Sayfa', '/'),
+        ('Ürünler', '/urunler'),
+        ('Bulaşık Makineleri', PAGE_ROUTES['urunler_bulasikmakineleri.html']),
+    ],
+    'urunler_kimyasallar.html': [
+        ('Ana Sayfa', '/'),
+        ('Ürünler', '/urunler'),
+        ('Kimyasallar', PAGE_ROUTES['urunler_kimyasallar.html']),
+    ],
+    'urunler_pompa.html': [
+        ('Ana Sayfa', '/'),
+        ('Ürünler', '/urunler'),
+        ('Dozaj Pompaları', PAGE_ROUTES['urunler_pompa.html']),
+    ],
     'cozumler_restoranlar.html': [
         ('Ana Sayfa', '/'),
         ('Çözümler', '/cozumler'),
