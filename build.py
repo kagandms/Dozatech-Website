@@ -63,8 +63,8 @@ PAGE_SOCIAL_METADATA = {
     ),
     'urunler.html': (
         'website',
-        'DOZATECH | Tüm Ürünlerimiz',
-        'Endüstriyel bulaşık makineleri, hassas dozaj pompaları ve yüksek performanslı kimyasallar.',
+        'Endüstriyel Temizlik Ürünleri ve Dozaj Sistemleri | DOZATECH',
+        'Restoran, otel ve kafeler için endüstriyel bulaşık makineleri, dozaj pompaları ve temizlik kimyasalları. İhtiyacınıza uygun ürünleri inceleyin.',
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler_bulasikmakineleri.html': (
@@ -75,8 +75,8 @@ PAGE_SOCIAL_METADATA = {
     ),
     'urunler_kimyasallar.html': (
         'website',
-        'DOZATECH | Endüstriyel Kimyasallar',
-        'Güçlü kireç sökücü ve endüstriyel hijyen kimyasalları ile makine bakımını destekleyen çözümler.',
+        'Endüstriyel Temizlik Kimyasalları | Kireç Sökücü | DOZATECH',
+        'Endüstriyel bulaşık makineleri için kireç sökücü ve hijyen kimyasallarını inceleyin. Rezistans ve su kanallarındaki kireç bakımını destekleyin.',
         'https://dozatech.com.tr/assets/images/kirecsokucu.webp',
     ),
     'urunler_pompa.html': (

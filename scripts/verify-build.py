@@ -177,6 +177,25 @@ def verify_seko_faq_alignment() -> None:
         fail(f'Seko FAQ schema is not aligned with visible content on {public_path}.')
 
 
+def verify_target_metadata() -> None:
+    expected_metadata = {
+        '/urunler': (
+            'Endüstriyel Temizlik Ürünleri ve Dozaj Sistemleri | DOZATECH',
+            'Restoran, otel ve kafeler için endüstriyel bulaşık makineleri, dozaj pompaları ve temizlik kimyasalları. İhtiyacınıza uygun ürünleri inceleyin.',
+        ),
+        '/urunler/kimyasallar': (
+            'Endüstriyel Temizlik Kimyasalları | Kireç Sökücü | DOZATECH',
+            'Endüstriyel bulaşık makineleri için kireç sökücü ve hijyen kimyasallarını inceleyin. Rezistans ve su kanallarındaki kireç bakımını destekleyin.',
+        ),
+    }
+    for public_path, (title, description) in expected_metadata.items():
+        html = get_route_output(public_path).read_text(encoding='utf-8')
+        if f'<title>{title}</title>' not in html:
+            fail(f'Target title is not generated for {public_path}.')
+        if f'<meta name="description" content="{description}">' not in html:
+            fail(f'Target description is not generated for {public_path}.')
+
+
 def verify_vercel_headers() -> None:
     configuration = json.loads((ROOT_DIR / 'vercel.json').read_text(encoding='utf-8'))
     header_rules = configuration.get('headers', [])
@@ -211,6 +230,7 @@ def main() -> None:
     verify_mobile_and_security_output()
     verify_mobile_detail_navigation()
     verify_seko_faq_alignment()
+    verify_target_metadata()
     verify_vercel_headers()
     print('Build verification passed: routes, sitemap, redirects, and output assets are valid.')
 
