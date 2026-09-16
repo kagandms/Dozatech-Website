@@ -196,6 +196,35 @@ def verify_target_metadata() -> None:
             fail(f'Target description is not generated for {public_path}.')
 
 
+def verify_category_schema_types() -> None:
+    category_paths = (
+        '/urunler/bulasik-makineleri',
+        '/urunler/kimyasallar',
+        '/urunler/dozaj-pompalari',
+    )
+    for public_path in category_paths:
+        html = get_route_output(public_path).read_text(encoding='utf-8')
+        schemas = [
+            json.loads(block)
+            for block in re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>',
+                html,
+                flags=re.DOTALL,
+            )
+        ]
+        item_lists = [schema for schema in schemas if schema.get('@type') == 'ItemList']
+        if not item_lists:
+            fail(f'Missing ItemList schema on {public_path}.')
+        if any(
+            item.get('@type') == 'Product'
+            for schema in item_lists
+            for item in schema.get('itemListElement', [])
+        ):
+            fail(f'Category ItemList contains Product rich-result items on {public_path}.')
+        if not any(schema.get('@type') == 'BreadcrumbList' for schema in schemas):
+            fail(f'BreadcrumbList schema was lost on {public_path}.')
+
+
 def verify_vercel_headers() -> None:
     configuration = json.loads((ROOT_DIR / 'vercel.json').read_text(encoding='utf-8'))
     header_rules = configuration.get('headers', [])
@@ -231,6 +260,7 @@ def main() -> None:
     verify_mobile_detail_navigation()
     verify_seko_faq_alignment()
     verify_target_metadata()
+    verify_category_schema_types()
     verify_vercel_headers()
     print('Build verification passed: routes, sitemap, redirects, and output assets are valid.')
 
