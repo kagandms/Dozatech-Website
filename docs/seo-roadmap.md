@@ -7,10 +7,55 @@
 - **Plan tarihi:** 2026-09-06
 - **Mevcut durum:** Teknik temel tamamlandı; büyüme sprinti başlatıldı.
 - **Hedef kitle:** Restoranlar, oteller, toplu yemek işletmeleri, profesyonel mutfaklar ve teknik satın alma karar vericileri.
-- **Ana ticari hedef:** Ürün veya çözüm arayan ziyaretçiyi nitelikli teklif görüşmesine taşımak.
+- **Birinci ticari öncelik:** İstanbul’daki restoran, otel ve kafelere düzenli kimyasal tedariki; tekrar sipariş ve sürekli gelir.
+- **İkinci ticari öncelik:** Dozaj pompası satışı ve montajı.
+- **Diğer faaliyetler:** Dozaj pompası bakım/onarımı ve endüstriyel bulaşık makinesi satışı. Bulaşık makinesi tamiri/onarımı sunulmaz.
+- **Ana ticari hedef:** Kimyasal tedariki için nitelikli tekrar sipariş ilişkileri kurmak; pompa satışı ve montajını ikinci öncelik olarak büyütmek.
 - **Birincil karar metriği:** 1.000 organik gösterim başına nitelikli teklif talebi.
 
 Bu proje yüksek hacimli, düşük kaliteli trafik yerine daha az fakat ticari niyeti yüksek ziyaretçi üretmeyi hedefler. Her içerik, tasarım ve dağıtım kararı bu hedefe göre değerlendirilecektir.
+
+### 1.1 İşletme bağlamı ve güncel erişim durumu — 2026-10-25
+
+Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`business-context.md`](business-context.md) geçerlidir. Kimyasal kategori ve tekrar sipariş akışı birinci; dozaj pompası satışı/montajı ikinci önceliktir. Tedarikçi firmaların müşterilerine ücretli pompa montajı, bakım ve onarım hizmeti de sunulur. Makine satışı bu pompa hizmetlerinden ayrı tutulur; bulaşık makinesi tamiri/onarımı sunulmaz.
+
+| Kontrol | Güncel durum |
+| --- | --- |
+| Google İşletme Profili | Mevcut değil (işletme sahibinin bildirdiği bilgi) |
+| Search Console ve GA4 hesap erişimi | Bu çalışma için henüz doğrulanmadı |
+| GA4 ölçüm kimliği | Kaynakta `G-QBSSV93GCS` bulunuyor; bu, veri alımını kanıtlamaz |
+| Formspree alıcıya teslim | Hesap erişimi olmadan doğrulanamaz; gerçek mesaj gönderilmedi |
+| Gerçek kurulum fotoğrafı/video | Var olduğu bildirildi; bu çalışma için henüz sağlanmadı |
+
+## Tarihsel ölçüm kayıtlarının kaynak denetimi — 2026-10-25
+
+Önceki çalışma ağacı içeriğinde 2026-09-06 tarihinde alındığı ileri sürülen Search Console ve GA4 tabloları ile aynı tarihte yapıldığı ileri sürülen production event testi vardı. Bu içerik PR tabanındaki dosyada yoktu; PR değişikliği olarak eklenmişti, dolayısıyla “korunmuş” tarihsel veri değildir.
+
+| Kayıt | İddia edilen rapor dönemi | Kaynak denetimi |
+| --- | --- | --- |
+| Search Console toplamları ve sayfa/sorgu/cihaz/ülke kırılımları | 28 ve 90 gün; metinde bitiş 2026-09-05 olarak sunulmuş | Gerçek export veya çalışma dosyası bulunamadı. `search-console-baseline.csv` yalnızca planlanan çıktı adı olarak geçiyor; dosya repoda ve eklerde yok. Rapor dönemi bağımsız kaynakla doğrulanamadı. |
+| GA4 kanal, sayfa, açılış sayfası ve event tabloları | 28 gün: 2026-08-09–2026-09-05; 90 gün: 2026-06-08–2026-09-05; ayrıca 7 gün: 2026-08-30–2026-09-05 | GA4 CSV/XLSX export’u, ekran görüntüsü veya hesap çalışma kaydı bulunamadı. `ga4-funnel-baseline.csv` yalnızca planlanan çıktı adı olarak geçiyor; dosya repoda ve eklerde yok. Rapor dönemleri ve sayılar doğrulanamadı. |
+| Production WhatsApp/CTA event testi | Metinde 2026-09-06 tarihinde iki cihaz ve Realtime görünümü olarak iddia edilmiş | Realtime ekran görüntüsü, GA4 debug/account kaydı, cihaz/test günlüğü veya başka bağımsız çalışma kaydı bulunamadı. Testin yapıldığı ve event’lerin production’a ulaştığı doğrulanamadı. |
+
+Yukarıdaki iddialar, kaynakları doğrulanamadığı için sayısal tablolardan ve günlük kaydından çıkarıldı. Önceki metin tek başına kendi iddialarının kanıtı kabul edilmedi. Search Console ve GA4 hesap erişimi bu çalışma sırasında doğrulanmadı; geçmiş rapor dönemi, ölçüm değerleri ve canlı test durumu belirsizdir. Yeni bir baseline ancak özgün export ve alım zamanı/dönemi kaydedilerek oluşturulmalıdır.
+
+### 1.2 Yayın zinciri ve barındırma rolleri — 2026-10-25
+
+- **GitHub Pages:** Depoda `CNAME` ve Pages deployment kaydı bulunuyor; kamuya açık kayıt, 2026-09-16 tarihli `ea103eeecbd9db3d7c6f1f2c1474cada0f2cd68e` commit’i için başarıyla tamamlanan bir Pages deployment gösteriyor. Güncel özel alan adının Pages’ten sunulduğunu gösteren bir kanıt yok.
+- **Vercel production:** Canlı yanıtlarda Vercel sunucu başlıkları gözlendi. GitHub deployment kaydı 2026-09-16 tarihinde aynı commit için bir Vercel production deployment ve `dozatech-website-btc2n60gx-kagans-projects-ce31d7ff.vercel.app` deployment adresi gösteriyor. Bu kayıt bugünkü özel alan adının hangi SHA’dan sunulduğunu kanıtlamaz.
+- **Vercel Preview bağlantısı:** PR #1’in Vercel bot kontrolü bu depoyu `tennyson10/dozatech` projesine bağladı. Vercel check, `7ad3aab7369cdf8296239f2c1f0a6ae3a47fdc05` commit’i için başarılı oldu ve `https://dozatech-git-codex-dozatech-seo-foundation-tennyson10.vercel.app` Preview adresi üretti. Preview HTTP istekleri içerik yerine Vercel SSO girişine yönlendiğinden sayfa içeriği bu oturumda doğrulanamadı.
+- **Vercel production ayarı:** Preview bağlantısı repository–proje entegrasyonunu doğrular; production dalının `главно` olduğunu veya bugünkü özel alan adının hangi SHA’dan sunulduğunu doğrulamaz. Yeni/önceki Vercel projesinin tarihsel ayrımı da panel erişimi olmadan doğrulanamadı.
+- **Eski Vercel projesi:** Kimliği ve durumu erişilebilen kanıtla belirlenemedi. Hiçbir proje silinmedi veya değiştirilmedi.
+
+Bu bölümdeki yayın kayıtları geçmiş kamuya açık GitHub deployment metaverisine dayanır; canlı HTTP, Vercel hesap/proje kimliğini ya da çalışan commit’i tek başına göstermez.
+
+Canlı HTTP kontrolünde `https://dozatech.com.tr/` kalıcı olarak `https://www.dozatech.com.tr/` adresine yönleniyor; `http://dozatech.com.tr/` önce HTTPS apex’e, sonra www’ye giderek iki yönlendirme yapıyor. `http://www` doğrudan HTTPS www’ye çıkıyor. Path ve query parametreleri örnek istekte korunuyor. Canlı canonical, `og:url`, JSON-LD ve sitemap ise www’siz apex kullanıyor. Bu HTTP davranışı mevcut etkili yönü gösterir; Vercel panelindeki domain/primary ayarını ve kuralın hangi katmanda tanımlı olduğunu hesap erişimi olmadan doğrulamaz.
+
+Repo hedefi `https://dozatech.com.tr` olacak. Kısa yayın sırası ve geri dönüş notu [`vercel-domain-release-note.md`](vercel-domain-release-note.md) dosyasındadır. Vercel paneli bu çalışma kapsamında incelenmedi/değiştirilmedi. Repo redirect kuralı yalnızca www hostundan apex’e kalıcı yönlendirme hazırlar; HTTP→HTTPS davranışı Vercel domain/TLS katmanında canlı doğrulanmalıdır. Geçmiş Pages workflow/deployment sonucu, `DOZATECH Web CI` build ve test kontrolü yerine geçmez.
+
+Repo build ayarları `npm run build` komutunu ve `dist/` çıktı dizinini kullanır; Python build betiği Tailwind CSS `3.4.17` CLI’ını çalıştırır. GitHub CI, Node.js `20.x` ve Python `3.11` kullanır. Vercel install komutu bu dalda lockfile tabanlı `npm ci` olarak ayarlanmıştır. Bunlar repo/CI yapılandırmasıdır; yeni Vercel projesinin hesap ayarı veya deployment sonucu olarak yorumlanmamalıdır.
+
+Kontrol edilen temel canlı rotalar `/urunler`, ürün kategorileri, `/cozumler`, sitemap’te listelenen çözüm sayfaları ve ürün detayları için `200`; rastgele olmayan route örneği `/__no-such-route__` için gerçek `404` döndü. Eski `/urunler.html` adresi temiz `/urunler` rotasına kalıcı yönleniyor. Kısa `/cozumler/restoranlar` ve `/cozumler/oteller` yolları mevcut rota listesinde değil ve `404` dönüyor; bunlar sitemap’teki tam slug’larla karıştırılmamalıdır.
 
 ## 2. Hedef hunisi
 
@@ -45,6 +90,8 @@ Google gösterimi
 | Ticari | Teklif dönüş oranı | Teklife dönen nitelikli lead oranı | Satış kaydı | Haftalık |
 
 CTR ve gösterim, sayfa ve sorgu kırılımında değerlendirilmelidir. Site genelindeki tek bir ortalama, hangi sayfanın veya sorgunun sorunlu olduğunu gizleyebilir.
+
+`whatsapp_click`, `phone_click` ve genel CTA event’leri iletişim niyeti/tıklama göstergesidir; nitelikli müşteri talebi sayılmaz. Nitelikli lead, gerçek talep ve satış takibiyle teyit edilmelidir. Formdaki `form_success` yalnızca istemci tarafındaki başarılı HTTP yanıtını gösterir; Formspree alıcıya teslimi hesap erişimiyle doğrulanmadan tamamlanmış lead olarak raporlanmayacaktır.
 
 ## 4. Teknik temel durumu
 
@@ -98,12 +145,16 @@ Kabul kriteri: Hangi sayfanın gösterim aldığı, hangi sorguda CTR kaybettiğ
 
 Öncelikli sorgu kümeleri:
 
+- İstanbul restoranları, otelleri ve kafeleri için endüstriyel bulaşık makinesi deterjanı ve parlatıcısı tedariki
+- Endüstriyel bulaşık makinesi kimyasalları ve düzenli tedarik
+- Bulaşık makinesi kireç sökücü ve yağ çözücü kimyasallar
+- Kimyasal ve pompa tedarikçilerinin müşterileri için dozaj pompası montajı/bakımı/onarımı
+- Restoran, otel ve kafelerde dozaj pompası montajı ve pompa modelleri
 - bulaşık makinesi dozaj pompası
 - deterjan dozaj pompası
 - parlatıcı dozaj pompası
 - Seko PR4 deterjan pompası
 - Atiker APM 0300 pompa
-- endüstriyel bulaşık makinesi deterjanı
 - restoran bulaşık yıkama sistemi
 - otel mutfağı hijyen çözümleri
 - toplu yemek dozaj sistemi
@@ -111,7 +162,8 @@ Kabul kriteri: Hangi sayfanın gösterim aldığı, hangi sorguda CTR kaybettiğ
 
 Öncelikli title testleri:
 
-- Ana sayfa: `Endüstriyel Dozaj Pompası ve Bulaşık Makinesi Kimyasalları | DOZATECH`
+- Ana sayfa: `İstanbul Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH`
+- Kimyasal kategorisi: `Endüstriyel Bulaşık Makinesi Deterjanı ve Parlatıcısı | DOZATECH`
 - Dozaj kategorisi: `Bulaşık Makinesi Dozaj Pompaları | Seko ve Atiker Modelleri | DOZATECH`
 - Restoran çözümü: `Restoranlar İçin Bulaşık Yıkama ve Dozaj Sistemi | DOZATECH`
 - Seko ürün sayfası: `Seko PR4 Deterjan Pompası: Teknik Özellikler ve Teklif | DOZATECH`
@@ -137,11 +189,12 @@ Uygulama alanları:
 - Ana sayfa hero metnini hedef sektör ve probleme göre netleştirme
 - Genel `Teklif Alın` CTA’larını bağlama göre farklılaştırma
 - Ürün karşılaştırma tablosu
-- “Hangi makine/işletme için uygun?” seçim akışı
+- Kimyasal tedariki ve tekrar sipariş için net teklif akışı
+- “Hangi kimyasal veya pompa hizmeti?” seçim akışı
 - Her sayfada üst, orta ve alt CTA konumlandırması
 - Ürün detayından ilgili çözüm sayfasına geçiş
 - Çözüm sayfasından ilgili ürün kategorisine geçiş
-- Kısa B2B teklif formu: işletme türü, makine türü, şehir, ihtiyaç
+- Kısa B2B teklif formu: işletme türü, kimyasal/pompa ihtiyacı, kullanım sıklığı ve şehir
 - Mobil yapışkan WhatsApp/telefon CTA’sı
 - Yüksek çıkış veren sayfalarda SSS, sonraki adım ve kanıt bölümü
 - Gerçek kurulum fotoğrafları ve teknik uygulama örnekleri
@@ -165,7 +218,7 @@ Amaç, markasız gösterimi ve güven sinyallerini sürdürülebilir biçimde ar
 
 Dağıtım kanalları:
 
-- Google Business Profile
+- Google Business Profile oluşturma ve doğrulama (işletme bilgileri teyit edildikten sonra)
 - LinkedIn teknik içerikleri
 - YouTube/Shorts montaj ve ürün kullanım videoları
 - WhatsApp’a UTM’li kampanya bağlantıları
@@ -182,36 +235,22 @@ Kabul kriteri: Her içerik en az bir ticari kategori sayfasına, bir ürün sayf
 - [x] GA4 ölçüm ID’sini ve mevcut event listesini doğrula
 - [x] Formspree endpoint’inin yapılandırılmış olduğunu doğrula
 - [x] Teknik yayının production’da olduğunu doğrula
-- [x] Search Console export dosyalarını al ve property verisini doğrula
+- [ ] Search Console export dosyalarını al ve property verisini doğrula
 - [ ] GA4 property erişimini doğrula
-- [x] GSC export formatını kesinleştir
+- [ ] GSC export formatını kesinleştir
 - [ ] GA4 export formatını kesinleştir
 
-Gün 1 bulgusu: Site tarafında GA4 ID `G-QBSSV93GCS` ve temel event’ler mevcut. Search Console verisi Gün 2’de sağlandı; GA4 hesabı ve site içi davranış verisi henüz sağlanmadı.
+Site kaynak kodunda GA4 ID `G-QBSSV93GCS` ve event adları bulunuyor. Bu, hesap erişimini veya event teslimini kanıtlamaz. Tarihsel Search Console/GA4 export ve canlı test kayıtları için kaynak bulunamadı; bu kontroller tamamlandı sayılmıyor.
 
 ### Gün 2 — Search Console baseline
 
-- [x] Son 28 gün ve 90 gün karşılaştırmasını çıkar
-- [x] Sayfa bazında gösterim, tıklama ve CTR tablosu oluştur
-- [x] Markalı ve markasız sorguları ayır
-- [x] Cihaz ve ülke kırılımını ekle
-- [x] İlk fırsat sorgularını seç
+- [ ] Son 28 gün ve 90 gün karşılaştırmasını çıkar
+- [ ] Sayfa bazında gösterim, tıklama ve CTR tablosu oluştur
+- [ ] Markalı ve markasız sorguları ayır
+- [ ] Cihaz ve ülke kırılımını ekle
+- [ ] İlk fırsat sorgularını seç
 
-Çıktı: `search-console-baseline.csv` veya eşdeğer rapor.
-
-Gün 2 baseline bulguları:
-
-- Search Console Chart toplamı: 28 gün `6 tıklama / 188 gösterim / %3,19 CTR`; 90 gün `23 tıklama / 372 gösterim / %6,18 CTR`.
-- `/urunler/dozaj-pompalari`: 28 gün `157 gösterim / 3 tıklama / %1,91 CTR / 24,87 pozisyon`; 90 gün `304 / 11 / %3,62 / 30,78`. En büyük görünürlük fırsatı bu sayfadır.
-- Ana sayfa: 28 gün `%12 CTR`, 90 gün `%12 CTR`; 90 günlük ortalama pozisyon `5,76`. Snippet ve marka niyeti güçlüdür.
-- `/urunler`: 90 gün `66 gösterim / 5 tıklama / %7,58 CTR / 14,73 pozisyon`; son 28 günde `29 gösterim / 0 tıklama / 22,45 pozisyon`. Yakın dönem düşüşü izlenecektir.
-- `/urunler/bulasik-makineleri`: 90 gün `33 gösterim / 1 tıklama / %3,03 CTR / 9,55 pozisyon`; pozisyon iyi, CTR geliştirme adayıdır.
-- Cihaz farkı: 28 günde mobil `%5,49 CTR / 9,6 pozisyon`; masaüstü `%1,03 CTR / 36,86 pozisyon`. 90 günde mobil `%11,04 CTR / 11 pozisyon`; masaüstü `%2,75 CTR / 39,84 pozisyon`. Masaüstü görünürlüğü ve sıralaması öncelikli inceleme alanıdır.
-- 90 günlük sorgularda `dozaj pompası` `54 gösterim / 0 tıklama / 59,2 pozisyon`, `dozaj sistemleri` `15 / 0 / 77,07`, `kimyasal dozaj pompası` `10 / 0 / 86,3` değerindedir. Bunlar içerik ve sıralama fırsatıdır.
-- 90 günlük marka sorgusu `dozatech`: `37 gösterim / 16 tıklama / %43,24 CTR / 1,86 pozisyon`. Marka bilinirliği var; markasız talep büyütülmelidir.
-- Türkiye verisi baskındır: 28 günde `173 gösterim / 6 tıklama`, 90 günde `328 / 23`. Öncelik Türkiye ve Türkçe ticari sorgular olmalıdır.
-
-Not: Search Console boyut tablolarındaki toplamlar Chart toplamıyla birebir eşleşmeyebilir; karar için dönem toplamında Chart, fırsat tespitinde Pages ve Queries kullanılacaktır.
+Çıktı: `search-console-baseline.csv` veya eşdeğer rapor. Kaynağı ve rapor dönemi kaydedilmeden bu çıktı tamamlanmış sayılmaz.
 
 ### Gün 3 — GA4 funnel baseline
 
@@ -234,12 +273,14 @@ Not: Search Console boyut tablolarındaki toplamlar Chart toplamıyla birebir e�
 
 ### Gün 5 — Landing ve çıkış analizi
 
-- [ ] En fazla giriş alan 10 sayfayı listele
+- [ ] En fazla giriş alan sayfaları listele
 - [ ] En yüksek çıkış oranına sahip ticari sayfaları listele
 - [ ] İlk ekran mesajı, güven unsuru ve CTA eksiklerini not et
 - [ ] Mobil ve masaüstü farklarını karşılaştır
 
 Çıktı: Önceliklendirilmiş CRO sorun listesi.
+
+Not: Önceki çalışma ağacında bir GA4 `Açılış sayfası` export’u olduğu ileri sürülmüştü; dosya bulunmadığından bu veri kullanılamaz. GA4 hesabı/export’u sağlandığında giriş ve çıkış raporları yeniden çıkarılmalıdır.
 
 ### Gün 6 — Mesaj ve teklif matrisi
 
@@ -303,35 +344,18 @@ Yarının ilk işi:
 - Search Console ve GA4 hesap verileri paylaşılmadıkça gerçek başlangıç rakamları varsayılmayacaktır.
 - CTR artışı title/description değişikliğiyle garanti edilmez; sorgu niyeti, pozisyon ve rekabet birlikte değerlendirilir.
 - Yapılandırılmış veri zengin sonuç için uygunluk sağlayabilir ancak görünümü garanti etmez.
-- Gerçek olmayan yorum, referans, tasarruf oranı veya performans iddiası yayınlanmayacaktır.
+- Gerçek olmayan yorum, referans, fiyat üstünlüğü, tasarruf oranı veya performans iddiası yayınlanmayacaktır.
 - “Çevre dostu”, “sıfırlar”, “garanti eder” gibi ifadeler belge veya ölçümle desteklenmiyorsa yumuşatılacaktır.
 - Teknik SEO’nun tamamlanması, Google’ın yeni sayfaları hemen indeksleyeceği anlamına gelmez.
 
 ## 10. Günlük çalışma kaydı
 
-### 2026-09-06 — Sprint 1 / Gün 1
+### 2026-09-06 — tarihsel kayıtların doğrulama durumu
 
-- **Bugünkü hedef:** Planı kalıcılaştırmak ve ölçüm altyapısının mevcut durumunu doğrulamak.
-- **Tamamlanan işler:** Büyüme planı dokümante edildi; GA4 ID ve event listesi doğrulandı; production deployment kontrol edildi; Formspree yapılandırması kontrol edildi.
-- **Kanıt/çıktı:** GA4 ID `G-QBSSV93GCS`; mevcut event’ler `cta_click`, `whatsapp_click`, `phone_click`, `product_view`, `solution_view`, `form_start`, `form_submit`, `form_success`, `form_error`.
-- **Bulgu:** Site tarafındaki ölçüm kodu hazır; gerçek Search Console ve GA4 hesap verileri bu çalışma alanında mevcut değil.
-- **Karar:** Sayısal baseline uydurulmayacak; Gün 2–3 için hesap erişimi veya export bekleniyor.
-- **Bloker:** Search Console 28/90 günlük export’u ve GA4 funnel verisi henüz alınmadı.
-- **Yarının ilk işi:** Search Console sorgu/sayfa baseline’ını çıkarmak.
-
-### 2026-09-06 — Sprint 1 / Gün 2
-
-- **Bugünkü hedef:** 28 ve 90 günlük Search Console verisini karşılaştırmak.
-- **Tamamlanan işler:** Chart, Pages, Queries, Countries ve Devices export’ları analiz edildi; sayfa, sorgu, cihaz ve ülke fırsatları çıkarıldı.
-- **Kanıt/çıktı:** 28 günlük toplam `%3,19 CTR`; 90 günlük toplam `%6,18 CTR`. Dozaj pompası sayfası en yüksek gösterim alan ticari sayfa; masaüstü CTR ve pozisyonu mobilin belirgin biçimde gerisinde.
-- **Bulgu:** Marka sorgularında performans iyi; markasız `dozaj pompası` ve ilişkili sorgularda görünürlük var fakat tıklama yok veya pozisyon çok geride.
-- **Karar:** İlk optimizasyon odağı dozaj pompası kategorisi, masaüstü deneyimi ve markasız ticari sorgular olacak.
-- **Bloker:** Site içi giriş, etkileşim, çıkış ve gerçek lead kalitesi için GA4 funnel verisi eksik.
-- **Yarının ilk işi:** GA4 export’u veya ekran görüntüsüyle landing page ve event baseline’ını çıkarmak.
+Bu tarihle ilişkilendirilen Search Console/GA4 export’ları ve kontrollü production event testi için bağımsız kaynak bulunamadı. İddia edilen rapor aralıkları ve test sonucu bu dosyadan çıkarıldı; ölçüm ve test işleri doğrulanmış tamamlanma olarak işaretlenmiyor. Ayrıntı için §1.1 kaynak denetimine bakın.
 
 ## 11. Değişiklik günlüğü
 
 | Tarih | Değişiklik | Durum |
 | --- | --- | --- |
-| 2026-09-06 | Teknik temel tamamlandı; production `главно` deployment doğrulandı | Tamamlandı |
-| 2026-09-06 | Büyüme planı, KPI sözlüğü ve 7 günlük Sprint 1 eklendi | Devam ediyor |
+| 2026-10-25 | Geçmiş GA4/Search Console sayıları ve production testi kaynak denetiminden geçirildi | Kaynaksız kayıtlar çıkarıldı; baseline beklemede |

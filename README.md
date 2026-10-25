@@ -3,7 +3,9 @@
 DOZATECH, endüstriyel hijyen ve temizlik sektöründe hizmet veren kurumsal bir firmanın web sitesidir. Bu proje, işletmenin ürünlerini (endüstriyel bulaşık makineleri, dozaj pompaları ve kimyasallar) tanıtmak ve müşterilerle iletişim kurmak amacıyla hazırlanmıştır.
 
 ## 🌐 Canlı Site
-Projeyi görüntülemek için: **[https://kagandms.github.io/dozatech_website/](https://kagandms.github.io/dozatech_website/)**
+Production domain: **[https://dozatech.com.tr](https://dozatech.com.tr)**.
+
+Bu depoda GitHub Pages geçmişi ve `CNAME` dosyası bulunuyor; ancak 2026-10-25 canlı HTTP kontrolünde özel alan adı Vercel yanıtı veriyordu. GitHub Pages kaydı, DOZATECH Web CI build/test kontrolünden ayrıdır. PR #1’in Vercel botu, bu deponun `tennyson10/dozatech` projesine bağlı olduğunu ve bir Preview ürettiğini gösterdi; Preview içeriği SSO koruması nedeniyle incelenemedi. Production dalı ve bugün canlı alan adına hizmet veren commit doğrulanmış değildir. Eski Vercel projesi değiştirilmedi veya kaldırılmadı.
 
 ## 📂 Proje İçeriği
 Sitede aşağıdaki ana bölümler yer almaktadır:
@@ -20,5 +22,3 @@ Sitede aşağıdaki ana bölümler yer almaktadır:
 
 ## 📞 İletişim
 Sitedeki formlar ve WhatsApp butonları üzerinden doğrudan iletişime geçilebilir.
- 
- 

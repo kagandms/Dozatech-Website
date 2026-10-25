@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install",
+  "installCommand": "npm ci",
   "headers": [
     {
       "source": "/(.*)",
@@ -53,6 +53,17 @@
     }
   ],
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.dozatech.com.tr"
+        }
+      ],
+      "destination": "https://dozatech.com.tr/:path*",
+      "permanent": true
+    },
     {
       "source": "/index.html",
       "destination": "/",
