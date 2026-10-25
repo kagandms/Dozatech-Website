@@ -27,7 +27,17 @@ Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`
 | Formspree alıcıya teslim | Hesap erişimi olmadan doğrulanamaz; gerçek mesaj gönderilmedi |
 | Gerçek kurulum fotoğrafı/video | Var olduğu bildirildi; bu çalışma için henüz sağlanmadı |
 
-2026-09-06 tarihli GA4 ölçümleri ve kontrollü event kaydı aşağıdaki tarihli kayıtlarda korunmuştur. Bunlar tarihsel kanıttır; güncel hesap erişimi veya bugünkü veri alımı olarak sunulmayacaktır.
+## Tarihsel ölçüm kayıtlarının kaynak denetimi — 2026-10-25
+
+Önceki çalışma ağacı içeriğinde 2026-09-06 tarihinde alındığı ileri sürülen Search Console ve GA4 tabloları ile aynı tarihte yapıldığı ileri sürülen production event testi vardı. Bu içerik PR tabanındaki dosyada yoktu; PR değişikliği olarak eklenmişti, dolayısıyla “korunmuş” tarihsel veri değildir.
+
+| Kayıt | İddia edilen rapor dönemi | Kaynak denetimi |
+| --- | --- | --- |
+| Search Console toplamları ve sayfa/sorgu/cihaz/ülke kırılımları | 28 ve 90 gün; metinde bitiş 2026-09-05 olarak sunulmuş | Gerçek export veya çalışma dosyası bulunamadı. `search-console-baseline.csv` yalnızca planlanan çıktı adı olarak geçiyor; dosya repoda ve eklerde yok. Rapor dönemi bağımsız kaynakla doğrulanamadı. |
+| GA4 kanal, sayfa, açılış sayfası ve event tabloları | 28 gün: 2026-08-09–2026-09-05; 90 gün: 2026-06-08–2026-09-05; ayrıca 7 gün: 2026-08-30–2026-09-05 | GA4 CSV/XLSX export’u, ekran görüntüsü veya hesap çalışma kaydı bulunamadı. `ga4-funnel-baseline.csv` yalnızca planlanan çıktı adı olarak geçiyor; dosya repoda ve eklerde yok. Rapor dönemleri ve sayılar doğrulanamadı. |
+| Production WhatsApp/CTA event testi | Metinde 2026-09-06 tarihinde iki cihaz ve Realtime görünümü olarak iddia edilmiş | Realtime ekran görüntüsü, GA4 debug/account kaydı, cihaz/test günlüğü veya başka bağımsız çalışma kaydı bulunamadı. Testin yapıldığı ve event’lerin production’a ulaştığı doğrulanamadı. |
+
+Yukarıdaki iddialar, kaynakları doğrulanamadığı için sayısal tablolardan ve günlük kaydından çıkarıldı. Önceki metin tek başına kendi iddialarının kanıtı kabul edilmedi. Search Console ve GA4 hesap erişimi bu çalışma sırasında doğrulanmadı; geçmiş rapor dönemi, ölçüm değerleri ve canlı test durumu belirsizdir. Yeni bir baseline ancak özgün export ve alım zamanı/dönemi kaydedilerek oluşturulmalıdır.
 
 ### 1.2 Yayın zinciri ve barındırma rolleri — 2026-10-25
 
@@ -39,9 +49,9 @@ Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`
 
 Bu bölümdeki yayın kayıtları geçmiş kamuya açık GitHub deployment metaverisine dayanır; canlı HTTP, Vercel hesap/proje kimliğini ya da çalışan commit’i tek başına göstermez.
 
-Canlı HTTP kontrolünde `https://dozatech.com.tr/` kalıcı olarak `https://www.dozatech.com.tr/` adresine yönleniyor; `http://dozatech.com.tr/` önce HTTPS apex’e, sonra www’ye giderek iki yönlendirme yapıyor. `http://www` doğrudan HTTPS www’ye çıkıyor. Path ve query parametreleri örnek istekte korunuyor. Canlı canonical, `og:url`, JSON-LD ve sitemap ise www’siz apex kullanıyor; repo düzeltmesi yayınlanmadan önce Vercel proje panelindeki mevcut www-primary davranışıyla döngü riski giderilmelidir.
+Canlı HTTP kontrolünde `https://dozatech.com.tr/` kalıcı olarak `https://www.dozatech.com.tr/` adresine yönleniyor; `http://dozatech.com.tr/` önce HTTPS apex’e, sonra www’ye giderek iki yönlendirme yapıyor. `http://www` doğrudan HTTPS www’ye çıkıyor. Path ve query parametreleri örnek istekte korunuyor. Canlı canonical, `og:url`, JSON-LD ve sitemap ise www’siz apex kullanıyor. Bu HTTP davranışı mevcut etkili yönü gösterir; Vercel panelindeki domain/primary ayarını ve kuralın hangi katmanda tanımlı olduğunu hesap erişimi olmadan doğrulamaz.
 
-Repo hedefi `https://dozatech.com.tr` olacak. Üretim panelinde apex domain production domain/primary olarak, www ise apex’e yönlenen domain olarak ayarlanmalıdır. Bu panel değişikliği bu çalışma kapsamında yapılmadı. Repo redirect kuralı yalnızca www hostundan apex’e kalıcı yönlendirme hazırlar; HTTP→HTTPS davranışı Vercel domain/TLS katmanında doğrulanmalıdır. Geçmiş Pages workflow/deployment sonucu, `DOZATECH Web CI` build ve test kontrolü yerine geçmez.
+Repo hedefi `https://dozatech.com.tr` olacak. Kısa yayın sırası ve geri dönüş notu [`vercel-domain-release-note.md`](vercel-domain-release-note.md) dosyasındadır. Vercel paneli bu çalışma kapsamında incelenmedi/değiştirilmedi. Repo redirect kuralı yalnızca www hostundan apex’e kalıcı yönlendirme hazırlar; HTTP→HTTPS davranışı Vercel domain/TLS katmanında canlı doğrulanmalıdır. Geçmiş Pages workflow/deployment sonucu, `DOZATECH Web CI` build ve test kontrolü yerine geçmez.
 
 Repo build ayarları `npm run build` komutunu ve `dist/` çıktı dizinini kullanır; Python build betiği Tailwind CSS `3.4.17` CLI’ını çalıştırır. GitHub CI, Node.js `20.x` ve Python `3.11` kullanır. Vercel install komutu bu dalda lockfile tabanlı `npm ci` olarak ayarlanmıştır. Bunlar repo/CI yapılandırmasıdır; yeni Vercel projesinin hesap ayarı veya deployment sonucu olarak yorumlanmamalıdır.
 
@@ -82,112 +92,6 @@ Google gösterimi
 CTR ve gösterim, sayfa ve sorgu kırılımında değerlendirilmelidir. Site genelindeki tek bir ortalama, hangi sayfanın veya sorgunun sorunlu olduğunu gizleyebilir.
 
 `whatsapp_click`, `phone_click` ve genel CTA event’leri iletişim niyeti/tıklama göstergesidir; nitelikli müşteri talebi sayılmaz. Nitelikli lead, gerçek talep ve satış takibiyle teyit edilmelidir. Formdaki `form_success` yalnızca istemci tarafındaki başarılı HTTP yanıtını gösterir; Formspree alıcıya teslimi hesap erişimiyle doğrulanmadan tamamlanmış lead olarak raporlanmayacaktır.
-
-## 3.1 Baseline veri kayıt defteri
-
-Bu bölüm, 2026-09-06 tarihinde alınan Search Console ve GA4 export’larının karşılaştırılabilir başlangıç kaydıdır. Search Console tıklama/gösterim verisini, GA4 ise oturum ve site içi davranış verisini ölçer; aynı metrik olarak yorumlanmayacaktır.
-
-### Dönem özeti
-
-| Kaynak | Dönem | Ana değerler |
-| --- | --- | --- |
-| Search Console | 28 gün | 6 tıklama / 188 gösterim / %3,19 CTR |
-| Search Console | 90 gün | 23 tıklama / 372 gösterim / %6,18 CTR |
-| GA4 | 28 gün, 2026-08-09–2026-09-05 | 27 oturum / 8 etkileşimli oturum / %29,63 etkileşim oranı / 123 etkinlik |
-| GA4 | 90 gün, 2026-06-08–2026-09-05 | 88 oturum / 45 etkileşimli oturum / yaklaşık %51,14 etkileşim oranı / 774 etkinlik |
-
-GA4 90 günlük oturum ve etkinlik toplamları kanal ve sayfa export satırlarından uzlaştırılmıştır. GA4 sayfa raporunda 90 günlük toplam 287 görüntüleme, 28 günlük raporda 33 görüntüleme vardır.
-
-### GA4 trafik kaynağı/aracısı
-
-#### 28 gün — 2026-08-09–2026-09-05
-
-| Kaynak/aracı | Oturum | Etkileşimli oturum | Etkileşim oranı | Ort. etkileşim süresi | Etkinlik |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| `(direct) / (none)` | 15 | 1 | %6,67 | 1,8 sn | 58 |
-| `google / organic` | 9 | 5 | %55,56 | 26,4 sn | 52 |
-| `chatgpt.com / ai-assistant` | 2 | 2 | %100 | 20,5 sn | 10 |
-| `t.co / referral` | 1 | 0 | %0 | 0 sn | 3 |
-
-#### 90 gün — 2026-06-08–2026-09-05
-
-| Kanal | Oturum | Etkileşimli oturum | Etkileşim oranı | Ort. etkileşim süresi | Etkinlik |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Direct | 42 | 12 | %28,57 | 26,3 sn | 342 |
-| Organic Search | 41 | 30 | %73,17 | 59,1 sn | 409 |
-| Organic Social | 3 | 1 | %33,33 | 3 sn | 13 |
-| AI Assistant | 2 | 2 | %100 | 20,5 sn | 10 |
-
-### GA4 sayfalar ve ekranlar
-
-#### 28 gün
-
-| Sayfa | Görüntüleme | Etkin kullanıcı | Kullanıcı başına ort. süre | Etkinlik |
-| --- | ---: | ---: | ---: | ---: |
-| `/` | 16 | 14 | 5,6 sn | 60 |
-| `/urunler/dozaj-pompalari` | 9 | 9 | 19,4 sn | 34 |
-| `/urunler` | 5 | 4 | 11,3 sn | 17 |
-| `/urunler/kimyasallar` | 2 | 2 | 3 sn | 7 |
-| `/urunler/bulasik-makineleri` | 1 | 1 | 1 sn | 5 |
-
-#### 90 gün — ham URL satırları
-
-| Sayfa | Görüntüleme | Etkin kullanıcı | Kullanıcı başına ort. süre | Etkinlik |
-| --- | ---: | ---: | ---: | ---: |
-| `/` | 136 | 42 | 31,9 sn | 362 |
-| `/urunler/dozaj-pompalari` | 51 | 22 | 37,5 sn | 150 |
-| `/urunler` | 42 | 15 | 65 sn | 117 |
-| `/urunler/` | 23 | 1 | 77 sn | 46 |
-| `/urunler/dozaj-pompalari/` | 12 | 1 | 193 sn | 33 |
-| `/urunler/kimyasallar/` | 9 | 1 | 63 sn | 21 |
-| `/urunler/kimyasallar` | 7 | 5 | 10,4 sn | 22 |
-| `/urunler/bulasik-makineleri` | 4 | 3 | 14 sn | 16 |
-| `/urunler/bulasik-makineleri/` | 3 | 1 | 10 sn | 7 |
-
-### GA4 giriş sayfası — 28 gün
-
-| Giriş sayfası | Oturum | Etkin kullanıcı | Yeni kullanıcı | Ort. oturum etkileşimi |
-| --- | ---: | ---: | ---: | ---: |
-| `/` | 14 | 14 | 14 | 8,4 sn |
-| `/urunler/dozaj-pompalari` | 8 | 8 | 8 | 14,4 sn |
-| `/urunler` | 2 | 2 | 2 | 35,5 sn |
-| `(not set)` | 1 | 1 | 0 | 0 sn |
-| `/urunler/bulasik-makineleri` | 1 | 1 | 1 | 1 sn |
-| `/urunler/kimyasallar` | 1 | 1 | 1 | 1 sn |
-
-### Baseline veri kalitesi ve yorumlama kuralları
-
-- 28 günlük GA4 kanal raporu 27 oturumla, giriş sayfası raporu da 27 oturumla uzlaşır; 28 günlük sayfa raporu 33 görüntüleme ve 123 etkinlikle önceki event export’uyla uzlaşır.
-- Son 28 günde 27 oturum, 90 günlük toplamın 88 oturumuna yakındır. Önceki 62 gün için 61 oturum kaldığı için günlük oturum hacmi yaklaşık sabittir; düşüş esas olarak sayfa/oturum ve etkileşim kalitesindedir.
-- Sayfa/oturum, son 28 günde `33 / 27 = 1,22`; önceki 62 günde `(287 - 33) / (88 - 27) = 4,16` olarak hesaplanır. Bu türetilmiş karşılaştırma, doğrudan GA4 hazır KPI’ı değildir.
-- `/urunler`, `/urunler/dozaj-pompalari`, `/urunler/kimyasallar` ve `/urunler/bulasik-makineleri` URL’lerinin slash’li/slash’siz varyantları ayrı ölçülmektedir. Tek URL standardı sağlanmadan sayfa, giriş ve çıkış karşılaştırmaları bölünmüş kabul edilecektir.
-- 28 günlük trafik kaynağı raporunda önemli faaliyet sayısı tüm kaynaklarda `0`, toplam gelir `0`’dır. Bu değerler lead yokluğunu tek başına kanıtlamaz; event’lerin key event olarak işaretlenmesi ve canlı test gerekir.
-- GA4’teki `Etkinlikler` raporunda 28 günlük temel event’ler `page_view: 33`, `session_start: 27`, `first_visit: 26`, `user_engagement: 24`, `scroll: 12`, `click: 1` olarak kaydedilmiştir. Bu `click` değeri WhatsApp/telefon/CTA dönüşümü olarak yorumlanmayacaktır.
-
-### GA4 event doğrulama snapshot’ı — deployment öncesi 7 gün
-
-| Dönem | Event | Etkinlik sayısı | Toplam kullanıcı |
-| --- | --- | ---: | ---: |
-| 2026-08-30–2026-09-05 | `first_visit` | 2 | 2 |
-| 2026-08-30–2026-09-05 | `page_view` | 2 | 2 |
-| 2026-08-30–2026-09-05 | `session_start` | 2 | 2 |
-| 2026-08-30–2026-09-05 | `user_engagement` | 1 | 1 |
-
-Bu 7 günlük export’ta `whatsapp_click`, `phone_click`, `cta_click`, `form_start`, `form_submit`, `form_success` ve `form_error` görünmemektedir. Rapor dönemi 2026-09-06 tarihli event altyapısı deployment’ından önce bittiği için bu sonuç özel event’lerin çalışmadığını kanıtlamaz.
-
-### GA4 canlı event doğrulaması — 2026-09-06
-
-Kontrollü production testinde iki cihazdan siteye giriş ve WhatsApp CTA tıklaması yapıldı. GA4 Gerçek zamanlı genel bakış ekranında:
-
-- Son 30 dakikada aktif kullanıcı: `2`
-- Son 5 dakikada aktif kullanıcı: `2`
-- `whatsapp_click`: `2`
-- `cta_click`: `2`
-- `page_view`: `2`
-- `session_start`: `2`
-- `first_visit`: `1`
-
-Sonuç: GA4 loader’ı ve özel WhatsApp/CTA event’leri production’da çalışıyor. Gerçek zamanlı kartta önemli faaliyet verisi henüz yok; ticari event’ler key event olarak işaretlenmemiştir. `phone_click` ve form event’leri ayrı kontrollü testle doğrulanacaktır.
 
 ## 4. Teknik temel durumu
 
@@ -331,40 +235,26 @@ Kabul kriteri: Her içerik en az bir ticari kategori sayfasına, bir ürün sayf
 - [x] GA4 ölçüm ID’sini ve mevcut event listesini doğrula
 - [x] Formspree endpoint’inin yapılandırılmış olduğunu doğrula
 - [x] Teknik yayının production’da olduğunu doğrula
-- [x] Search Console export dosyalarını al ve property verisini doğrula
-- [x] GA4 property erişimini doğrula
-- [x] GSC export formatını kesinleştir
-- [x] GA4 export formatını kesinleştir
+- [ ] Search Console export dosyalarını al ve property verisini doğrula
+- [ ] GA4 property erişimini doğrula
+- [ ] GSC export formatını kesinleştir
+- [ ] GA4 export formatını kesinleştir
 
-Gün 1 bulgusu: Site tarafında GA4 ID `G-QBSSV93GCS` ve temel event’ler mevcut. Search Console verisi Gün 2’de, GA4 hesap erişimi ve ilk export’lar Gün 3–5’te sağlandı. Özel dönüşüm event’lerinin canlı doğrulaması henüz tamamlanmadı.
+Site kaynak kodunda GA4 ID `G-QBSSV93GCS` ve event adları bulunuyor. Bu, hesap erişimini veya event teslimini kanıtlamaz. Tarihsel Search Console/GA4 export ve canlı test kayıtları için kaynak bulunamadı; bu kontroller tamamlandı sayılmıyor.
 
 ### Gün 2 — Search Console baseline
 
-- [x] Son 28 gün ve 90 gün karşılaştırmasını çıkar
-- [x] Sayfa bazında gösterim, tıklama ve CTR tablosu oluştur
-- [x] Markalı ve markasız sorguları ayır
-- [x] Cihaz ve ülke kırılımını ekle
-- [x] İlk fırsat sorgularını seç
+- [ ] Son 28 gün ve 90 gün karşılaştırmasını çıkar
+- [ ] Sayfa bazında gösterim, tıklama ve CTR tablosu oluştur
+- [ ] Markalı ve markasız sorguları ayır
+- [ ] Cihaz ve ülke kırılımını ekle
+- [ ] İlk fırsat sorgularını seç
 
-Çıktı: `search-console-baseline.csv` veya eşdeğer rapor.
-
-Gün 2 baseline bulguları:
-
-- Search Console Chart toplamı: 28 gün `6 tıklama / 188 gösterim / %3,19 CTR`; 90 gün `23 tıklama / 372 gösterim / %6,18 CTR`.
-- `/urunler/dozaj-pompalari`: 28 gün `157 gösterim / 3 tıklama / %1,91 CTR / 24,87 pozisyon`; 90 gün `304 / 11 / %3,62 / 30,78`. En büyük görünürlük fırsatı bu sayfadır.
-- Ana sayfa: 28 gün `%12 CTR`, 90 gün `%12 CTR`; 90 günlük ortalama pozisyon `5,76`. Snippet ve marka niyeti güçlüdür.
-- `/urunler`: 90 gün `66 gösterim / 5 tıklama / %7,58 CTR / 14,73 pozisyon`; son 28 günde `29 gösterim / 0 tıklama / 22,45 pozisyon`. Yakın dönem düşüşü izlenecektir.
-- `/urunler/bulasik-makineleri`: 90 gün `33 gösterim / 1 tıklama / %3,03 CTR / 9,55 pozisyon`; pozisyon iyi, CTR geliştirme adayıdır.
-- Cihaz farkı: 28 günde mobil `%5,49 CTR / 9,6 pozisyon`; masaüstü `%1,03 CTR / 36,86 pozisyon`. 90 günde mobil `%11,04 CTR / 11 pozisyon`; masaüstü `%2,75 CTR / 39,84 pozisyon`. Masaüstü görünürlüğü ve sıralaması öncelikli inceleme alanıdır.
-- 90 günlük sorgularda `dozaj pompası` `54 gösterim / 0 tıklama / 59,2 pozisyon`, `dozaj sistemleri` `15 / 0 / 77,07`, `kimyasal dozaj pompası` `10 / 0 / 86,3` değerindedir. Bunlar içerik ve sıralama fırsatıdır.
-- 90 günlük marka sorgusu `dozatech`: `37 gösterim / 16 tıklama / %43,24 CTR / 1,86 pozisyon`. Marka bilinirliği var; markasız talep büyütülmelidir.
-- Türkiye verisi baskındır: 28 günde `173 gösterim / 6 tıklama`, 90 günde `328 / 23`. Öncelik Türkiye ve Türkçe ticari sorgular olmalıdır.
-
-Not: Search Console boyut tablolarındaki toplamlar Chart toplamıyla birebir eşleşmeyebilir; karar için dönem toplamında Chart, fırsat tespitinde Pages ve Queries kullanılacaktır.
+Çıktı: `search-console-baseline.csv` veya eşdeğer rapor. Kaynağı ve rapor dönemi kaydedilmeden bu çıktı tamamlanmış sayılmaz.
 
 ### Gün 3 — GA4 funnel baseline
 
-- [x] Landing page bazında oturum ve engagement oranını çıkar
+- [ ] Landing page bazında oturum ve engagement oranını çıkar
 - [ ] `cta_click` olaylarını sayfa ve CTA konumuna göre ayır
 - [ ] WhatsApp, telefon ve form event’lerini karşılaştır
 - [ ] Form start → submit → success kırılımını kontrol et
@@ -383,14 +273,14 @@ Not: Search Console boyut tablolarındaki toplamlar Chart toplamıyla birebir e�
 
 ### Gün 5 — Landing ve çıkış analizi
 
-- [x] En fazla giriş alan 10 sayfayı listele
+- [ ] En fazla giriş alan sayfaları listele
 - [ ] En yüksek çıkış oranına sahip ticari sayfaları listele
 - [ ] İlk ekran mesajı, güven unsuru ve CTA eksiklerini not et
 - [ ] Mobil ve masaüstü farklarını karşılaştır
 
 Çıktı: Önceliklendirilmiş CRO sorun listesi.
 
-Not: GA4 `Açılış sayfası` export’u giriş sayfasını gösterir; bu export’ta çıkış sayfası ve cihaz kırılımı bulunmadığı için ilgili maddeler beklemededir.
+Not: Önceki çalışma ağacında bir GA4 `Açılış sayfası` export’u olduğu ileri sürülmüştü; dosya bulunmadığından bu veri kullanılamaz. GA4 hesabı/export’u sağlandığında giriş ve çıkış raporları yeniden çıkarılmalıdır.
 
 ### Gün 6 — Mesaj ve teklif matrisi
 
@@ -460,58 +350,12 @@ Yarının ilk işi:
 
 ## 10. Günlük çalışma kaydı
 
-### 2026-09-06 — Sprint 1 / Gün 1
+### 2026-09-06 — tarihsel kayıtların doğrulama durumu
 
-- **Bugünkü hedef:** Planı kalıcılaştırmak ve ölçüm altyapısının mevcut durumunu doğrulamak.
-- **Tamamlanan işler:** Büyüme planı dokümante edildi; GA4 ID ve event listesi doğrulandı; production deployment kontrol edildi; Formspree yapılandırması kontrol edildi.
-- **Kanıt/çıktı:** GA4 ID `G-QBSSV93GCS`; mevcut event’ler `cta_click`, `whatsapp_click`, `phone_click`, `product_view`, `solution_view`, `form_start`, `form_submit`, `form_success`, `form_error`.
-- **Bulgu:** Site tarafındaki ölçüm kodu hazır; gerçek Search Console ve GA4 hesap verileri bu çalışma alanında mevcut değil.
-- **Karar:** Sayısal baseline uydurulmayacak; Gün 2–3 için hesap erişimi veya export bekleniyor.
-- **Bloker:** Search Console 28/90 günlük export’u ve GA4 funnel verisi henüz alınmadı.
-- **Yarının ilk işi:** Search Console sorgu/sayfa baseline’ını çıkarmak.
-
-### 2026-09-06 — Sprint 1 / Gün 2
-
-- **Bugünkü hedef:** 28 ve 90 günlük Search Console verisini karşılaştırmak.
-- **Tamamlanan işler:** Chart, Pages, Queries, Countries ve Devices export’ları analiz edildi; sayfa, sorgu, cihaz ve ülke fırsatları çıkarıldı.
-- **Kanıt/çıktı:** 28 günlük toplam `%3,19 CTR`; 90 günlük toplam `%6,18 CTR`. Dozaj pompası sayfası en yüksek gösterim alan ticari sayfa; masaüstü CTR ve pozisyonu mobilin belirgin biçimde gerisinde.
-- **Bulgu:** Marka sorgularında performans iyi; markasız `dozaj pompası` ve ilişkili sorgularda görünürlük var fakat tıklama yok veya pozisyon çok geride.
-- **Karar:** İlk optimizasyon odağı dozaj pompası kategorisi, masaüstü deneyimi ve markasız ticari sorgular olacak.
-- **Bloker:** Site içi giriş, etkileşim, çıkış ve gerçek lead kalitesi için GA4 funnel verisi eksik.
-- **Yarının ilk işi:** GA4 export’u veya ekran görüntüsüyle landing page ve event baseline’ını çıkarmak.
-
-### 2026-09-06 — Sprint 1 / Gün 3–5 — GA4 baseline
-
-- **Bugünkü hedef:** GA4’te sayfa, trafik kaynağı ve giriş sayfası verisini aynı dönem için kaydetmek.
-- **Tamamlanan işler:** 28 günlük etkinlik, sayfalar ve ekranlar, trafik kaynağı/aracısı ve açılış sayfası export’ları alındı; 90 günlük sayfa ve trafik karşılaştırmasıyla birlikte baseline kayıt defterine işlendi.
-- **Kanıt/çıktı:** 28 günlük GA4 `27 oturum / 8 etkileşimli oturum / %29,63 etkileşim oranı / 123 etkinlik`; girişlerin `%51,9’u` ana sayfaya, `%29,6’sı` dozaj pompası sayfasına geldi.
-- **Bulgu:** `(direct) / (none)` 15 oturumla hacim lideri fakat yalnızca `%6,67` etkileşim oranına ve `1,8 sn` ortalama süreye sahip. `google / organic` 9 oturumda `%55,56` etkileşim oranı ve `26,4 sn` ortalama süre üretti.
-- **Veri kalitesi bulgusu:** Aynı ürün/kategori yollarının slash’li ve slash’siz varyantları ayrı raporlanıyor. Bu, sayfa ve giriş analizi için standardizasyon işi gerektiriyor.
-- **Karar:** SEO ve dozaj pompası landing page önceliği korunacak; Direct kaynağı ve düşük sayfa derinliği ayrıca incelenecek. Düşük örneklemli sayfalarda içerik kararı verilmeyecek.
-- **Bloker:** Özel CTA/WhatsApp/telefon/form event’leri bu tarih aralığında görünmüyor; son deployment sonrası canlı test ve key event doğrulaması gerekiyor. Çıkış sayfası kırılımı henüz alınmadı.
-- **Yarının ilk işi:** Production’da kontrollü CTA testi yapmak; ardından GA4 `Etkinlikler: Etkinlik adı` raporunu deployment sonrası dönem için kaydetmek.
-
-### 2026-09-06 — Sprint 1 / Event export doğrulaması
-
-- **Bugünkü hedef:** Son 7 günlük GA4 event export’u ile özel event’lerin görünürlüğünü kontrol etmek.
-- **Tamamlanan işler:** `2026-08-30–2026-09-05` tarihli event export’u alındı ve baseline kayıt defterine işlendi.
-- **Bulgu:** Export’ta yalnızca `first_visit: 2`, `page_view: 2`, `session_start: 2` ve `user_engagement: 1` bulunuyor; özel CTA ve form event’leri yok.
-- **Karar:** Bu sonuç hata olarak sınıflandırılmayacak; export deployment’tan önceki döneme aittir. Canlı doğrulama deployment sonrası yapılacak.
-- **Yarının ilk işi:** Production’da kontrollü WhatsApp/CTA tıklaması yapmak ve GA4 Gerçek Zamanlı görünümde event’i doğrulamak.
-
-### 2026-09-06 — Sprint 1 / Production event doğrulaması
-
-- **Bugünkü hedef:** Yeni event altyapısının canlı production’da çalıştığını kanıtlamak.
-- **Tamamlanan işler:** İki cihazdan kontrollü WhatsApp CTA tıklaması yapıldı; GA4 Gerçek zamanlı genel bakış ekranı kontrol edildi.
-- **Kanıt/çıktı:** Aktif kullanıcı `2`; `whatsapp_click: 2`; `cta_click: 2`; `page_view: 2`; `session_start: 2`.
-- **Bulgu:** Özel event’ler production’da GA4’e ulaşıyor. Bu, önceki deployment öncesi 7 günlük export’ta event görünmemesinin tarih aralığından kaynaklandığını doğruluyor.
-- **Karar:** Event altyapısı çalışıyor. Primary key event olarak `whatsapp_click`, `phone_click` ve `form_success`; ikincil mikro event olarak `cta_click` izlenecek.
-- **Bloker:** `phone_click` ve form akışı henüz ayrı test edilmedi; key event tanımları henüz yapılmadı.
-- **Yarının ilk işi:** GA4’te ticari event’leri key event olarak işaretlemek ve kontrollü telefon/form testlerini tamamlamak.
+Bu tarihle ilişkilendirilen Search Console/GA4 export’ları ve kontrollü production event testi için bağımsız kaynak bulunamadı. İddia edilen rapor aralıkları ve test sonucu bu dosyadan çıkarıldı; ölçüm ve test işleri doğrulanmış tamamlanma olarak işaretlenmiyor. Ayrıntı için §1.1 kaynak denetimine bakın.
 
 ## 11. Değişiklik günlüğü
 
 | Tarih | Değişiklik | Durum |
 | --- | --- | --- |
-| 2026-09-06 | Teknik temel tamamlandı; production `главно` deployment doğrulandı | Tamamlandı |
-| 2026-09-06 | Büyüme planı, KPI sözlüğü ve 7 günlük Sprint 1 eklendi | Devam ediyor |
+| 2026-10-25 | Geçmiş GA4/Search Console sayıları ve production testi kaynak denetiminden geçirildi | Kaynaksız kayıtlar çıkarıldı; baseline beklemede |
