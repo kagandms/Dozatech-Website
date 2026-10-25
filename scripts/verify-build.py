@@ -92,6 +92,107 @@ def verify_vercel_routes() -> None:
             fail(f'Missing permanent trailing-slash redirect for {public_path}.')
 
 
+def verify_canonical_host_redirect() -> None:
+    configuration = json.loads((ROOT_DIR / 'vercel.json').read_text(encoding='utf-8'))
+    expected_source = '/:path*'
+    expected_destination = f'{BASE_URL}/:path*'
+    for rule in configuration.get('redirects', []):
+        host_conditions = rule.get('has', [])
+        if (
+            rule.get('source') == expected_source
+            and rule.get('destination') == expected_destination
+            and rule.get('permanent') is True
+            and any(
+                condition.get('type') == 'host'
+                and condition.get('value') == 'www.dozatech.com.tr'
+                for condition in host_conditions
+            )
+        ):
+            return
+    fail('Missing permanent www-to-apex redirect that preserves the path and query.')
+
+
+def verify_business_service_copy() -> None:
+    homepage = get_route_output('/').read_text(encoding='utf-8')
+    required_copy = (
+        'yaklaşık 30 yıllık teknik deneyimimizle',
+        'Dozaj pompalarının montaj, bakım ve onarım hizmetini',
+        'Endüstriyel bulaşık makineleri satıyoruz;',
+        'Bulaşık makinesi tamiri ve onarımı yapmıyoruz.',
+    )
+    for phrase in required_copy:
+        if phrase not in homepage:
+            fail(f'Missing business service boundary copy: {phrase}')
+    if 'Kimyasal israfını sıfırlayan' in homepage:
+        fail('Unsupported zero-waste claim remains in generated homepage copy.')
+    generated_html = '\n'.join(
+        path.read_text(encoding='utf-8')
+        for path in DIST_DIR.rglob('*.html')
+    ).casefold()
+    unsupported_claims = (
+        'enerji tasarrufu sağlar',
+        'enerji tüketimi azalır',
+        'enerji verimli',
+        'tasarruf sağlayan',
+        'maliyetlerini düşürecek',
+        '"pricerange"',
+    )
+    for claim in unsupported_claims:
+        if claim in generated_html:
+            fail(f'Unsupported price or savings claim remains: {claim}')
+
+
+def verify_homepage_commercial_priority() -> None:
+    homepage = get_route_output('/').read_text(encoding='utf-8')
+    headings = re.findall(r'<h3\b[^>]*>(.*?)</h3>', homepage)
+    priority_headings = (
+        'Endüstriyel Bulaşık Makinesi Kimyasalları',
+        'Dozaj Pompaları ve Otomasyon',
+        'Endüstriyel Bulaşık Makineleri',
+    )
+    positions = [headings.index(heading) if heading in headings else -1 for heading in priority_headings]
+    if -1 in positions or positions != sorted(positions):
+        fail('Homepage product cards do not follow chemical, pump, then dishwasher priority.')
+
+
+def verify_canonical_url_origins() -> None:
+    for public_path in PAGE_ROUTES.values():
+        html = get_route_output(public_path).read_text(encoding='utf-8')
+        canonical_urls = re.findall(r'<link rel="canonical" href="([^"]+)"', html)
+        social_urls = re.findall(r'<meta property="og:url" content="([^"]+)"', html)
+        expected_url = f'{BASE_URL}{public_path}'
+        if canonical_urls != [expected_url]:
+            fail(f'Canonical URL is missing, duplicated, or incorrect on {public_path}.')
+        if social_urls != [expected_url]:
+            fail(f'Open Graph URL is missing, duplicated, or incorrect on {public_path}.')
+        site_urls = re.findall(r'https?://(?:www\.)?dozatech\.com\.tr[^"\s<]*', html)
+        if any(not url.startswith(BASE_URL) for url in site_urls):
+            fail(f'Generated metadata or structured data uses a non-canonical origin on {public_path}.')
+
+
+def verify_default_branch_ci() -> None:
+    workflow = (ROOT_DIR / '.github' / 'workflows' / 'main.yml').read_text(encoding='utf-8')
+    if 'name: DOZATECH Web CI' not in workflow:
+        fail('The repository build workflow is not named DOZATECH Web CI.')
+    for event_name in ('push', 'pull_request'):
+        match = re.search(
+            rf'(?m)^  {event_name}:\s*\n    branches:\s*\[([^\]]+)\]',
+            workflow,
+        )
+        if not match or 'главно' not in {branch.strip() for branch in match.group(1).split(',')}:
+            fail(f'DOZATECH Web CI does not run on {event_name} for the default branch главно.')
+
+
+def verify_vercel_build_config() -> None:
+    configuration = json.loads((ROOT_DIR / 'vercel.json').read_text(encoding='utf-8'))
+    if configuration.get('buildCommand') != 'npm run build':
+        fail('Vercel build command must run npm run build.')
+    if configuration.get('outputDirectory') != 'dist':
+        fail('Vercel output directory must be dist/.')
+    if configuration.get('installCommand') != 'npm ci':
+        fail('Vercel must install from the lockfile with npm ci.')
+
+
 def verify_generated_html() -> None:
     for public_path in PAGE_ROUTES.values():
         html = get_route_output(public_path).read_text(encoding='utf-8')
@@ -179,9 +280,13 @@ def verify_seko_faq_alignment() -> None:
 
 def verify_target_metadata() -> None:
     expected_metadata = {
+        '/': (
+            'İstanbul Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
+            "İstanbul'daki restoran, otel ve kafeler için endüstriyel bulaşık makinesi deterjanı ve parlatıcısı tedariki. Dozaj pompası satışı ve montajı.",
+        ),
         '/urunler': (
-            'Endüstriyel Temizlik Ürünleri ve Dozaj Sistemleri | DOZATECH',
-            'Restoran, otel ve kafeler için endüstriyel bulaşık makineleri, dozaj pompaları ve temizlik kimyasalları. İhtiyacınıza uygun ürünleri inceleyin.',
+            'Endüstriyel Bulaşık Makinesi Kimyasalları ve Dozaj Pompaları | DOZATECH',
+            "İstanbul'daki restoran, otel ve kafeler için endüstriyel deterjan ve parlatıcı tedariki; dozaj pompası satışı ve montajı.",
         ),
         '/urunler/kimyasallar': (
             'Endüstriyel Temizlik Kimyasalları | Kireç Sökücü | DOZATECH',
@@ -253,7 +358,13 @@ def main() -> None:
     verify_route_outputs()
     verify_sitemap()
     verify_vercel_routes()
+    verify_canonical_host_redirect()
     verify_generated_html()
+    verify_business_service_copy()
+    verify_homepage_commercial_priority()
+    verify_canonical_url_origins()
+    verify_default_branch_ci()
+    verify_vercel_build_config()
     verify_analytics_injection()
     verify_seo_enrichment()
     verify_mobile_and_security_output()

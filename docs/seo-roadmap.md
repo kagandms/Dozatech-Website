@@ -7,10 +7,44 @@
 - **Plan tarihi:** 2026-09-06
 - **Mevcut durum:** Teknik temel tamamlandı; büyüme sprinti başlatıldı.
 - **Hedef kitle:** Restoranlar, oteller, toplu yemek işletmeleri, profesyonel mutfaklar ve teknik satın alma karar vericileri.
-- **Ana ticari hedef:** Ürün veya çözüm arayan ziyaretçiyi nitelikli teklif görüşmesine taşımak.
+- **Birinci ticari öncelik:** İstanbul’daki restoran, otel ve kafelere düzenli kimyasal tedariki; tekrar sipariş ve sürekli gelir.
+- **İkinci ticari öncelik:** Dozaj pompası satışı ve montajı.
+- **Diğer faaliyetler:** Dozaj pompası bakım/onarımı ve endüstriyel bulaşık makinesi satışı. Bulaşık makinesi tamiri/onarımı sunulmaz.
+- **Ana ticari hedef:** Kimyasal tedariki için nitelikli tekrar sipariş ilişkileri kurmak; pompa satışı ve montajını ikinci öncelik olarak büyütmek.
 - **Birincil karar metriği:** 1.000 organik gösterim başına nitelikli teklif talebi.
 
 Bu proje yüksek hacimli, düşük kaliteli trafik yerine daha az fakat ticari niyeti yüksek ziyaretçi üretmeyi hedefler. Her içerik, tasarım ve dağıtım kararı bu hedefe göre değerlendirilecektir.
+
+### 1.1 İşletme bağlamı ve güncel erişim durumu — 2026-10-25
+
+Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`business-context.md`](business-context.md) geçerlidir. Kimyasal kategori ve tekrar sipariş akışı birinci; dozaj pompası satışı/montajı ikinci önceliktir. Tedarikçi firmaların müşterilerine ücretli pompa montajı, bakım ve onarım hizmeti de sunulur. Makine satışı bu pompa hizmetlerinden ayrı tutulur; bulaşık makinesi tamiri/onarımı sunulmaz.
+
+| Kontrol | Güncel durum |
+| --- | --- |
+| Google İşletme Profili | Mevcut değil (işletme sahibinin bildirdiği bilgi) |
+| Search Console ve GA4 hesap erişimi | Bu çalışma için henüz doğrulanmadı |
+| GA4 ölçüm kimliği | Kaynakta `G-QBSSV93GCS` bulunuyor; bu, veri alımını kanıtlamaz |
+| Formspree alıcıya teslim | Hesap erişimi olmadan doğrulanamaz; gerçek mesaj gönderilmedi |
+| Gerçek kurulum fotoğrafı/video | Var olduğu bildirildi; bu çalışma için henüz sağlanmadı |
+
+2026-09-06 tarihli GA4 ölçümleri ve kontrollü event kaydı aşağıdaki tarihli kayıtlarda korunmuştur. Bunlar tarihsel kanıttır; güncel hesap erişimi veya bugünkü veri alımı olarak sunulmayacaktır.
+
+### 1.2 Yayın zinciri ve barındırma rolleri — 2026-10-25
+
+- **GitHub Pages:** Depoda `CNAME` ve Pages deployment kaydı bulunuyor; kamuya açık kayıt, 2026-09-16 tarihli `ea103eeecbd9db3d7c6f1f2c1474cada0f2cd68e` commit’i için başarıyla tamamlanan bir Pages deployment gösteriyor. Güncel özel alan adının Pages’ten sunulduğunu gösteren bir kanıt yok.
+- **Vercel production:** Canlı yanıtlarda Vercel sunucu başlıkları gözlendi. GitHub deployment kaydı 2026-09-16 tarihinde aynı commit için bir Vercel production deployment ve `dozatech-website-btc2n60gx-kagans-projects-ce31d7ff.vercel.app` deployment adresi gösteriyor. Bu kayıt bugünkü özel alan adının hangi SHA’dan sunulduğunu kanıtlamaz.
+- **Yeni Vercel projesi:** Hesap/panel veya doğrulanmış Vercel CLI erişimi yok; yeni projenin bu depoya bağlı olduğu, production dalının `главно` olduğu ya da mevcut özel alan adını taşıdığı doğrulanamadı.
+- **Eski Vercel projesi:** Kimliği ve durumu erişilebilen kanıtla belirlenemedi. Hiçbir proje silinmedi veya değiştirilmedi.
+
+Bu bölümdeki yayın kayıtları geçmiş kamuya açık GitHub deployment metaverisine dayanır; canlı HTTP, Vercel hesap/proje kimliğini ya da çalışan commit’i tek başına göstermez.
+
+Canlı HTTP kontrolünde `https://dozatech.com.tr/` kalıcı olarak `https://www.dozatech.com.tr/` adresine yönleniyor; `http://dozatech.com.tr/` önce HTTPS apex’e, sonra www’ye giderek iki yönlendirme yapıyor. `http://www` doğrudan HTTPS www’ye çıkıyor. Path ve query parametreleri örnek istekte korunuyor. Canlı canonical, `og:url`, JSON-LD ve sitemap ise www’siz apex kullanıyor; repo düzeltmesi yayınlanmadan önce Vercel proje panelindeki mevcut www-primary davranışıyla döngü riski giderilmelidir.
+
+Repo hedefi `https://dozatech.com.tr` olacak. Üretim panelinde apex domain production domain/primary olarak, www ise apex’e yönlenen domain olarak ayarlanmalıdır. Bu panel değişikliği bu çalışma kapsamında yapılmadı. Repo redirect kuralı yalnızca www hostundan apex’e kalıcı yönlendirme hazırlar; HTTP→HTTPS davranışı Vercel domain/TLS katmanında doğrulanmalıdır. Geçmiş Pages workflow/deployment sonucu, `DOZATECH Web CI` build ve test kontrolü yerine geçmez.
+
+Repo build ayarları `npm run build` komutunu ve `dist/` çıktı dizinini kullanır; Python build betiği Tailwind CSS `3.4.17` CLI’ını çalıştırır. GitHub CI, Node.js `20.x` ve Python `3.11` kullanır. Vercel install komutu bu dalda lockfile tabanlı `npm ci` olarak ayarlanmıştır. Bunlar repo/CI yapılandırmasıdır; yeni Vercel projesinin hesap ayarı veya deployment sonucu olarak yorumlanmamalıdır.
+
+Kontrol edilen temel canlı rotalar `/urunler`, ürün kategorileri, `/cozumler`, sitemap’te listelenen çözüm sayfaları ve ürün detayları için `200`; rastgele olmayan route örneği `/__no-such-route__` için gerçek `404` döndü. Eski `/urunler.html` adresi temiz `/urunler` rotasına kalıcı yönleniyor. Kısa `/cozumler/restoranlar` ve `/cozumler/oteller` yolları mevcut rota listesinde değil ve `404` dönüyor; bunlar sitemap’teki tam slug’larla karıştırılmamalıdır.
 
 ## 2. Hedef hunisi
 
@@ -45,6 +79,114 @@ Google gösterimi
 | Ticari | Teklif dönüş oranı | Teklife dönen nitelikli lead oranı | Satış kaydı | Haftalık |
 
 CTR ve gösterim, sayfa ve sorgu kırılımında değerlendirilmelidir. Site genelindeki tek bir ortalama, hangi sayfanın veya sorgunun sorunlu olduğunu gizleyebilir.
+
+`whatsapp_click`, `phone_click` ve genel CTA event’leri iletişim niyeti/tıklama göstergesidir; nitelikli müşteri talebi sayılmaz. Nitelikli lead, gerçek talep ve satış takibiyle teyit edilmelidir. Formdaki `form_success` yalnızca istemci tarafındaki başarılı HTTP yanıtını gösterir; Formspree alıcıya teslimi hesap erişimiyle doğrulanmadan tamamlanmış lead olarak raporlanmayacaktır.
+
+## 3.1 Baseline veri kayıt defteri
+
+Bu bölüm, 2026-09-06 tarihinde alınan Search Console ve GA4 export’larının karşılaştırılabilir başlangıç kaydıdır. Search Console tıklama/gösterim verisini, GA4 ise oturum ve site içi davranış verisini ölçer; aynı metrik olarak yorumlanmayacaktır.
+
+### Dönem özeti
+
+| Kaynak | Dönem | Ana değerler |
+| --- | --- | --- |
+| Search Console | 28 gün | 6 tıklama / 188 gösterim / %3,19 CTR |
+| Search Console | 90 gün | 23 tıklama / 372 gösterim / %6,18 CTR |
+| GA4 | 28 gün, 2026-08-09–2026-09-05 | 27 oturum / 8 etkileşimli oturum / %29,63 etkileşim oranı / 123 etkinlik |
+| GA4 | 90 gün, 2026-06-08–2026-09-05 | 88 oturum / 45 etkileşimli oturum / yaklaşık %51,14 etkileşim oranı / 774 etkinlik |
+
+GA4 90 günlük oturum ve etkinlik toplamları kanal ve sayfa export satırlarından uzlaştırılmıştır. GA4 sayfa raporunda 90 günlük toplam 287 görüntüleme, 28 günlük raporda 33 görüntüleme vardır.
+
+### GA4 trafik kaynağı/aracısı
+
+#### 28 gün — 2026-08-09–2026-09-05
+
+| Kaynak/aracı | Oturum | Etkileşimli oturum | Etkileşim oranı | Ort. etkileşim süresi | Etkinlik |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `(direct) / (none)` | 15 | 1 | %6,67 | 1,8 sn | 58 |
+| `google / organic` | 9 | 5 | %55,56 | 26,4 sn | 52 |
+| `chatgpt.com / ai-assistant` | 2 | 2 | %100 | 20,5 sn | 10 |
+| `t.co / referral` | 1 | 0 | %0 | 0 sn | 3 |
+
+#### 90 gün — 2026-06-08–2026-09-05
+
+| Kanal | Oturum | Etkileşimli oturum | Etkileşim oranı | Ort. etkileşim süresi | Etkinlik |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Direct | 42 | 12 | %28,57 | 26,3 sn | 342 |
+| Organic Search | 41 | 30 | %73,17 | 59,1 sn | 409 |
+| Organic Social | 3 | 1 | %33,33 | 3 sn | 13 |
+| AI Assistant | 2 | 2 | %100 | 20,5 sn | 10 |
+
+### GA4 sayfalar ve ekranlar
+
+#### 28 gün
+
+| Sayfa | Görüntüleme | Etkin kullanıcı | Kullanıcı başına ort. süre | Etkinlik |
+| --- | ---: | ---: | ---: | ---: |
+| `/` | 16 | 14 | 5,6 sn | 60 |
+| `/urunler/dozaj-pompalari` | 9 | 9 | 19,4 sn | 34 |
+| `/urunler` | 5 | 4 | 11,3 sn | 17 |
+| `/urunler/kimyasallar` | 2 | 2 | 3 sn | 7 |
+| `/urunler/bulasik-makineleri` | 1 | 1 | 1 sn | 5 |
+
+#### 90 gün — ham URL satırları
+
+| Sayfa | Görüntüleme | Etkin kullanıcı | Kullanıcı başına ort. süre | Etkinlik |
+| --- | ---: | ---: | ---: | ---: |
+| `/` | 136 | 42 | 31,9 sn | 362 |
+| `/urunler/dozaj-pompalari` | 51 | 22 | 37,5 sn | 150 |
+| `/urunler` | 42 | 15 | 65 sn | 117 |
+| `/urunler/` | 23 | 1 | 77 sn | 46 |
+| `/urunler/dozaj-pompalari/` | 12 | 1 | 193 sn | 33 |
+| `/urunler/kimyasallar/` | 9 | 1 | 63 sn | 21 |
+| `/urunler/kimyasallar` | 7 | 5 | 10,4 sn | 22 |
+| `/urunler/bulasik-makineleri` | 4 | 3 | 14 sn | 16 |
+| `/urunler/bulasik-makineleri/` | 3 | 1 | 10 sn | 7 |
+
+### GA4 giriş sayfası — 28 gün
+
+| Giriş sayfası | Oturum | Etkin kullanıcı | Yeni kullanıcı | Ort. oturum etkileşimi |
+| --- | ---: | ---: | ---: | ---: |
+| `/` | 14 | 14 | 14 | 8,4 sn |
+| `/urunler/dozaj-pompalari` | 8 | 8 | 8 | 14,4 sn |
+| `/urunler` | 2 | 2 | 2 | 35,5 sn |
+| `(not set)` | 1 | 1 | 0 | 0 sn |
+| `/urunler/bulasik-makineleri` | 1 | 1 | 1 | 1 sn |
+| `/urunler/kimyasallar` | 1 | 1 | 1 | 1 sn |
+
+### Baseline veri kalitesi ve yorumlama kuralları
+
+- 28 günlük GA4 kanal raporu 27 oturumla, giriş sayfası raporu da 27 oturumla uzlaşır; 28 günlük sayfa raporu 33 görüntüleme ve 123 etkinlikle önceki event export’uyla uzlaşır.
+- Son 28 günde 27 oturum, 90 günlük toplamın 88 oturumuna yakındır. Önceki 62 gün için 61 oturum kaldığı için günlük oturum hacmi yaklaşık sabittir; düşüş esas olarak sayfa/oturum ve etkileşim kalitesindedir.
+- Sayfa/oturum, son 28 günde `33 / 27 = 1,22`; önceki 62 günde `(287 - 33) / (88 - 27) = 4,16` olarak hesaplanır. Bu türetilmiş karşılaştırma, doğrudan GA4 hazır KPI’ı değildir.
+- `/urunler`, `/urunler/dozaj-pompalari`, `/urunler/kimyasallar` ve `/urunler/bulasik-makineleri` URL’lerinin slash’li/slash’siz varyantları ayrı ölçülmektedir. Tek URL standardı sağlanmadan sayfa, giriş ve çıkış karşılaştırmaları bölünmüş kabul edilecektir.
+- 28 günlük trafik kaynağı raporunda önemli faaliyet sayısı tüm kaynaklarda `0`, toplam gelir `0`’dır. Bu değerler lead yokluğunu tek başına kanıtlamaz; event’lerin key event olarak işaretlenmesi ve canlı test gerekir.
+- GA4’teki `Etkinlikler` raporunda 28 günlük temel event’ler `page_view: 33`, `session_start: 27`, `first_visit: 26`, `user_engagement: 24`, `scroll: 12`, `click: 1` olarak kaydedilmiştir. Bu `click` değeri WhatsApp/telefon/CTA dönüşümü olarak yorumlanmayacaktır.
+
+### GA4 event doğrulama snapshot’ı — deployment öncesi 7 gün
+
+| Dönem | Event | Etkinlik sayısı | Toplam kullanıcı |
+| --- | --- | ---: | ---: |
+| 2026-08-30–2026-09-05 | `first_visit` | 2 | 2 |
+| 2026-08-30–2026-09-05 | `page_view` | 2 | 2 |
+| 2026-08-30–2026-09-05 | `session_start` | 2 | 2 |
+| 2026-08-30–2026-09-05 | `user_engagement` | 1 | 1 |
+
+Bu 7 günlük export’ta `whatsapp_click`, `phone_click`, `cta_click`, `form_start`, `form_submit`, `form_success` ve `form_error` görünmemektedir. Rapor dönemi 2026-09-06 tarihli event altyapısı deployment’ından önce bittiği için bu sonuç özel event’lerin çalışmadığını kanıtlamaz.
+
+### GA4 canlı event doğrulaması — 2026-09-06
+
+Kontrollü production testinde iki cihazdan siteye giriş ve WhatsApp CTA tıklaması yapıldı. GA4 Gerçek zamanlı genel bakış ekranında:
+
+- Son 30 dakikada aktif kullanıcı: `2`
+- Son 5 dakikada aktif kullanıcı: `2`
+- `whatsapp_click`: `2`
+- `cta_click`: `2`
+- `page_view`: `2`
+- `session_start`: `2`
+- `first_visit`: `1`
+
+Sonuç: GA4 loader’ı ve özel WhatsApp/CTA event’leri production’da çalışıyor. Gerçek zamanlı kartta önemli faaliyet verisi henüz yok; ticari event’ler key event olarak işaretlenmemiştir. `phone_click` ve form event’leri ayrı kontrollü testle doğrulanacaktır.
 
 ## 4. Teknik temel durumu
 
@@ -98,12 +240,16 @@ Kabul kriteri: Hangi sayfanın gösterim aldığı, hangi sorguda CTR kaybettiğ
 
 Öncelikli sorgu kümeleri:
 
+- İstanbul restoranları, otelleri ve kafeleri için endüstriyel bulaşık makinesi deterjanı ve parlatıcısı tedariki
+- Endüstriyel bulaşık makinesi kimyasalları ve düzenli tedarik
+- Bulaşık makinesi kireç sökücü ve yağ çözücü kimyasallar
+- Kimyasal ve pompa tedarikçilerinin müşterileri için dozaj pompası montajı/bakımı/onarımı
+- Restoran, otel ve kafelerde dozaj pompası montajı ve pompa modelleri
 - bulaşık makinesi dozaj pompası
 - deterjan dozaj pompası
 - parlatıcı dozaj pompası
 - Seko PR4 deterjan pompası
 - Atiker APM 0300 pompa
-- endüstriyel bulaşık makinesi deterjanı
 - restoran bulaşık yıkama sistemi
 - otel mutfağı hijyen çözümleri
 - toplu yemek dozaj sistemi
@@ -111,7 +257,8 @@ Kabul kriteri: Hangi sayfanın gösterim aldığı, hangi sorguda CTR kaybettiğ
 
 Öncelikli title testleri:
 
-- Ana sayfa: `Endüstriyel Dozaj Pompası ve Bulaşık Makinesi Kimyasalları | DOZATECH`
+- Ana sayfa: `İstanbul Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH`
+- Kimyasal kategorisi: `Endüstriyel Bulaşık Makinesi Deterjanı ve Parlatıcısı | DOZATECH`
 - Dozaj kategorisi: `Bulaşık Makinesi Dozaj Pompaları | Seko ve Atiker Modelleri | DOZATECH`
 - Restoran çözümü: `Restoranlar İçin Bulaşık Yıkama ve Dozaj Sistemi | DOZATECH`
 - Seko ürün sayfası: `Seko PR4 Deterjan Pompası: Teknik Özellikler ve Teklif | DOZATECH`
@@ -137,11 +284,12 @@ Uygulama alanları:
 - Ana sayfa hero metnini hedef sektör ve probleme göre netleştirme
 - Genel `Teklif Alın` CTA’larını bağlama göre farklılaştırma
 - Ürün karşılaştırma tablosu
-- “Hangi makine/işletme için uygun?” seçim akışı
+- Kimyasal tedariki ve tekrar sipariş için net teklif akışı
+- “Hangi kimyasal veya pompa hizmeti?” seçim akışı
 - Her sayfada üst, orta ve alt CTA konumlandırması
 - Ürün detayından ilgili çözüm sayfasına geçiş
 - Çözüm sayfasından ilgili ürün kategorisine geçiş
-- Kısa B2B teklif formu: işletme türü, makine türü, şehir, ihtiyaç
+- Kısa B2B teklif formu: işletme türü, kimyasal/pompa ihtiyacı, kullanım sıklığı ve şehir
 - Mobil yapışkan WhatsApp/telefon CTA’sı
 - Yüksek çıkış veren sayfalarda SSS, sonraki adım ve kanıt bölümü
 - Gerçek kurulum fotoğrafları ve teknik uygulama örnekleri
@@ -165,7 +313,7 @@ Amaç, markasız gösterimi ve güven sinyallerini sürdürülebilir biçimde ar
 
 Dağıtım kanalları:
 
-- Google Business Profile
+- Google Business Profile oluşturma ve doğrulama (işletme bilgileri teyit edildikten sonra)
 - LinkedIn teknik içerikleri
 - YouTube/Shorts montaj ve ürün kullanım videoları
 - WhatsApp’a UTM’li kampanya bağlantıları
@@ -183,11 +331,11 @@ Kabul kriteri: Her içerik en az bir ticari kategori sayfasına, bir ürün sayf
 - [x] Formspree endpoint’inin yapılandırılmış olduğunu doğrula
 - [x] Teknik yayının production’da olduğunu doğrula
 - [x] Search Console export dosyalarını al ve property verisini doğrula
-- [ ] GA4 property erişimini doğrula
+- [x] GA4 property erişimini doğrula
 - [x] GSC export formatını kesinleştir
-- [ ] GA4 export formatını kesinleştir
+- [x] GA4 export formatını kesinleştir
 
-Gün 1 bulgusu: Site tarafında GA4 ID `G-QBSSV93GCS` ve temel event’ler mevcut. Search Console verisi Gün 2’de sağlandı; GA4 hesabı ve site içi davranış verisi henüz sağlanmadı.
+Gün 1 bulgusu: Site tarafında GA4 ID `G-QBSSV93GCS` ve temel event’ler mevcut. Search Console verisi Gün 2’de, GA4 hesap erişimi ve ilk export’lar Gün 3–5’te sağlandı. Özel dönüşüm event’lerinin canlı doğrulaması henüz tamamlanmadı.
 
 ### Gün 2 — Search Console baseline
 
@@ -215,7 +363,7 @@ Not: Search Console boyut tablolarındaki toplamlar Chart toplamıyla birebir e�
 
 ### Gün 3 — GA4 funnel baseline
 
-- [ ] Landing page bazında oturum ve engagement oranını çıkar
+- [x] Landing page bazında oturum ve engagement oranını çıkar
 - [ ] `cta_click` olaylarını sayfa ve CTA konumuna göre ayır
 - [ ] WhatsApp, telefon ve form event’lerini karşılaştır
 - [ ] Form start → submit → success kırılımını kontrol et
@@ -234,12 +382,14 @@ Not: Search Console boyut tablolarındaki toplamlar Chart toplamıyla birebir e�
 
 ### Gün 5 — Landing ve çıkış analizi
 
-- [ ] En fazla giriş alan 10 sayfayı listele
+- [x] En fazla giriş alan 10 sayfayı listele
 - [ ] En yüksek çıkış oranına sahip ticari sayfaları listele
 - [ ] İlk ekran mesajı, güven unsuru ve CTA eksiklerini not et
 - [ ] Mobil ve masaüstü farklarını karşılaştır
 
 Çıktı: Önceliklendirilmiş CRO sorun listesi.
+
+Not: GA4 `Açılış sayfası` export’u giriş sayfasını gösterir; bu export’ta çıkış sayfası ve cihaz kırılımı bulunmadığı için ilgili maddeler beklemededir.
 
 ### Gün 6 — Mesaj ve teklif matrisi
 
@@ -303,7 +453,7 @@ Yarının ilk işi:
 - Search Console ve GA4 hesap verileri paylaşılmadıkça gerçek başlangıç rakamları varsayılmayacaktır.
 - CTR artışı title/description değişikliğiyle garanti edilmez; sorgu niyeti, pozisyon ve rekabet birlikte değerlendirilir.
 - Yapılandırılmış veri zengin sonuç için uygunluk sağlayabilir ancak görünümü garanti etmez.
-- Gerçek olmayan yorum, referans, tasarruf oranı veya performans iddiası yayınlanmayacaktır.
+- Gerçek olmayan yorum, referans, fiyat üstünlüğü, tasarruf oranı veya performans iddiası yayınlanmayacaktır.
 - “Çevre dostu”, “sıfırlar”, “garanti eder” gibi ifadeler belge veya ölçümle desteklenmiyorsa yumuşatılacaktır.
 - Teknik SEO’nun tamamlanması, Google’ın yeni sayfaları hemen indeksleyeceği anlamına gelmez.
 
@@ -328,6 +478,35 @@ Yarının ilk işi:
 - **Karar:** İlk optimizasyon odağı dozaj pompası kategorisi, masaüstü deneyimi ve markasız ticari sorgular olacak.
 - **Bloker:** Site içi giriş, etkileşim, çıkış ve gerçek lead kalitesi için GA4 funnel verisi eksik.
 - **Yarının ilk işi:** GA4 export’u veya ekran görüntüsüyle landing page ve event baseline’ını çıkarmak.
+
+### 2026-09-06 — Sprint 1 / Gün 3–5 — GA4 baseline
+
+- **Bugünkü hedef:** GA4’te sayfa, trafik kaynağı ve giriş sayfası verisini aynı dönem için kaydetmek.
+- **Tamamlanan işler:** 28 günlük etkinlik, sayfalar ve ekranlar, trafik kaynağı/aracısı ve açılış sayfası export’ları alındı; 90 günlük sayfa ve trafik karşılaştırmasıyla birlikte baseline kayıt defterine işlendi.
+- **Kanıt/çıktı:** 28 günlük GA4 `27 oturum / 8 etkileşimli oturum / %29,63 etkileşim oranı / 123 etkinlik`; girişlerin `%51,9’u` ana sayfaya, `%29,6’sı` dozaj pompası sayfasına geldi.
+- **Bulgu:** `(direct) / (none)` 15 oturumla hacim lideri fakat yalnızca `%6,67` etkileşim oranına ve `1,8 sn` ortalama süreye sahip. `google / organic` 9 oturumda `%55,56` etkileşim oranı ve `26,4 sn` ortalama süre üretti.
+- **Veri kalitesi bulgusu:** Aynı ürün/kategori yollarının slash’li ve slash’siz varyantları ayrı raporlanıyor. Bu, sayfa ve giriş analizi için standardizasyon işi gerektiriyor.
+- **Karar:** SEO ve dozaj pompası landing page önceliği korunacak; Direct kaynağı ve düşük sayfa derinliği ayrıca incelenecek. Düşük örneklemli sayfalarda içerik kararı verilmeyecek.
+- **Bloker:** Özel CTA/WhatsApp/telefon/form event’leri bu tarih aralığında görünmüyor; son deployment sonrası canlı test ve key event doğrulaması gerekiyor. Çıkış sayfası kırılımı henüz alınmadı.
+- **Yarının ilk işi:** Production’da kontrollü CTA testi yapmak; ardından GA4 `Etkinlikler: Etkinlik adı` raporunu deployment sonrası dönem için kaydetmek.
+
+### 2026-09-06 — Sprint 1 / Event export doğrulaması
+
+- **Bugünkü hedef:** Son 7 günlük GA4 event export’u ile özel event’lerin görünürlüğünü kontrol etmek.
+- **Tamamlanan işler:** `2026-08-30–2026-09-05` tarihli event export’u alındı ve baseline kayıt defterine işlendi.
+- **Bulgu:** Export’ta yalnızca `first_visit: 2`, `page_view: 2`, `session_start: 2` ve `user_engagement: 1` bulunuyor; özel CTA ve form event’leri yok.
+- **Karar:** Bu sonuç hata olarak sınıflandırılmayacak; export deployment’tan önceki döneme aittir. Canlı doğrulama deployment sonrası yapılacak.
+- **Yarının ilk işi:** Production’da kontrollü WhatsApp/CTA tıklaması yapmak ve GA4 Gerçek Zamanlı görünümde event’i doğrulamak.
+
+### 2026-09-06 — Sprint 1 / Production event doğrulaması
+
+- **Bugünkü hedef:** Yeni event altyapısının canlı production’da çalıştığını kanıtlamak.
+- **Tamamlanan işler:** İki cihazdan kontrollü WhatsApp CTA tıklaması yapıldı; GA4 Gerçek zamanlı genel bakış ekranı kontrol edildi.
+- **Kanıt/çıktı:** Aktif kullanıcı `2`; `whatsapp_click: 2`; `cta_click: 2`; `page_view: 2`; `session_start: 2`.
+- **Bulgu:** Özel event’ler production’da GA4’e ulaşıyor. Bu, önceki deployment öncesi 7 günlük export’ta event görünmemesinin tarih aralığından kaynaklandığını doğruluyor.
+- **Karar:** Event altyapısı çalışıyor. Primary key event olarak `whatsapp_click`, `phone_click` ve `form_success`; ikincil mikro event olarak `cta_click` izlenecek.
+- **Bloker:** `phone_click` ve form akışı henüz ayrı test edilmedi; key event tanımları henüz yapılmadı.
+- **Yarının ilk işi:** GA4’te ticari event’leri key event olarak işaretlemek ve kontrollü telefon/form testlerini tamamlamak.
 
 ## 11. Değişiklik günlüğü
 

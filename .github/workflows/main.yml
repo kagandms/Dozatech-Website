@@ -2,9 +2,9 @@ name: DOZATECH Web CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, главно ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, главно ]
 
 permissions:
   contents: read

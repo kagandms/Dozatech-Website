@@ -57,14 +57,14 @@ PAGE_PRIORITIES = {
 PAGE_SOCIAL_METADATA = {
     'index.html': (
         'website',
-        'Endüstriyel Dozaj Pompası ve Hijyen Sistemleri | DOZATECH',
-        'Seko, Atiker, Dualdose endüstriyel bulaşık makinesi dozaj pompası, deterjan ve parlatıcı sistemleri. Kimyasal israfını sıfırlayan uzman çözümler.',
+        'İstanbul Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
+        "İstanbul'daki restoran, otel ve kafeler için endüstriyel bulaşık makinesi deterjanı ve parlatıcısı tedariki. Dozaj pompası satışı ve montajı.",
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler.html': (
         'website',
-        'Endüstriyel Temizlik Ürünleri ve Dozaj Sistemleri | DOZATECH',
-        'Restoran, otel ve kafeler için endüstriyel bulaşık makineleri, dozaj pompaları ve temizlik kimyasalları. İhtiyacınıza uygun ürünleri inceleyin.',
+        'Endüstriyel Bulaşık Makinesi Kimyasalları ve Dozaj Pompaları | DOZATECH',
+        "İstanbul'daki restoran, otel ve kafeler için endüstriyel deterjan ve parlatıcı tedariki; dozaj pompası satışı ve montajı.",
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler_bulasikmakineleri.html': (
