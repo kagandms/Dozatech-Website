@@ -5,7 +5,7 @@ DOZATECH, endüstriyel hijyen ve temizlik sektöründe hizmet veren kurumsal bir
 ## 🌐 Canlı Site
 Production domain: **[https://dozatech.com.tr](https://dozatech.com.tr)**.
 
-Bu depoda GitHub Pages geçmişi ve `CNAME` dosyası bulunuyor; ancak 2026-10-25 canlı HTTP kontrolünde özel alan adı Vercel yanıtı veriyordu. GitHub Pages kaydı, DOZATECH Web CI build/test kontrolünden ayrıdır. Yeni Vercel hesabındaki proje bağlantısı, production dalı ve bugün canlı alan adına hizmet veren commit Vercel paneli/CLI erişimi olmadan doğrulanmış değildir. Eski Vercel projesi değiştirilmedi veya kaldırılmadı.
+Bu depoda GitHub Pages geçmişi ve `CNAME` dosyası bulunuyor; ancak 2026-10-25 canlı HTTP kontrolünde özel alan adı Vercel yanıtı veriyordu. GitHub Pages kaydı, DOZATECH Web CI build/test kontrolünden ayrıdır. PR #1’in Vercel botu, bu deponun `tennyson10/dozatech` projesine bağlı olduğunu ve bir Preview ürettiğini gösterdi; Preview içeriği SSO koruması nedeniyle incelenemedi. Production dalı ve bugün canlı alan adına hizmet veren commit doğrulanmış değildir. Eski Vercel projesi değiştirilmedi veya kaldırılmadı.
 
 ## 📂 Proje İçeriği
 Sitede aşağıdaki ana bölümler yer almaktadır:

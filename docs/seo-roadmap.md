@@ -33,7 +33,8 @@ Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`
 
 - **GitHub Pages:** Depoda `CNAME` ve Pages deployment kaydı bulunuyor; kamuya açık kayıt, 2026-09-16 tarihli `ea103eeecbd9db3d7c6f1f2c1474cada0f2cd68e` commit’i için başarıyla tamamlanan bir Pages deployment gösteriyor. Güncel özel alan adının Pages’ten sunulduğunu gösteren bir kanıt yok.
 - **Vercel production:** Canlı yanıtlarda Vercel sunucu başlıkları gözlendi. GitHub deployment kaydı 2026-09-16 tarihinde aynı commit için bir Vercel production deployment ve `dozatech-website-btc2n60gx-kagans-projects-ce31d7ff.vercel.app` deployment adresi gösteriyor. Bu kayıt bugünkü özel alan adının hangi SHA’dan sunulduğunu kanıtlamaz.
-- **Yeni Vercel projesi:** Hesap/panel veya doğrulanmış Vercel CLI erişimi yok; yeni projenin bu depoya bağlı olduğu, production dalının `главно` olduğu ya da mevcut özel alan adını taşıdığı doğrulanamadı.
+- **Vercel Preview bağlantısı:** PR #1’in Vercel bot kontrolü bu depoyu `tennyson10/dozatech` projesine bağladı. Vercel check, `7ad3aab7369cdf8296239f2c1f0a6ae3a47fdc05` commit’i için başarılı oldu ve `https://dozatech-git-codex-dozatech-seo-foundation-tennyson10.vercel.app` Preview adresi üretti. Preview HTTP istekleri içerik yerine Vercel SSO girişine yönlendiğinden sayfa içeriği bu oturumda doğrulanamadı.
+- **Vercel production ayarı:** Preview bağlantısı repository–proje entegrasyonunu doğrular; production dalının `главно` olduğunu veya bugünkü özel alan adının hangi SHA’dan sunulduğunu doğrulamaz. Yeni/önceki Vercel projesinin tarihsel ayrımı da panel erişimi olmadan doğrulanamadı.
 - **Eski Vercel projesi:** Kimliği ve durumu erişilebilen kanıtla belirlenemedi. Hiçbir proje silinmedi veya değiştirilmedi.
 
 Bu bölümdeki yayın kayıtları geçmiş kamuya açık GitHub deployment metaverisine dayanır; canlı HTTP, Vercel hesap/proje kimliğini ya da çalışan commit’i tek başına göstermez.

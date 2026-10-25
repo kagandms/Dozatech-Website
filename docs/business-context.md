@@ -29,7 +29,8 @@ Use the experience statement as “approximately 30 years of technical experienc
 - Minimum order quantities and repeat-order process
 - Current Google Search Console and GA4 account access
 - Formspree recipient and successful message delivery
-- New Vercel project's repository binding, production branch, and current production deployment association
+- Vercel production branch and the commit currently serving the custom domain; PR Preview is connected but Vercel SSO prevents content inspection
+- Which of the accessible Vercel project and the previously used project is the newer one
 - Permission and details for using real installation photos/videos
 
 The site currently contains the GA4 measurement ID `G-QBSSV93GCS`; its presence in source does not prove current account access or data collection. The homepage form uses `https://formspree.io/f/mqldaqwx`, and an adjacent source comment calls it an example URL. The Formspree account and recipient were not accessible, so endpoint ownership and actual message delivery remain unverified.
