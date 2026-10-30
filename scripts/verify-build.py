@@ -4,6 +4,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 from xml.etree import ElementTree
 
 
@@ -155,6 +156,136 @@ def verify_homepage_commercial_priority() -> None:
         fail('Homepage product cards do not follow chemical, pump, then dishwasher priority.')
 
 
+def verify_chemical_offer_copy() -> None:
+    homepage = get_route_output('/').read_text(encoding='utf-8')
+    category = get_route_output('/urunler/kimyasallar').read_text(encoding='utf-8')
+    chemical_groups = (
+        'Endüstriyel bulaşık makinesi deterjanı',
+        'Parlatıcı',
+        'Yağ sökücü',
+        'Kireç sökücü',
+    )
+    for group in chemical_groups:
+        if group.casefold() not in homepage.casefold():
+            fail(f'Missing homepage chemical group: {group}.')
+        if group.casefold() not in category.casefold():
+            fail(f'Missing chemical category group: {group}.')
+
+    required_offer_copy = (
+        'Düzenli Kimyasal Tedarikinde Pompa ve Bakım Desteği',
+        'Tedarik ve Destek Koşullarını Görüşelim',
+        'desteğin kapsam ve koşullarını görüşmede netleştiriyoruz',
+        'şehir dışındaki işler kapsamına göre değerlendirilir',
+    )
+    for phrase in required_offer_copy:
+        if phrase.casefold() not in homepage.casefold():
+            fail(f'Missing qualified chemical support copy: {phrase}.')
+
+    support_links = re.findall(r'<a\b[^>]*href="([^"]*wa\.me/[^"]*)"[^>]*>(.*?)</a>', homepage, re.DOTALL)
+    if not any(
+        'Düzenli Kimyasal Tedarikinde Pompa ve Bakım Desteği'.casefold() in link_text.casefold()
+        or 'Tedarik ve Destek Koşullarını Görüşelim'.casefold() in link_text.casefold()
+        for _, link_text in support_links
+    ):
+        fail('The support CTA must use the existing WhatsApp number and a prepared message.')
+    if not any('905322063859' in href and 'whatsapp_click' in homepage for href, _ in support_links):
+        fail('The prepared WhatsApp support CTA is missing or does not retain WhatsApp event tracking.')
+    prepared_messages = [
+        parse_qs(urlparse(href).query).get('text', [''])[0]
+        for href, link_text in support_links
+        if 'Tedarik ve Destek Koşullarını Görüşelim'.casefold() in link_text.casefold()
+    ]
+    expected_message = 'Merhaba, düzenli kimyasal tedariki ve pompa desteği koşulları hakkında görüşmek istiyorum.'
+    if expected_message not in prepared_messages:
+        fail('The support WhatsApp message is missing or incorrectly URL encoded.')
+
+    for html in (homepage, category):
+        forbidden_claims = ('ücretsiz kargo', 'sınırsız ücretsiz bakım', 'türkiye geneli servis', 'ücretsiz teslimat')
+        if any(claim in html.casefold() for claim in forbidden_claims):
+            fail('An unsupported delivery or unconditional service claim remains.')
+
+
+def verify_chemical_category_cards() -> None:
+    category = get_route_output('/urunler/kimyasallar').read_text(encoding='utf-8')
+    cards = re.findall(r'<article\b[^>]*>(.*?)</article>', category, flags=re.DOTALL)
+    expected_products = {
+        'Endüstriyel bulaşık makinesi deterjanı': (
+            'Endüstriyel bulaşık makinelerinde temizlik amacıyla kullanılan deterjan grubudur.',
+            'Merhaba, endüstriyel bulaşık makinesi deterjanı tedariki hakkında görüşmek istiyorum.',
+        ),
+        'Parlatıcı': (
+            'Bulaşık yıkama sürecinin durulama aşaması için sunulan parlatıcı grubudur.',
+            'Merhaba, parlatıcı tedariki hakkında görüşmek istiyorum.',
+        ),
+        'Yağ sökücü': (
+            'Yağlı kirlerin temizliğine yönelik ayrı bir kimyasal ürün grubudur.',
+            'Merhaba, yağ sökücü tedariki hakkında görüşmek istiyorum.',
+        ),
+        'Kireç sökücü': (
+            'Kireç birikimlerinin giderilmesine yönelik kimyasal ürün grubudur.',
+            'Merhaba, kireç sökücü tedariki hakkında görüşmek istiyorum.',
+        ),
+    }
+    if len(cards) != 4:
+        fail(f'Expected four chemical category cards, found {len(cards)}.')
+
+    for card, (product, (description, expected_message)) in zip(cards, expected_products.items()):
+        if product.casefold() not in card.casefold():
+            fail(f'Chemical category card is missing the {product} heading.')
+        description_match = re.search(r'<p\b[^>]*>(.*?)</p>', card, flags=re.DOTALL)
+        if not description_match or re.sub(r'<[^>]+>', '', description_match.group(1)).strip() != description:
+            fail(f'The {product} card needs the expected concise purpose description.')
+
+        links = re.findall(r'<a\b[^>]*href="([^"]*wa\.me/[^"]*)"[^>]*>(.*?)</a>', card, re.DOTALL)
+        if len(links) != 1:
+            fail(f'The {product} card must have one WhatsApp offer link.')
+        href, link_text = links[0]
+        if '905322063859' not in href or 'Teklif' not in link_text:
+            fail(f'The {product} card WhatsApp CTA does not preserve the number or offer label.')
+        message = parse_qs(urlparse(href).query).get('text', [''])[0].casefold()
+        if message != expected_message.casefold():
+            fail(f'The {product} card has the wrong or unencoded WhatsApp message.')
+
+    if '/assets/images/kirecsokucu.webp' not in cards[3]:
+        fail('The existing kireç sökücü product photo must remain on its category card.')
+    if '/urunler/endustriyel-kirec-sokucu' not in cards[3]:
+        fail('The kireç sökücü detail page link was removed.')
+    degreaser_card = cards[2].casefold()
+    if 'bulaşık makinesinin içine' in degreaser_card or 'makineye dozaj' in degreaser_card:
+        fail('The degreaser card must not present the product as being dosed into a dishwasher.')
+
+    required_support = (
+        'Düzenli Kimyasal Tedarikinde Pompa ve Bakım Desteği',
+        'ücretsiz pompa temini ve pompa bakım desteği sunulabilir',
+        'Desteğin kapsam ve koşullarını görüşmede netleştiriyoruz',
+        'Tedarik ve Destek Koşullarını Görüşelim',
+    )
+    for phrase in required_support:
+        if phrase.casefold() not in category.casefold():
+            fail(f'The chemical category page is missing aligned support copy: {phrase}.')
+
+    css_source = (ROOT_DIR / 'src' / 'css' / 'input.css').read_text(encoding='utf-8')
+    if '.chemical-category-page .whatsapp-float' not in css_source:
+        fail('The mobile floating WhatsApp button must not cover the chemical card content.')
+
+
+def verify_homepage_heading_and_share_metadata() -> None:
+    homepage = get_route_output('/').read_text(encoding='utf-8')
+    if '<h1' not in homepage or 'Endüstriyel Temizlik Kimyasalları ve Dozaj Çözümleri' not in homepage:
+        fail('Homepage H1 does not describe the confirmed chemical and dosing offer.')
+    if 'İstanbul için' in homepage or 'İstanbul’daki restoran' in homepage or "İstanbul'daki restoran" in homepage:
+        fail('Homepage metadata or hero copy still restricts the offer to Istanbul.')
+    expected_description = 'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.'
+    for marker in ('name="description"', 'property="og:description"', 'name="twitter:description"'):
+        match = re.search(rf'<meta\s+{re.escape(marker)}\s+content="([^"]*)"', homepage)
+        if not match or match.group(1) != expected_description:
+            fail(f'Homepage {marker} does not match the confirmed offer description.')
+    if 'İstanbul' in homepage:
+        # The real contact address may remain, but no service restriction should appear.
+        if 'İstanbul ana pazarımızdır' not in homepage:
+            fail('Geographic copy must identify Istanbul as the main market without making it a service boundary.')
+
+
 def verify_canonical_url_origins() -> None:
     for public_path in PAGE_ROUTES.values():
         html = get_route_output(public_path).read_text(encoding='utf-8')
@@ -281,16 +412,16 @@ def verify_seko_faq_alignment() -> None:
 def verify_target_metadata() -> None:
     expected_metadata = {
         '/': (
-            'İstanbul Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
-            "İstanbul'daki restoran, otel ve kafeler için endüstriyel bulaşık makinesi deterjanı ve parlatıcısı tedariki. Dozaj pompası satışı ve montajı.",
+            'Endüstriyel Temizlik Kimyasalları ve Dozaj Çözümleri | DOZATECH',
+            'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
         ),
         '/urunler': (
             'Endüstriyel Bulaşık Makinesi Kimyasalları ve Dozaj Pompaları | DOZATECH',
-            "İstanbul'daki restoran, otel ve kafeler için endüstriyel deterjan ve parlatıcı tedariki; dozaj pompası satışı ve montajı.",
+            'Restoran, otel ve kafeler için endüstriyel deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
         ),
         '/urunler/kimyasallar': (
-            'Endüstriyel Temizlik Kimyasalları | Kireç Sökücü | DOZATECH',
-            'Endüstriyel bulaşık makineleri için kireç sökücü ve hijyen kimyasallarını inceleyin. Rezistans ve su kanallarındaki kireç bakımını destekleyin.',
+            'Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
+            'Endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü tedariki. Fiyat ve tedarik koşulları için görüşün.',
         ),
     }
     for public_path, (title, description) in expected_metadata.items():
@@ -299,6 +430,45 @@ def verify_target_metadata() -> None:
             fail(f'Target title is not generated for {public_path}.')
         if f'<meta name="description" content="{description}">' not in html:
             fail(f'Target description is not generated for {public_path}.')
+
+    homepage_metadata = PAGE_SOCIAL_METADATA['index.html']
+    if homepage_metadata[1:3] != expected_metadata['/']:
+        fail('Homepage build.py social metadata differs from the expected title and description.')
+
+    for public_path, source_file in (('/', 'index.html'), ('/urunler/kimyasallar', 'urunler_kimyasallar.html')):
+        source = (ROOT_DIR / source_file).read_text(encoding='utf-8')
+        generated = get_route_output(public_path).read_text(encoding='utf-8')
+        metadata = PAGE_SOCIAL_METADATA[source_file]
+        expected_title = metadata[1]
+        expected_description = metadata[2]
+        if f'<title>{expected_title}</title>' not in source:
+            fail(f'Source title differs from build.py metadata on {public_path}.')
+        for tag in ('og:title', 'twitter:title'):
+            if not re.search(rf'<meta\s+(?:property|name)="{tag}"\s+content="{re.escape(expected_title)}"', source):
+                fail(f'Source {tag} differs from build.py metadata on {public_path}.')
+        for tag in ('og:description', 'twitter:description'):
+            if not re.search(rf'<meta\s+(?:property|name)="{tag}"\s+content="{re.escape(expected_description)}"', source):
+                fail(f'Source {tag} differs from build.py metadata on {public_path}.')
+        for tag in ('og:title', 'twitter:title'):
+            if not re.search(rf'<meta\s+(?:property|name)="{tag}"\s+content="{re.escape(expected_title)}"', generated):
+                fail(f'Generated {tag} differs from build.py metadata on {public_path}.')
+        for tag in ('og:description', 'twitter:description'):
+            if not re.search(rf'<meta\s+(?:property|name)="{tag}"\s+content="{re.escape(expected_description)}"', generated):
+                fail(f'Generated {tag} differs from build.py metadata on {public_path}.')
+
+    category = get_route_output('/urunler/kimyasallar').read_text(encoding='utf-8')
+    item_lists = [
+        json.loads(block)
+        for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', category, re.DOTALL)
+        if '"@type": "ItemList"' in block
+    ]
+    if not item_lists or [item.get('name') for item in item_lists[0].get('itemListElement', [])] != [
+        'Endüstriyel bulaşık makinesi deterjanı',
+        'Parlatıcı',
+        'Yağ sökücü',
+        'Kireç sökücü',
+    ]:
+        fail('Chemical category structured data does not list exactly the confirmed groups.')
 
 
 def verify_category_schema_types() -> None:
@@ -362,6 +532,9 @@ def main() -> None:
     verify_generated_html()
     verify_business_service_copy()
     verify_homepage_commercial_priority()
+    verify_chemical_offer_copy()
+    verify_chemical_category_cards()
+    verify_homepage_heading_and_share_metadata()
     verify_canonical_url_origins()
     verify_default_branch_ci()
     verify_vercel_build_config()

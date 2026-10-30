@@ -7,17 +7,20 @@
 - **Plan tarihi:** 2026-09-06
 - **Mevcut durum:** Teknik temel tamamlandı; büyüme sprinti başlatıldı.
 - **Hedef kitle:** Restoranlar, oteller, toplu yemek işletmeleri, profesyonel mutfaklar ve teknik satın alma karar vericileri.
-- **Birinci ticari öncelik:** İstanbul’daki restoran, otel ve kafelere düzenli kimyasal tedariki; tekrar sipariş ve sürekli gelir.
+- **Birinci ticari öncelik:** Restoran, otel ve kafelere düzenli kimyasal tedariki; İstanbul ana pazardır, çevre iller ve şehir dışındaki toplu işler kapsamına göre değerlendirilir.
 - **İkinci ticari öncelik:** Dozaj pompası satışı ve montajı.
 - **Diğer faaliyetler:** Dozaj pompası bakım/onarımı ve endüstriyel bulaşık makinesi satışı. Bulaşık makinesi tamiri/onarımı sunulmaz.
 - **Ana ticari hedef:** Kimyasal tedariki için nitelikli tekrar sipariş ilişkileri kurmak; pompa satışı ve montajını ikinci öncelik olarak büyütmek.
+- **Teyitli kimyasal grupları:** Endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü. Marka ve ambalaj bilgisi teyit edilmedi.
+- **Fiyat politikası:** Ürün fiyatları sitede yayımlanmaz; fiyat ve tedarik koşulları teklif görüşmesinde paylaşılır.
+- **Düzenli tedarik desteği:** Kimyasalı düzenli Dozatech’ten alan müşterilere pompa temini ve pompa bakım desteği ücretsiz sunulabilir. Uygunluk ile parça, arıza, süre ve sipariş koşulları ayrıntılı doğrulanmadı; koşullar görüşmede netleştirilmelidir.
 - **Birincil karar metriği:** 1.000 organik gösterim başına nitelikli teklif talebi.
 
 Bu proje yüksek hacimli, düşük kaliteli trafik yerine daha az fakat ticari niyeti yüksek ziyaretçi üretmeyi hedefler. Her içerik, tasarım ve dağıtım kararı bu hedefe göre değerlendirilecektir.
 
 ### 1.1 İşletme bağlamı ve güncel erişim durumu — 2026-10-25
 
-Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`business-context.md`](business-context.md) geçerlidir. Kimyasal kategori ve tekrar sipariş akışı birinci; dozaj pompası satışı/montajı ikinci önceliktir. Tedarikçi firmaların müşterilerine ücretli pompa montajı, bakım ve onarım hizmeti de sunulur. Makine satışı bu pompa hizmetlerinden ayrı tutulur; bulaşık makinesi tamiri/onarımı sunulmaz.
+Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`business-context.md`](business-context.md) geçerlidir. Kimyasal kategori ve tekrar sipariş akışı birinci; dozaj pompası satışı/montajı ikinci önceliktir. İstanbul ana pazardır, kesin hizmet sınırı değildir; bölge ve iş kapsamı görüşülür. Düzenli tedarik müşterilerine ücretsiz pompa ve bakım desteği sunulabilir, koşulları görüşmede netleştirilir. Makine satışı pompa hizmetlerinden ayrıdır; bulaşık makinesi tamiri/onarımı sunulmaz.
 
 | Kontrol | Güncel durum |
 | --- | --- |
@@ -145,7 +148,7 @@ Kabul kriteri: Hangi sayfanın gösterim aldığı, hangi sorguda CTR kaybettiğ
 
 Öncelikli sorgu kümeleri:
 
-- İstanbul restoranları, otelleri ve kafeleri için endüstriyel bulaşık makinesi deterjanı ve parlatıcısı tedariki
+- Restoran, otel ve kafeler için endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü tedariki
 - Endüstriyel bulaşık makinesi kimyasalları ve düzenli tedarik
 - Bulaşık makinesi kireç sökücü ve yağ çözücü kimyasallar
 - Kimyasal ve pompa tedarikçilerinin müşterileri için dozaj pompası montajı/bakımı/onarımı
@@ -162,8 +165,8 @@ Kabul kriteri: Hangi sayfanın gösterim aldığı, hangi sorguda CTR kaybettiğ
 
 Öncelikli title testleri:
 
-- Ana sayfa: `İstanbul Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH`
-- Kimyasal kategorisi: `Endüstriyel Bulaşık Makinesi Deterjanı ve Parlatıcısı | DOZATECH`
+- Ana sayfa: `Endüstriyel Temizlik Kimyasalları ve Dozaj Çözümleri | DOZATECH`
+- Kimyasal kategorisi: `Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH`
 - Dozaj kategorisi: `Bulaşık Makinesi Dozaj Pompaları | Seko ve Atiker Modelleri | DOZATECH`
 - Restoran çözümü: `Restoranlar İçin Bulaşık Yıkama ve Dozaj Sistemi | DOZATECH`
 - Seko ürün sayfası: `Seko PR4 Deterjan Pompası: Teknik Özellikler ve Teklif | DOZATECH`
@@ -359,3 +362,4 @@ Bu tarihle ilişkilendirilen Search Console/GA4 export’ları ve kontrollü pro
 | Tarih | Değişiklik | Durum |
 | --- | --- | --- |
 | 2026-10-25 | Geçmiş GA4/Search Console sayıları ve production testi kaynak denetiminden geçirildi | Kaynaksız kayıtlar çıkarıldı; baseline beklemede |
+| 2026-10-30 | İşletme sahibinin teyit ettiği kimyasal grupları, koşullu pompa desteği ve kapsam bazlı coğrafi değerlendirme işlendi | Ana sayfa, kimyasal kategori ve metadata güncellendi; fiyat, marka, ambalaj ve teslimat koşulu uydurulmadı |

@@ -133,3 +133,10 @@
         transition-duration: 0.01ms !important;
     }
 }
+
+@media (max-width: 767px) {
+    /* Product-specific contact CTAs replace the floating button here to avoid covering card content. */
+    .chemical-category-page .whatsapp-float {
+        display: none;
+    }
+}

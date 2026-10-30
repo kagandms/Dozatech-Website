@@ -1,16 +1,18 @@
 # DOZATECH Business Context
 
-**Updated:** 2026-10-25
+**Updated:** 2026-10-30
 
 This document records the business facts supplied by the owner for the SEO and customer-acquisition work. Use it as the source for service boundaries and commercial priorities; do not fill unknowns with assumptions.
 
 ## Commercial priorities
 
-1. **Recurring chemical supply:** Serve restaurants, hotels, and cafes in Istanbul with professional cleaning chemicals and encourage repeat orders and ongoing supply relationships.
-2. **Dosing pumps:** Sell and install dosing pumps.
+1. **Chemical supply:** Supply industrial dishwasher detergent, rinse aid, degreaser, and descaler. Chemical supply is the first commercial priority.
+2. **Dosing pumps:** Sell and install dosing pumps as the second commercial priority.
 3. **Other activities:** Maintain and repair dosing pumps; sell industrial dishwashers.
 
-Dozatech also provides paid pump installation, maintenance, and repair to the customers of chemical and pump suppliers, in addition to serving its own direct customers.
+Customers who regularly source chemicals from Dozatech may be offered pump provision and pump maintenance free of charge. Eligibility and the scope, parts, fault types, duration, and order conditions have not been confirmed in detail; explain that the terms are clarified in a discussion and do not promise universal or unconditional free service. Dozatech also provides pump installation, maintenance, and repair to the customers of chemical and pump suppliers, in addition to serving its own direct customers.
+
+Product prices are not published on the website. Prices and supply terms are shared in an offer discussion.
 
 Dishwasher sales and dosing-pump services are separate offers. Dozatech does **not** repair or maintain dishwashers. Do not imply that machine sales include machine repair or service.
 
@@ -24,8 +26,8 @@ Use the experience statement as “approximately 30 years of technical experienc
 
 ## Unknowns to confirm before publishing detailed offers
 
-- Chemical brands, product range, and packaging sizes
-- Delivery coverage, schedule, and terms
+- Chemical brands and packaging sizes
+- Delivery schedule and terms
 - Minimum order quantities and repeat-order process
 - Current Google Search Console and GA4 account access
 - Formspree recipient and successful message delivery
@@ -37,4 +39,4 @@ The site currently contains the GA4 measurement ID `G-QBSSV93GCS`; its presence 
 
 ## Geographic scope
 
-The primary customer-acquisition focus is restaurants, hotels, and cafes in Istanbul. Do not claim a wider delivery or service area until the owner confirms it.
+Istanbul is the primary market, not a confirmed service boundary. Adjacent provinces and out-of-city bulk projects may be served; evaluate the region and scope of each request in discussion. Do not promise nationwide service or delivery. Dozatech maintains and repairs dosing pumps, but does not repair or maintain dishwashers.
