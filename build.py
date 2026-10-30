@@ -57,14 +57,14 @@ PAGE_PRIORITIES = {
 PAGE_SOCIAL_METADATA = {
     'index.html': (
         'website',
-        'İstanbul Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
-        "İstanbul'daki restoran, otel ve kafeler için endüstriyel bulaşık makinesi deterjanı ve parlatıcısı tedariki. Dozaj pompası satışı ve montajı.",
+        'Endüstriyel Temizlik Kimyasalları ve Dozaj Çözümleri | DOZATECH',
+        'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler.html': (
         'website',
         'Endüstriyel Bulaşık Makinesi Kimyasalları ve Dozaj Pompaları | DOZATECH',
-        "İstanbul'daki restoran, otel ve kafeler için endüstriyel deterjan ve parlatıcı tedariki; dozaj pompası satışı ve montajı.",
+        'Restoran, otel ve kafeler için endüstriyel deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler_bulasikmakineleri.html': (
@@ -75,9 +75,9 @@ PAGE_SOCIAL_METADATA = {
     ),
     'urunler_kimyasallar.html': (
         'website',
-        'Endüstriyel Temizlik Kimyasalları | Kireç Sökücü | DOZATECH',
-        'Endüstriyel bulaşık makineleri için kireç sökücü ve hijyen kimyasallarını inceleyin. Rezistans ve su kanallarındaki kireç bakımını destekleyin.',
-        'https://dozatech.com.tr/assets/images/kirecsokucu.webp',
+        'Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
+        'Endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü tedariki. Fiyat ve tedarik koşulları için görüşün.',
+        'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler_pompa.html': (
         'website',
