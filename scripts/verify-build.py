@@ -205,6 +205,70 @@ def verify_chemical_offer_copy() -> None:
             fail('An unsupported delivery or unconditional service claim remains.')
 
 
+def verify_chemical_category_cards() -> None:
+    category = get_route_output('/urunler/kimyasallar').read_text(encoding='utf-8')
+    cards = re.findall(r'<article\b[^>]*>(.*?)</article>', category, flags=re.DOTALL)
+    expected_products = {
+        'Endüstriyel bulaşık makinesi deterjanı': (
+            'Endüstriyel bulaşık makinelerinde temizlik amacıyla kullanılan deterjan grubudur.',
+            'Merhaba, endüstriyel bulaşık makinesi deterjanı tedariki hakkında görüşmek istiyorum.',
+        ),
+        'Parlatıcı': (
+            'Bulaşık yıkama sürecinin durulama aşaması için sunulan parlatıcı grubudur.',
+            'Merhaba, parlatıcı tedariki hakkında görüşmek istiyorum.',
+        ),
+        'Yağ sökücü': (
+            'Yağlı kirlerin temizliğine yönelik ayrı bir kimyasal ürün grubudur.',
+            'Merhaba, yağ sökücü tedariki hakkında görüşmek istiyorum.',
+        ),
+        'Kireç sökücü': (
+            'Kireç birikimlerinin giderilmesine yönelik kimyasal ürün grubudur.',
+            'Merhaba, kireç sökücü tedariki hakkında görüşmek istiyorum.',
+        ),
+    }
+    if len(cards) != 4:
+        fail(f'Expected four chemical category cards, found {len(cards)}.')
+
+    for card, (product, (description, expected_message)) in zip(cards, expected_products.items()):
+        if product.casefold() not in card.casefold():
+            fail(f'Chemical category card is missing the {product} heading.')
+        description_match = re.search(r'<p\b[^>]*>(.*?)</p>', card, flags=re.DOTALL)
+        if not description_match or re.sub(r'<[^>]+>', '', description_match.group(1)).strip() != description:
+            fail(f'The {product} card needs the expected concise purpose description.')
+
+        links = re.findall(r'<a\b[^>]*href="([^"]*wa\.me/[^"]*)"[^>]*>(.*?)</a>', card, re.DOTALL)
+        if len(links) != 1:
+            fail(f'The {product} card must have one WhatsApp offer link.')
+        href, link_text = links[0]
+        if '905322063859' not in href or 'Teklif' not in link_text:
+            fail(f'The {product} card WhatsApp CTA does not preserve the number or offer label.')
+        message = parse_qs(urlparse(href).query).get('text', [''])[0].casefold()
+        if message != expected_message.casefold():
+            fail(f'The {product} card has the wrong or unencoded WhatsApp message.')
+
+    if '/assets/images/kirecsokucu.webp' not in cards[3]:
+        fail('The existing kireç sökücü product photo must remain on its category card.')
+    if '/urunler/endustriyel-kirec-sokucu' not in cards[3]:
+        fail('The kireç sökücü detail page link was removed.')
+    degreaser_card = cards[2].casefold()
+    if 'bulaşık makinesinin içine' in degreaser_card or 'makineye dozaj' in degreaser_card:
+        fail('The degreaser card must not present the product as being dosed into a dishwasher.')
+
+    required_support = (
+        'Düzenli Kimyasal Tedarikinde Pompa ve Bakım Desteği',
+        'ücretsiz pompa temini ve pompa bakım desteği sunulabilir',
+        'Desteğin kapsam ve koşullarını görüşmede netleştiriyoruz',
+        'Tedarik ve Destek Koşullarını Görüşelim',
+    )
+    for phrase in required_support:
+        if phrase.casefold() not in category.casefold():
+            fail(f'The chemical category page is missing aligned support copy: {phrase}.')
+
+    css_source = (ROOT_DIR / 'src' / 'css' / 'input.css').read_text(encoding='utf-8')
+    if '.chemical-category-page .whatsapp-float' not in css_source:
+        fail('The mobile floating WhatsApp button must not cover the chemical card content.')
+
+
 def verify_homepage_heading_and_share_metadata() -> None:
     homepage = get_route_output('/').read_text(encoding='utf-8')
     if '<h1' not in homepage or 'Endüstriyel Temizlik Kimyasalları ve Dozaj Çözümleri' not in homepage:
@@ -469,6 +533,7 @@ def main() -> None:
     verify_business_service_copy()
     verify_homepage_commercial_priority()
     verify_chemical_offer_copy()
+    verify_chemical_category_cards()
     verify_homepage_heading_and_share_metadata()
     verify_canonical_url_origins()
     verify_default_branch_ci()
