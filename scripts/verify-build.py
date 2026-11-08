@@ -562,8 +562,8 @@ def verify_target_metadata() -> None:
             'Restoran, otel ve kafeler için endüstriyel deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
         ),
         '/urunler/kimyasallar': (
-            'Efor EF340 deterjan, EF341 parlatıcı | DOZATECH',
-            'Efor EF340 deterjan, EF341 parlatıcı (20 L) ve kireç sökücü tedariki. Sipariş ve teklif için WhatsApp üzerinden görüşün.',
+            'Bulaşık Makinesi Kimyasalları: Efor EF340, EF341 | DOZATECH',
+            'Endüstriyel bulaşık makinesi deterjanı Efor EF340 ve parlatıcı Efor EF341 (20 L). Sipariş için WhatsApp\'tan yazın.',
         ),
     }
     for public_path, (title, description) in expected_metadata.items():
@@ -622,10 +622,12 @@ def verify_efor_product_copy() -> None:
         'Efor EF340',
         'Efor EF341',
         '20 L',
-        'Efor EF340 deterjan, EF341 parlatıcı',
+        'Bulaşık Makinesi Kimyasalları: Efor EF340, EF341',
     ):
         if phrase not in category:
             fail(f'Chemicals page is missing the Efor product copy: {phrase}.')
+    if 'Bulaşık Makinesi Kimyasalları' not in category:
+        fail('Chemicals page title must contain Bulaşık Makinesi Kimyasalları.')
     for phrase in (
         'Teslimat',
         'aynı gün veya ertesi gün',
