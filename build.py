@@ -81,8 +81,8 @@ PAGE_SOCIAL_METADATA = {
     ),
     'urunler_pompa.html': (
         'website',
-        'Dozaj Pompası Modelleri: Seko, Atiker, Dualdose | DOZATECH',
-        'Endüstriyel bulaşık makineleri için Seko PR4, Atiker deterjan ve parlatıcı dozaj pompası modelleri.',
+        'Dozaj Pompası: Bulaşık Makinesi İçin Seko, Atiker | DOZATECH',
+        'Bulaşık makinesi için dozaj pompası modelleri: Seko PR4, Atiker APM 0300 ve tekli pompalar. Dozaj pompası satışı, montajı, bakımı ve onarımı yapılıyor.',
         'https://dozatech.com.tr/assets/images/prof_dualdose.webp',
     ),
     'cozumler.html': (

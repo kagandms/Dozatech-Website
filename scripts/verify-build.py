@@ -406,6 +406,67 @@ def verify_seko_faq_alignment() -> None:
         fail(f'Seko FAQ schema is not aligned with visible content on {public_path}.')
 
 
+def verify_pump_page_content() -> None:
+    public_path = '/urunler/dozaj-pompalari'
+    html = get_route_output(public_path).read_text(encoding='utf-8')
+
+    title_match = re.search(r'<title>(.*?)</title>', html)
+    if not title_match or len(title_match.group(1)) > 60:
+        fail(f'Pump page title is missing or longer than 60 characters on {public_path}.')
+
+    description_match = re.search(r'<meta name="description"\s+content="([^"]*)"', html)
+    if not description_match:
+        fail(f'Pump page meta description is missing on {public_path}.')
+    description = description_match.group(1)
+    if not 150 <= len(description) <= 160:
+        fail(f'Pump page meta description must be 150-160 characters, found {len(description)}.')
+    for keyword in ('dozaj pompası', 'bulaşık makinesi', 'montaj'):
+        if keyword not in description.casefold():
+            fail(f'Pump page meta description is missing the keyword: {keyword}.')
+
+    required_headings = (
+        'Dozaj Pompası Nedir?',
+        'Hangi Pompa Bana Uygun?',
+        'Sık Sorulan Sorular',
+        'Pompa için teklif alın',
+    )
+    for heading in required_headings:
+        if heading not in html:
+            fail(f'Pump page is missing the section or CTA: {heading}.')
+
+    visible_faq = re.findall(
+        r'<details\b[^>]*>\s*<summary[^>]*>(.*?)</summary>\s*<p[^>]*>(.*?)</p>\s*</details>',
+        html,
+        flags=re.DOTALL,
+    )
+    faq_schemas = [
+        json.loads(block)
+        for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, flags=re.DOTALL)
+        if '"FAQPage"' in block
+    ]
+    if len(visible_faq) != 4 or len(faq_schemas) != 1:
+        fail('Pump page must have four visible FAQ items and one FAQPage schema.')
+    schema_items = [
+        (entry['name'], entry['acceptedAnswer']['text'])
+        for entry in faq_schemas[0]['mainEntity']
+    ]
+    if visible_faq != schema_items:
+        fail('Pump page FAQPage schema does not match the visible FAQ text.')
+
+    forbidden_phrases = (
+        'tamir',
+        'hizmet vermiyoruz',
+        'garanti',
+        'en iyi',
+        'istanbul',
+        'ücretsiz',
+    )
+    casefolded = html.casefold()
+    for phrase in forbidden_phrases:
+        if phrase in casefolded:
+            fail(f'Pump page contains a forbidden phrase: {phrase}.')
+
+
 def verify_target_metadata() -> None:
     expected_metadata = {
         '/': (
@@ -540,6 +601,7 @@ def main() -> None:
     verify_mobile_and_security_output()
     verify_mobile_detail_navigation()
     verify_seko_faq_alignment()
+    verify_pump_page_content()
     verify_target_metadata()
     verify_category_schema_types()
     verify_vercel_headers()
