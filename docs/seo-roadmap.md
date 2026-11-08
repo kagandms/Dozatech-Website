@@ -364,3 +364,4 @@ Bu tarihle ilişkilendirilen Search Console/GA4 export’ları ve kontrollü pro
 | 2026-10-25 | Geçmiş GA4/Search Console sayıları ve production testi kaynak denetiminden geçirildi | Kaynaksız kayıtlar çıkarıldı; baseline beklemede |
 | 2026-10-30 | İşletme sahibinin teyit ettiği kimyasal grupları, koşullu pompa desteği ve kapsam bazlı coğrafi değerlendirme işlendi | Ana sayfa, kimyasal kategori ve metadata güncellendi; fiyat, marka, ambalaj ve teslimat koşulu uydurulmadı |
 | 2026-11-08 | Vercel production (`главно`, `c77bcdd`) ve apex/www yönlendirmesi panel ve canlı HTTP ile doğrulandı; §1.2, §4, README ve yayın notu güncellendi | GA4, Search Console sitemap, Formspree ve PageSpeed maddeleri açık |
+| 2026-11-08 | Search Console baseline kaydedildi; kaynak ekran okuması, ham export yok | Baseline [docs/search-console-baseline-2026-11-06.md](search-console-baseline-2026-11-06.md) dosyasında; sitemap gönderimi ve GA4 eşleştirmesi açık |
