@@ -467,6 +467,87 @@ def verify_pump_page_content() -> None:
             fail(f'Pump page contains a forbidden phrase: {phrase}.')
 
 
+def verify_service_page_content() -> None:
+    public_path = '/hizmetler/dozaj-pompasi-montaj-bakim-onarim'
+    html = get_route_output(public_path).read_text(encoding='utf-8')
+
+    title_match = re.search(r'<title>(.*?)</title>', html)
+    if not title_match or title_match.group(1) != 'Dozaj Pompası Montajı, Bakımı ve Onarımı | DOZATECH':
+        fail(f'Service page title is missing or incorrect on {public_path}.')
+    if len(title_match.group(1)) > 60:
+        fail(f'Service page title is longer than 60 characters on {public_path}.')
+
+    description_match = re.search(r'<meta name="description"\s+content="([^"]*)"', html)
+    if not description_match or not 150 <= len(description_match.group(1)) <= 160:
+        fail(f'Service page meta description must be 150-160 characters on {public_path}.')
+
+    required_copy = (
+        '<h1 class="text-4xl font-extrabold primary-text mb-4">Dozaj Pompası Montajı, Bakımı ve Onarımı</h1>',
+        '>Montaj</h2>',
+        '>Bakım</h2>',
+        '>Onarım</h2>',
+        '>İlgili Sayfalar</h2>',
+        '>Sık Sorulan Sorular</h2>',
+        'Düzenli kimyasal tedarikini Dozatech’ten yapan müşterilere ücretsiz pompa temini ve pompa bakım desteği sunulabilir. Desteğin kapsam ve koşullarını görüşmede netleştiriyoruz.',
+        'Montaj veya bakım için yazın',
+        'tel:+905322063859',
+        '/assets/images/montaj_korumali_hortum.webp',
+        '/assets/images/montaj_pompa_setleri.webp',
+    )
+    for phrase in required_copy:
+        if phrase not in html:
+            fail(f'Service page is missing required copy or element: {phrase[:60]}.')
+
+    internal_links = (
+        '/urunler/dozaj-pompalari',
+        '/urunler/seko-pr4-deterjan-pompasi',
+        '/urunler/atiker-apm-0300-deterjan-parlatici-pompasi',
+        '/urunler/kimyasallar',
+    )
+    for link in internal_links:
+        if f'href="{link}"' not in html:
+            fail(f'Service page is missing internal link: {link}.')
+
+    if 'wa.me/905322063859' not in html:
+        fail(f'Service page CTA does not use the WhatsApp number on {public_path}.')
+
+    visible_faq = re.findall(
+        r'<details\b[^>]*>\s*<summary[^>]*>(.*?)</summary>\s*<p[^>]*>(.*?)</p>\s*</details>',
+        html,
+        flags=re.DOTALL,
+    )
+    schemas = [
+        json.loads(block)
+        for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, flags=re.DOTALL)
+    ]
+    faq_schemas = [schema for schema in schemas if schema.get('@type') == 'FAQPage']
+    service_schemas = [schema for schema in schemas if schema.get('@type') == 'Service']
+    if len(visible_faq) != 4 or len(faq_schemas) != 1:
+        fail('Service page must have four visible FAQ items and one FAQPage schema.')
+    schema_items = [
+        (entry['name'], entry['acceptedAnswer']['text'])
+        for entry in faq_schemas[0]['mainEntity']
+    ]
+    if visible_faq != schema_items:
+        fail('Service page FAQPage schema does not match the visible FAQ text.')
+    if len(service_schemas) != 1 or service_schemas[0].get('provider', {}).get('@id') != 'https://dozatech.com.tr/#organization':
+        fail('Service page Service schema must reference the Organization by its @id.')
+
+    casefolded = html.casefold()
+    for phrase in ('tamir', 'servis', 'hizmet vermiyoruz', 'garanti', 'en iyi', 'istanbul', '30 yıl'):
+        if phrase in casefolded:
+            fail(f'Service page contains a forbidden phrase: {phrase}.')
+    if casefolded.count('ücretsiz') != 1:
+        fail('Service page must mention free pump support exactly once, in the qualified support sentence.')
+
+    home_html = get_route_output('/').read_text(encoding='utf-8')
+    if home_html.count(f'href="{public_path}"') < 2:
+        fail('Homepage must link to the service page from the service card and the footer.')
+    pump_html = get_route_output('/urunler/dozaj-pompalari').read_text(encoding='utf-8')
+    if f'href="{public_path}"' not in pump_html:
+        fail('Pump page must link to the service page.')
+
+
 def verify_target_metadata() -> None:
     expected_metadata = {
         '/': (
@@ -602,6 +683,7 @@ def main() -> None:
     verify_mobile_detail_navigation()
     verify_seko_faq_alignment()
     verify_pump_page_content()
+    verify_service_page_content()
     verify_target_metadata()
     verify_category_schema_types()
     verify_vercel_headers()
