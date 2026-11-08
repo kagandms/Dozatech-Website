@@ -1,20 +1,41 @@
 # Vercel domain geçişi — yayın notu
 
-**Durum: hazırlık notu; production ayarı ve deployment yapılmadı.**
+**Durum: tamamlandı (2026-11-08). `https://dozatech.com.tr` apex production domain olarak canlı; `www` apex'e yönleniyor.**
 
-## Mevcut ve hedef davranış
+## Doğrulanmış mevcut durum (2026-11-08)
 
-- **Canlıda gözlenen:** `https://dozatech.com.tr/` `308` ile `https://www.dozatech.com.tr/` adresine gidiyor; www ana sayfası `200` dönüyor. `https://dozatech.com.tr/urunler?utm_source=codex_audit&probe=1` isteğinin `Location` başlığı aynı path ve query’yi www’ye taşıyor ve yanıt `200` oluyor. Bu HTTP sonucu paneldeki gerçek domain ayarını göstermez.
-- **Panel:** Vercel production domain/primary ayarı bu çalışma sırasında incelenemedi; mevcut panel konfigürasyonu doğrulanmış değil.
-- **Hedef:** `https://dozatech.com.tr` doğrudan `200`; www aynı path ve query korunarak apex’e kalıcı yönlenir; HTTP hostları HTTPS’e çıkar. Vercel panelinde apex production primary olur; www yalnızca apex’e yönlenir. Repo kuralı `www.dozatech.com.tr` → `https://dozatech.com.tr/:path*` yönünü uygular.
+- **Vercel paneli:** Proje `tennyson10/dozatech`; production dalı `главно`; canlı commit `c77bcdd` (PR #2 merge). Apex `dozatech.com.tr` production domain; www apex'e yönleniyor. Kaynak: proje sahibinin Vercel paneli kontrolü, 2026-11-08.
+- **Canlı HTTP (2026-11-08, bu depoda tekrar kontrol edildi):**
 
-## Yayın sırası
+| İstek | Sonuç |
+| --- | --- |
+| `https://dozatech.com.tr/` | `200` |
+| `https://www.dozatech.com.tr/` | `308`, `Location: https://dozatech.com.tr/` |
+| `http://dozatech.com.tr/` | `308`, `Location: https://dozatech.com.tr/` |
+| `https://www.dozatech.com.tr/urunler?utm_source=x&probe=1` | `308`, `Location: https://dozatech.com.tr/urunler?utm_source=x&probe=1` (path ve query korunuyor) |
+| `https://dozatech.vercel.app/` | `200` |
 
-1. Değişiklik öncesi Vercel domain listesini ve yönlendirme ayarlarını kayda al; apex ve www domainlerinin bağlı/TLS hazır olduğunu panelden doğrula.
-2. Vercel production domainini apex olarak ayarla. www için varsa panel yönlendirmesini yalnızca apex’e ver; apex’ten www’ye giden ters yönlü panel kuralı bırakma. Böylece panel ve repo aynı yönde çalışır.
-3. PR’ı yayımla ve otomatik production deployment tamamlandıktan sonra tam URL’lerle doğrula: apex ana sayfası `200`; www `308` ile apex; path ve query değişmeden korunmuş; HTTP istekleri HTTPS’e çıkar; yönlendirme döngüsü yok.
-4. Kanıtı, istek URL’leri ve her adımın status/Location başlıklarıyla kaydet. Panel erişimi veya gerçek HTTP yanıtı yoksa kontrolü tamamlandı işaretleme.
+- **Repo kuralı:** `vercel.json` içinde `www.dozatech.com.tr` → `https://dozatech.com.tr/:path*` (kalıcı). Bu kural `главно` dalındadır.
+
+## Tarihsel kayıt (2026-10-25, artık geçerli değil)
+
+2026-10-25 kontrolünde yön tersti: `https://dozatech.com.tr/` `308` ile `https://www.dozatech.com.tr/` adresine gidiyordu ve www ana sayfası `200` dönüyordu. Bu kayıt, geçişten önceki durumu belgelemek için tutulmuştur.
+
+## Yayın sırası ve durum
+
+1. **Değişiklik öncesi Vercel domain listesi ve yönlendirme ayarlarının kaydı:** Bu depoda kayıt yok. Bu geçişe ait panel görüntüsü veya önceki ayar kaydı depoda yok.
+2. **Vercel production domaini apex olarak ayarlandı, www apex'e yönleniyor:** Tamamlandı. Canlı HTTP sonuçları yukarıdaki tabloda.
+3. **Repo tarafı (`vercel.json` www → apex kuralı):** `главно` dalında mevcut; canlı davranışla uyumlu.
+4. **Kanıt:** Yukarıdaki istek sonuçları. Panel ekran görüntüsü bu depoda saklanmadı.
+
+## Açık kalanlar
+
+- **Eski Vercel projesi:** Kimliği ve durumu bu depodan belirlenemedi. Hiçbir proje silinmedi veya değiştirilmedi.
+- **Panel www kuralı:** Vercel panelinde ayrıca bir www yönlendirmesi tanımlı olup olmadığı bu depodan doğrulanamaz; canlı davranış 308 ile apex'e yönleniyor.
+- **`CNAME` dosyası:** GitHub Pages kalıntısı. Kullanılmıyor; silme kararı bekliyor. Dosya bu çalışmada silinmedi.
 
 ## Geri dönüş
 
-Loop, beklenmeyen `5xx` veya rota kaybında önce değişiklik öncesi kaydedilen Vercel domain/yönlendirme ayarlarını geri yükle; ardından repo değişikliğini geri alıp son bilinen production commit’ini yeniden yayımla. Geri dönüşten sonra apex, www ve path/query örneklerini tekrar kontrol et. Bu görevde ayar, DNS veya production deployment değişikliği yapılmadı.
+Beklenmeyen `5xx` veya rota kaybında önce Vercel panelindeki domain/yönlendirme ayarlarını kayıtlı önceki haline döndür; ardından repo değişikliğini geri al ve son bilinen production commit'ini (`c77bcdd`) yeniden yayımla. Geri dönüşten sonra apex, www ve path/query örneklerini yukarıdaki tabloyla tekrar kontrol et.
+
+Bu dokümanın güncellenmesi sırasında Vercel ayarı, DNS veya production deployment değiştirilmedi.

@@ -42,19 +42,19 @@ Detaylı hizmet kapsamı, güçlü yönler ve teyit edilmemiş bilgiler için [`
 
 Yukarıdaki iddialar, kaynakları doğrulanamadığı için sayısal tablolardan ve günlük kaydından çıkarıldı. Önceki metin tek başına kendi iddialarının kanıtı kabul edilmedi. Search Console ve GA4 hesap erişimi bu çalışma sırasında doğrulanmadı; geçmiş rapor dönemi, ölçüm değerleri ve canlı test durumu belirsizdir. Yeni bir baseline ancak özgün export ve alım zamanı/dönemi kaydedilerek oluşturulmalıdır.
 
-### 1.2 Yayın zinciri ve barındırma rolleri — 2026-10-25
+### 1.2 Yayın zinciri ve barındırma rolleri — güncel durum 2026-11-08
 
-- **GitHub Pages:** Depoda `CNAME` ve Pages deployment kaydı bulunuyor; kamuya açık kayıt, 2026-09-16 tarihli `ea103eeecbd9db3d7c6f1f2c1474cada0f2cd68e` commit’i için başarıyla tamamlanan bir Pages deployment gösteriyor. Güncel özel alan adının Pages’ten sunulduğunu gösteren bir kanıt yok.
+- **GitHub Pages:** Artık yayın yolu değil; canlı yanıtlar `server: Vercel` başlığıyla sunuluyor. Depodaki `CNAME` dosyası kullanılmıyor, silme kararı bekliyor. 2026-09-16 tarihli Pages deployment kaydı (`ea103ee…`) yalnızca tarihsel kayıttır.
 - **Vercel production:** Canlı yanıtlarda Vercel sunucu başlıkları gözlendi. GitHub deployment kaydı 2026-09-16 tarihinde aynı commit için bir Vercel production deployment ve `dozatech-website-btc2n60gx-kagans-projects-ce31d7ff.vercel.app` deployment adresi gösteriyor. Bu kayıt bugünkü özel alan adının hangi SHA’dan sunulduğunu kanıtlamaz.
 - **Vercel Preview bağlantısı:** PR #1’in Vercel bot kontrolü bu depoyu `tennyson10/dozatech` projesine bağladı. Vercel check, `7ad3aab7369cdf8296239f2c1f0a6ae3a47fdc05` commit’i için başarılı oldu ve `https://dozatech-git-codex-dozatech-seo-foundation-tennyson10.vercel.app` Preview adresi üretti. Preview HTTP istekleri içerik yerine Vercel SSO girişine yönlendiğinden sayfa içeriği bu oturumda doğrulanamadı.
-- **Vercel production ayarı:** Preview bağlantısı repository–proje entegrasyonunu doğrular; production dalının `главно` olduğunu veya bugünkü özel alan adının hangi SHA’dan sunulduğunu doğrulamaz. Yeni/önceki Vercel projesinin tarihsel ayrımı da panel erişimi olmadan doğrulanamadı.
+- **Vercel production ayarı (doğrulandı, 2026-11-08):** Proje `tennyson10/dozatech`; production dalı `главно`; canlı commit `c77bcdd` (PR #2 merge); production domain `dozatech.com.tr` (apex). Kaynak: Vercel paneli (proje sahibi) ve canlı HTTP kontrolü.
 - **Eski Vercel projesi:** Kimliği ve durumu erişilebilen kanıtla belirlenemedi. Hiçbir proje silinmedi veya değiştirilmedi.
 
 Bu bölümdeki yayın kayıtları geçmiş kamuya açık GitHub deployment metaverisine dayanır; canlı HTTP, Vercel hesap/proje kimliğini ya da çalışan commit’i tek başına göstermez.
 
-Canlı HTTP kontrolünde `https://dozatech.com.tr/` kalıcı olarak `https://www.dozatech.com.tr/` adresine yönleniyor; `http://dozatech.com.tr/` önce HTTPS apex’e, sonra www’ye giderek iki yönlendirme yapıyor. `http://www` doğrudan HTTPS www’ye çıkıyor. Path ve query parametreleri örnek istekte korunuyor. Canlı canonical, `og:url`, JSON-LD ve sitemap ise www’siz apex kullanıyor. Bu HTTP davranışı mevcut etkili yönü gösterir; Vercel panelindeki domain/primary ayarını ve kuralın hangi katmanda tanımlı olduğunu hesap erişimi olmadan doğrulamaz.
+2026-10-25 canlı HTTP kontrolünde `https://dozatech.com.tr/` kalıcı olarak `https://www.dozatech.com.tr/` adresine yönleniyordu. 2026-11-08 kontrolünde yön apex'e çevrilmiş durumda: `https://www.dozatech.com.tr/` → `https://dozatech.com.tr/` (`308`, path ve query korunuyor); `http://dozatech.com.tr/` → `https://dozatech.com.tr/` (`308`); `https://dozatech.com.tr/` → `200`. Canonical, `og:url`, JSON-LD ve sitemap www’siz apex kullanıyor. Panel durumu ve canlı HTTP sonucu [`vercel-domain-release-note.md`](vercel-domain-release-note.md) dosyasında kayıtlıdır. Panelde ayrıca bir www kuralı olup olmadığı bu depodan doğrulanamaz.
 
-Repo hedefi `https://dozatech.com.tr` olacak. Kısa yayın sırası ve geri dönüş notu [`vercel-domain-release-note.md`](vercel-domain-release-note.md) dosyasındadır. Vercel paneli bu çalışma kapsamında incelenmedi/değiştirilmedi. Repo redirect kuralı yalnızca www hostundan apex’e kalıcı yönlendirme hazırlar; HTTP→HTTPS davranışı Vercel domain/TLS katmanında canlı doğrulanmalıdır. Geçmiş Pages workflow/deployment sonucu, `DOZATECH Web CI` build ve test kontrolü yerine geçmez.
+Repo hedefi `https://dozatech.com.tr` ve bu hedef 2026-11-08 itibarıyla canlıdır. `vercel.json` içindeki `www` → apex kuralı `главно` dalındadır. Geçmiş Pages workflow/deployment sonucu, `DOZATECH Web CI` build ve test kontrolü yerine geçmez.
 
 Repo build ayarları `npm run build` komutunu ve `dist/` çıktı dizinini kullanır; Python build betiği Tailwind CSS `3.4.17` CLI’ını çalıştırır. GitHub CI, Node.js `20.x` ve Python `3.11` kullanır. Vercel install komutu bu dalda lockfile tabanlı `npm ci` olarak ayarlanmıştır. Bunlar repo/CI yapılandırmasıdır; yeni Vercel projesinin hesap ayarı veya deployment sonucu olarak yorumlanmamalıdır.
 
@@ -111,7 +111,7 @@ Bu bölüm büyüme çalışmasının ön koşulu olan teknik yayın işlerini t
 - [x] CSP, HSTS ve güvenlik response header’ları
 - [x] Görsel boyutları, async decoding ve asset cache politikası
 - [x] CI build ve route/SEO/output doğrulama kontrolleri
-- [x] Vercel production branch’i `главно` üzerinden canlı deployment
+- [x] Vercel production branch’i `главно` üzerinden canlı deployment (Vercel paneli ve canlı HTTP ile doğrulandı, 2026-11-08; canlı commit `c77bcdd`)
 - [ ] GA4’te gerçek kullanıcı event’lerinin Realtime/DebugView ile doğrulanması
 - [ ] Search Console sitemap gönderimi ve URL Inspection kontrolü
 - [ ] Formspree’ye gerçek, izinli test talebi gönderimi
@@ -363,3 +363,4 @@ Bu tarihle ilişkilendirilen Search Console/GA4 export’ları ve kontrollü pro
 | --- | --- | --- |
 | 2026-10-25 | Geçmiş GA4/Search Console sayıları ve production testi kaynak denetiminden geçirildi | Kaynaksız kayıtlar çıkarıldı; baseline beklemede |
 | 2026-10-30 | İşletme sahibinin teyit ettiği kimyasal grupları, koşullu pompa desteği ve kapsam bazlı coğrafi değerlendirme işlendi | Ana sayfa, kimyasal kategori ve metadata güncellendi; fiyat, marka, ambalaj ve teslimat koşulu uydurulmadı |
+| 2026-11-08 | Vercel production (`главно`, `c77bcdd`) ve apex/www yönlendirmesi panel ve canlı HTTP ile doğrulandı; §1.2, §4, README ve yayın notu güncellendi | GA4, Search Console sitemap, Formspree ve PageSpeed maddeleri açık |
