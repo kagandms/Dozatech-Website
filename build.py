@@ -77,8 +77,8 @@ PAGE_SOCIAL_METADATA = {
     ),
     'urunler_kimyasallar.html': (
         'website',
-        'Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
-        'Endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü tedariki. Fiyat ve tedarik koşulları için görüşün.',
+        'Efor EF340 deterjan, EF341 parlatıcı | DOZATECH',
+        'Efor EF340 deterjan, EF341 parlatıcı (20 L) ve kireç sökücü tedariki. Sipariş ve teklif için WhatsApp üzerinden görüşün.',
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler_pompa.html': (

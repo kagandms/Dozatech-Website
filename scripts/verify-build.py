@@ -23,6 +23,9 @@ from build import (  # noqa: E402
 SITEMAP_NAMESPACE = {'sitemap': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
 
 
+EFOR_MESSAGE = 'Merhaba, Efor EF340 / EF341 hakkında bilgi almak istiyorum.'
+
+
 def fail(message: str) -> None:
     raise AssertionError(message)
 
@@ -208,12 +211,12 @@ def verify_chemical_category_cards() -> None:
     cards = re.findall(r'<article\b[^>]*>(.*?)</article>', category, flags=re.DOTALL)
     expected_products = {
         'Endüstriyel bulaşık makinesi deterjanı': (
-            'Endüstriyel bulaşık makinelerinde temizlik amacıyla kullanılan deterjan grubudur.',
-            'Merhaba, endüstriyel bulaşık makinesi deterjanı tedariki hakkında görüşmek istiyorum.',
+            'Endüstriyel bulaşık makinelerinde kullanılan Efor EF340 deterjan. Ambalaj: 20 L bidon.',
+            'Merhaba, Efor EF340 / EF341 hakkında bilgi almak istiyorum.',
         ),
         'Parlatıcı': (
-            'Bulaşık yıkama sürecinin durulama aşaması için sunulan parlatıcı grubudur.',
-            'Merhaba, parlatıcı tedariki hakkında görüşmek istiyorum.',
+            'Bulaşık yıkama sürecinin durulama aşaması için Efor EF341 parlatıcı. Ambalaj: 20 L bidon.',
+            'Merhaba, Efor EF340 / EF341 hakkında bilgi almak istiyorum.',
         ),
         'Yağ sökücü': (
             'Yağlı kirlerin temizliğine yönelik ayrı bir kimyasal ürün grubudur.',
@@ -559,8 +562,8 @@ def verify_target_metadata() -> None:
             'Restoran, otel ve kafeler için endüstriyel deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
         ),
         '/urunler/kimyasallar': (
-            'Endüstriyel Bulaşık Makinesi Kimyasalları | DOZATECH',
-            'Endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü tedariki. Fiyat ve tedarik koşulları için görüşün.',
+            'Efor EF340 deterjan, EF341 parlatıcı | DOZATECH',
+            'Efor EF340 deterjan, EF341 parlatıcı (20 L) ve kireç sökücü tedariki. Sipariş ve teklif için WhatsApp üzerinden görüşün.',
         ),
     }
     for public_path, (title, description) in expected_metadata.items():
@@ -602,12 +605,101 @@ def verify_target_metadata() -> None:
         if '"@type": "ItemList"' in block
     ]
     if not item_lists or [item.get('name') for item in item_lists[0].get('itemListElement', [])] != [
-        'Endüstriyel bulaşık makinesi deterjanı',
-        'Parlatıcı',
+        'Efor EF340 Endüstriyel bulaşık makinesi deterjanı',
+        'Efor EF341 Parlatıcı',
         'Yağ sökücü',
         'Kireç sökücü',
     ]:
         fail('Chemical category structured data does not list exactly the confirmed groups.')
+
+
+def verify_efor_product_copy() -> None:
+    category = get_route_output('/urunler/kimyasallar').read_text(encoding='utf-8')
+    visible_text = re.sub(r'<script\b.*?</script>', ' ', category, flags=re.DOTALL | re.IGNORECASE)
+    visible_text = re.sub(r'<[^>]+>', ' ', visible_text)
+
+    for phrase in (
+        'Efor EF340',
+        'Efor EF341',
+        '20 L',
+        'Efor EF340 deterjan, EF341 parlatıcı',
+    ):
+        if phrase not in category:
+            fail(f'Chemicals page is missing the Efor product copy: {phrase}.')
+    for phrase in (
+        'Teslimat',
+        'aynı gün veya ertesi gün',
+        'Minimum sipariş',
+        '2 adet Efor EF340 deterjan ve 1 adet Efor EF341 parlatıcı',
+    ):
+        if phrase not in visible_text:
+            fail(f'Chemicals page is missing the delivery or minimum order copy: {phrase}.')
+
+    product_names = []
+    for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', category, flags=re.DOTALL):
+        schema = json.loads(block)
+        if schema.get('@type') != 'Product':
+            continue
+        product_names.append(schema.get('name', ''))
+        if schema.get('brand', {}).get('name') != 'Efor':
+            fail('Efor Product structured data must name the brand Efor.')
+        if schema.get('size') != '20 L':
+            fail('Efor Product structured data must state the 20 L size.')
+        for key in ('offers', 'aggregateRating', 'review', 'price'):
+            if key in schema:
+                fail(f'Efor Product structured data must not include {key}.')
+    if not any('Efor EF340' in name for name in product_names) or not any('Efor EF341' in name for name in product_names):
+        fail('Product structured data is missing the Efor EF340 or EF341 product.')
+
+    wa_hrefs = re.findall(r'<a\b[^>]*href="([^"]*wa\.me/[^"]*)"', category)
+    prepared_messages = [
+        parse_qs(urlparse(href).query).get('text', [''])[0]
+        for href in wa_hrefs
+        if '905322063859' in href
+    ]
+    if prepared_messages.count(EFOR_MESSAGE) < 3:
+        fail('Both Efor product cards and the order CTA must use the prepared WhatsApp message.')
+
+    lowered = visible_text.casefold()
+    forbidden = (
+        'tek adreste',
+        'maksimum',
+        'en kaliteli',
+        'en iyi',
+        'konum',
+        'yakın',
+        'tamir',
+        'servis',
+        'bakım yapmıyoruz',
+        'sertifika',
+        'klor',
+        'konsantrasyon',
+    )
+    for phrase in forbidden:
+        if phrase in lowered:
+            fail(f'Chemicals page contains a forbidden phrase: {phrase}.')
+    if re.search(r'\bph\b', lowered):
+        fail('Chemicals page contains an unverified pH claim.')
+    for symbol in ('\u2014', '\u2013', '!'):
+        if symbol in visible_text:
+            fail(f'Chemicals page contains a forbidden punctuation mark: {symbol!r}.')
+
+    for public_path in ('/', '/urunler'):
+        html = get_route_output(public_path).read_text(encoding='utf-8')
+        if 'Efor EF340' not in html or 'Efor EF341' not in html:
+            fail(f'Product names are not consistent on {public_path}.')
+        for phrase in (
+            'tek adreste',
+            'maksimum',
+            'en kaliteli',
+            'bulaşık makinesi tamir',
+            'bulaşık makinelerinin tamir',
+            'bulaşık makinesi bakım',
+            'bulaşık makinelerinin bakım',
+            'bakım yapmıyoruz',
+        ):
+            if phrase in html.casefold():
+                fail(f'{public_path} contains a forbidden phrase: {phrase}.')
 
 
 def verify_category_schema_types() -> None:
@@ -673,6 +765,7 @@ def main() -> None:
     verify_homepage_commercial_priority()
     verify_chemical_offer_copy()
     verify_chemical_category_cards()
+    verify_efor_product_copy()
     verify_homepage_heading_and_share_metadata()
     verify_canonical_url_origins()
     verify_default_branch_ci()
