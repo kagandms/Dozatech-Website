@@ -3,9 +3,18 @@
 DOZATECH, endüstriyel hijyen ve temizlik sektöründe hizmet veren kurumsal bir firmanın web sitesidir. Bu proje, işletmenin ürünlerini (endüstriyel bulaşık makineleri, dozaj pompaları ve kimyasallar) tanıtmak ve müşterilerle iletişim kurmak amacıyla hazırlanmıştır.
 
 ## 🌐 Canlı Site
-Production domain: **[https://dozatech.com.tr](https://dozatech.com.tr)**.
+Production domain: **[https://dozatech.com.tr](https://dozatech.com.tr)** (apex).
 
-Bu depoda GitHub Pages geçmişi ve `CNAME` dosyası bulunuyor; ancak 2026-10-25 canlı HTTP kontrolünde özel alan adı Vercel yanıtı veriyordu. GitHub Pages kaydı, DOZATECH Web CI build/test kontrolünden ayrıdır. PR #1’in Vercel botu, bu deponun `tennyson10/dozatech` projesine bağlı olduğunu ve bir Preview ürettiğini gösterdi; Preview içeriği SSO koruması nedeniyle incelenemedi. Production dalı ve bugün canlı alan adına hizmet veren commit doğrulanmış değildir. Eski Vercel projesi değiştirilmedi veya kaldırılmadı.
+- **Barındırma:** Vercel. Proje: `tennyson10/dozatech`.
+- **Production dalı:** `главно`. Canlı commit: `c77bcdd` (PR #2 merge).
+- **Alan adları:** `dozatech.com.tr` (production) ve `dozatech.vercel.app`. `www.dozatech.com.tr` isteği `https://dozatech.com.tr/` adresine 308 ile yönlenir; `vercel.json` içindeki kural bunu uygular.
+- **Doğrulama:** 2026-11-08 tarihinde Vercel paneli ve canlı HTTP kontrolü.
+- **GitHub Pages:** Kullanılmıyor. Depodaki `CNAME` dosyası bu geçişin kalıntısıdır; kullanılmıyor, silme kararı bekliyor.
+
+## 🛠️ Geliştirme
+- `npm ci` — bağımlılıkları lockfile'a göre kurar.
+- `npm run build` — Python build betiğini çalıştırır ve `dist/` çıktısını üretir.
+- `npm test` — build'i çalıştırır ve rota, sitemap, yönlendirme ile çıktı dosyalarını doğrular. GitHub Actions'taki "DOZATECH Web CI" aynı komutu kullanır.
 
 ## 📂 Proje İçeriği
 Sitede aşağıdaki ana bölümler yer almaktadır:
