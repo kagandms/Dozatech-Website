@@ -174,7 +174,6 @@ def verify_chemical_offer_copy() -> None:
         'Düzenli Kimyasal Tedarikinde Pompa ve Bakım Desteği',
         'Tedarik ve Destek Koşullarını Görüşelim',
         'desteğin kapsam ve koşullarını görüşmede netleştiriyoruz',
-        'montaj ve toplu işlerde şehir dışına da çıkıyoruz',
     )
     for phrase in required_offer_copy:
         if phrase.casefold() not in homepage.casefold():
@@ -279,11 +278,9 @@ def verify_homepage_heading_and_share_metadata() -> None:
         match = re.search(rf'<meta\s+{re.escape(marker)}\s+content="([^"]*)"', homepage)
         if not match or match.group(1) != expected_description:
             fail(f'Homepage {marker} does not match the confirmed offer description.')
-    for restrictive in ('ana pazarımızdır', 'kapsamına göre değerlendirilir', 'tamir veya bakım hizmeti sunmuyoruz', 'tamiri ve onarımı yapmıyoruz'):
+    for restrictive in ('ana pazarımızdır', 'kapsamına göre değerlendirilir', 'tamir veya bakım hizmeti sunmuyoruz', 'tamiri ve onarımı yapmıyoruz', 'her bölgesine ulaşıyoruz'):
         if restrictive in homepage:
             fail(f'Restrictive or negative service copy must not appear on the homepage: {restrictive}')
-    if 'İstanbul’un her bölgesine ulaşıyoruz' not in homepage:
-        fail('Homepage must state the reach: all of Istanbul plus out-of-city installation and bulk jobs.')
 
 
 def verify_canonical_url_origins() -> None:
