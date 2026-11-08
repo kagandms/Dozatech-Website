@@ -118,8 +118,7 @@ def verify_business_service_copy() -> None:
     required_copy = (
         'yaklaşık 30 yıllık teknik deneyimimizle',
         'Dozaj pompalarının montaj, bakım ve onarım hizmetini',
-        'Endüstriyel bulaşık makineleri satıyoruz;',
-        'Bulaşık makinesi tamiri ve onarımı yapmıyoruz.',
+        'Endüstriyel bulaşık makineleri de satıyoruz.',
     )
     for phrase in required_copy:
         if phrase not in homepage:
@@ -175,7 +174,7 @@ def verify_chemical_offer_copy() -> None:
         'Düzenli Kimyasal Tedarikinde Pompa ve Bakım Desteği',
         'Tedarik ve Destek Koşullarını Görüşelim',
         'desteğin kapsam ve koşullarını görüşmede netleştiriyoruz',
-        'şehir dışındaki işler kapsamına göre değerlendirilir',
+        'montaj ve toplu işlerde şehir dışına da çıkıyoruz',
     )
     for phrase in required_offer_copy:
         if phrase.casefold() not in homepage.casefold():
@@ -280,10 +279,11 @@ def verify_homepage_heading_and_share_metadata() -> None:
         match = re.search(rf'<meta\s+{re.escape(marker)}\s+content="([^"]*)"', homepage)
         if not match or match.group(1) != expected_description:
             fail(f'Homepage {marker} does not match the confirmed offer description.')
-    if 'İstanbul' in homepage:
-        # The real contact address may remain, but no service restriction should appear.
-        if 'İstanbul ana pazarımızdır' not in homepage:
-            fail('Geographic copy must identify Istanbul as the main market without making it a service boundary.')
+    for restrictive in ('ana pazarımızdır', 'kapsamına göre değerlendirilir', 'tamir veya bakım hizmeti sunmuyoruz', 'tamiri ve onarımı yapmıyoruz'):
+        if restrictive in homepage:
+            fail(f'Restrictive or negative service copy must not appear on the homepage: {restrictive}')
+    if 'İstanbul’un her bölgesine ulaşıyoruz' not in homepage:
+        fail('Homepage must state the reach: all of Istanbul plus out-of-city installation and bulk jobs.')
 
 
 def verify_canonical_url_origins() -> None:
