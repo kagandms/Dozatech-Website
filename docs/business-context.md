@@ -12,7 +12,7 @@ This document records the business facts supplied by the owner for the SEO and c
 
 **Owner-confirmed 2026-11-08 — chemical supply:**
 - Detergent and rinse aid are supplied in **20 L packaging**.
-- Brands are not yet confirmed (still unknown).
+- Brand: **Efor**. Detergent is **Efor EF340** and rinse aid is **Efor EF341**, both in 20 L packaging.
 - Degreaser and descaler packaging sizes are not stated (still unknown).
 - Minimum order: **2 detergent + 1 rinse aid**; **1 detergent + 1 rinse aid** when the customer is nearby (the meaning of "nearby" is still to be confirmed).
 - Delivery: **same-day or next-day delivery, depending on the time of the order**. Do not promise a fixed same-day delivery.
@@ -41,7 +41,6 @@ Use the experience statement as “approximately 30 years of technical experienc
 
 ## Unknowns to confirm before publishing detailed offers
 
-- Chemical brands
 - Packaging sizes for degreaser and descaler
 - Repeat-order process
 - Which provinces beyond Istanbul are served for installation and bulk jobs (see Geographic scope)
