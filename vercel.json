@@ -178,6 +178,16 @@
       "source": "/urunler/endustriyel-kirec-sokucu/",
       "destination": "/urunler/endustriyel-kirec-sokucu",
       "permanent": true
+    },
+    {
+      "source": "/hizmet_pompa.html",
+      "destination": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim",
+      "permanent": true
+    },
+    {
+      "source": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim/",
+      "destination": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -224,6 +234,10 @@
     {
       "source": "/urunler/endustriyel-kirec-sokucu",
       "destination": "/urun_kirec_sokucu.html"
+    },
+    {
+      "source": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim",
+      "destination": "/hizmet_pompa.html"
     }
   ]
 }

@@ -39,6 +39,7 @@ PAGE_ROUTES = {
     'urun_seko_pr4.html': '/urunler/seko-pr4-deterjan-pompasi',
     'urun_atiker_apm_0300.html': '/urunler/atiker-apm-0300-deterjan-parlatici-pompasi',
     'urun_kirec_sokucu.html': '/urunler/endustriyel-kirec-sokucu',
+    'hizmet_pompa.html': '/hizmetler/dozaj-pompasi-montaj-bakim-onarim',
 }
 PAGE_PRIORITIES = {
     'index.html': '1.0',
@@ -53,6 +54,7 @@ PAGE_PRIORITIES = {
     'urun_seko_pr4.html': '0.7',
     'urun_atiker_apm_0300.html': '0.7',
     'urun_kirec_sokucu.html': '0.7',
+    'hizmet_pompa.html': '0.7',
 }
 PAGE_SOCIAL_METADATA = {
     'index.html': (
@@ -127,6 +129,12 @@ PAGE_SOCIAL_METADATA = {
         'Endüstriyel bulaşık makineleri için güçlü kireç sökücü: rezistans, su kanalı ve püskürtme kollarında biriken kirecin temizlenmesine yardımcı olur.',
         'https://dozatech.com.tr/assets/images/kirecsokucu.webp',
     ),
+    'hizmet_pompa.html': (
+        'website',
+        'Dozaj Pompası Montajı, Bakımı ve Onarımı | DOZATECH',
+        'Restoran, otel, kafe ve toplu yemek işletmeleri için dozaj pompası montajı, bakımı ve onarımı. Seko, Atiker ve tekli pompalar için teklif isteyebilirsiniz.',
+        'https://dozatech.com.tr/assets/images/montaj_pompa_setleri.webp',
+    ),
 }
 PAGE_BREADCRUMBS = {
     'urunler.html': [
@@ -180,6 +188,10 @@ PAGE_BREADCRUMBS = {
         ('Ürünler', '/urunler'),
         ('Kimyasallar', '/urunler/kimyasallar'),
         ('Kireç Sökücü', PAGE_ROUTES['urun_kirec_sokucu.html']),
+    ],
+    'hizmet_pompa.html': [
+        ('Ana Sayfa', '/'),
+        ('Dozaj Pompası Montajı, Bakımı ve Onarımı', PAGE_ROUTES['hizmet_pompa.html']),
     ],
 }
 
