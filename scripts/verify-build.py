@@ -276,7 +276,7 @@ def verify_homepage_heading_and_share_metadata() -> None:
         fail('Homepage H1 does not describe the confirmed chemical and dosing offer.')
     if 'İstanbul için' in homepage or 'İstanbul’daki restoran' in homepage or "İstanbul'daki restoran" in homepage:
         fail('Homepage metadata or hero copy still restricts the offer to Istanbul.')
-    expected_description = 'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.'
+    expected_description = 'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı, montajı, bakımı ve onarımı. Teklif alın.'
     for marker in ('name="description"', 'property="og:description"', 'name="twitter:description"'):
         match = re.search(rf'<meta\s+{re.escape(marker)}\s+content="([^"]*)"', homepage)
         if not match or match.group(1) != expected_description:
@@ -554,8 +554,8 @@ def verify_service_page_content() -> None:
 def verify_target_metadata() -> None:
     expected_metadata = {
         '/': (
-            'Endüstriyel Temizlik Kimyasalları ve Dozaj Çözümleri | DOZATECH',
-            'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
+            'Endüstriyel Temizlik Kimyasalı ve Dozaj Pompası | DOZATECH',
+            'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı, montajı, bakımı ve onarımı. Teklif alın.',
         ),
         '/urunler': (
             'Endüstriyel Bulaşık Makinesi Kimyasalları ve Dozaj Pompaları | DOZATECH',
