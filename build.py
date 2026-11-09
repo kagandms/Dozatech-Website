@@ -59,8 +59,8 @@ PAGE_PRIORITIES = {
 PAGE_SOCIAL_METADATA = {
     'index.html': (
         'website',
-        'Endüstriyel Temizlik Kimyasalları ve Dozaj Çözümleri | DOZATECH',
-        'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
+        'Endüstriyel Temizlik Kimyasalı ve Dozaj Pompası | DOZATECH',
+        'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı, montajı, bakımı ve onarımı. Teklif alın.',
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler.html': (
