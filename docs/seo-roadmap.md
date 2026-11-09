@@ -10,8 +10,9 @@
 - **Birinci ticari öncelik:** Restoran, otel ve kafelere düzenli kimyasal tedariki; İstanbul ana pazardır, çevre iller ve şehir dışındaki toplu işler kapsamına göre değerlendirilir.
 - **İkinci ticari öncelik:** Dozaj pompası satışı ve montajı.
 - **Diğer faaliyetler:** Dozaj pompası bakım/onarımı ve endüstriyel bulaşık makinesi satışı. Bulaşık makinesi tamiri/onarımı sunulmaz.
+- **Doğrulanmış pompa kapsamı:** Seko, Atiker, tekli ve çift peristaltik pompalar için bakım ve onarım yapılıyor.
 - **Ana ticari hedef:** Kimyasal tedariki için nitelikli tekrar sipariş ilişkileri kurmak; pompa satışı ve montajını ikinci öncelik olarak büyütmek.
-- **Teyitli kimyasal grupları:** Endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü. Marka ve ambalaj bilgisi teyit edilmedi.
+- **Teyitli kimyasal grupları:** Endüstriyel bulaşık makinesi deterjanı, parlatıcı, yağ sökücü ve kireç sökücü. Deterjan Efor EF340, parlatıcı Efor EF341; ikisi de 20 L ambalajda. Yağ sökücü ve kireç sökücü marka ve ambalaj bilgisi teyit edilmedi.
 - **Fiyat politikası:** Ürün fiyatları sitede yayımlanmaz; fiyat ve tedarik koşulları teklif görüşmesinde paylaşılır.
 - **Düzenli tedarik desteği:** Kimyasalı düzenli Dozatech’ten alan müşterilere pompa temini ve pompa bakım desteği ücretsiz sunulabilir. Uygunluk ile parça, arıza, süre ve sipariş koşulları ayrıntılı doğrulanmadı; koşullar görüşmede netleştirilmelidir.
 - **Birincil karar metriği:** 1.000 organik gösterim başına nitelikli teklif talebi.
@@ -112,12 +113,25 @@ Bu bölüm büyüme çalışmasının ön koşulu olan teknik yayın işlerini t
 - [x] Görsel boyutları, async decoding ve asset cache politikası
 - [x] CI build ve route/SEO/output doğrulama kontrolleri
 - [x] Vercel production branch’i `главно` üzerinden canlı deployment (Vercel paneli ve canlı HTTP ile doğrulandı, 2026-11-08; canlı commit `c77bcdd`)
-- [ ] GA4’te gerçek kullanıcı event’lerinin Realtime/DebugView ile doğrulanması
-- [ ] Search Console sitemap gönderimi ve URL Inspection kontrolü
-- [ ] Formspree’ye gerçek, izinli test talebi gönderimi
+- [x] GA4’te gerçek kullanıcı event’lerinin Realtime/DebugView ile doğrulanması: GA4 kuruldu ve doğrulandı; anahtar olaylar ayarlandı. `form_success` olayı ilk başarılı gönderimden sonra işaretlenecek.
+- [x] Search Console sitemap gönderimi ve URL Inspection kontrolü: sitemap gönderildi, durum Success. Keşfedilen sayfa sayısı 12 olarak görünüyor (sayaç henüz güncellenmedi; sitemap 13 URL içeriyor). `/urunler/kimyasallar` ve `/hizmetler/dozaj-pompasi-montaj-bakim-onarim` indeksli; kimyasallar için yeniden indeksleme 2026-11-08’de istendi.
+- [ ] Formspree’ye gerçek, izinli test talebi gönderimi. Hesap sahibi çalıştığını bildirdi; teslim kanıtı yok.
 - [ ] PageSpeed/CrUX field data baseline’ı
+- [ ] Google İşletme Profili doğrulaması: profil oluşturuldu, çalışma saatleri ve fotoğraflar eklendi; doğrulanmadı. Google video doğrulama istiyor; malzeme bekleniyor. Eklenen fotoğrafların gerçek görseller olduğu ve [`gbp-launch-kit.md`](gbp-launch-kit.md) §7 kuralına uyduğu teyit edilmeli.
+- [x] Yayındaki sayfalar: dozaj pompası hizmet sayfası ([PR](https://github.com/kagandms/Dozatech-Website/pull/10)), pompa sayfası içeriği ([PR](https://github.com/kagandms/Dozatech-Website/pull/9)), metin sadeleştirme ([PR](https://github.com/kagandms/Dozatech-Website/pull/11)), Efor EF340/EF341 kimyasal sayfası ([PR](https://github.com/kagandms/Dozatech-Website/pull/12)). Hepsi `главно` dalında.
 
 Son dört madde yayını engelleyen teknik arıza değildir; büyüme ölçümünün güvenilirliğini artıran operasyonel kontrollerdir.
+
+**Açık işler (2026-11-09):**
+
+- Mavi çift pompa fotoğrafının modeli belirlenmeli; fotoğraf şu an kullanılmıyor.
+- AquaDose ve AspenDose ilişkisi netleştirilmeli.
+- GBP doğrulama videosu hazırlanmalı.
+- "Neden DOZATECH’i Tercih Etmelisiniz?" başlığı Search Console verisine bakılarak gözden geçirilmeli.
+- Çözümler H1 sadeleştirmesi Search Console verisine bakılarak yapılmalı.
+- Bing Webmaster kurulumu yapılmalı.
+- Mobil sabit WhatsApp/telefon CTA’sı eklenmeli.
+- Kısa B2B teklif formu ve rehber yazıları Faz 3 ve Faz 4 kapsamında planlanmalı.
 
 ## 5. Dört fazlı 90 günlük plan
 
@@ -239,7 +253,7 @@ Kabul kriteri: Her içerik en az bir ticari kategori sayfasına, bir ürün sayf
 - [x] Formspree endpoint’inin yapılandırılmış olduğunu doğrula
 - [x] Teknik yayının production’da olduğunu doğrula
 - [ ] Search Console export dosyalarını al ve property verisini doğrula
-- [ ] GA4 property erişimini doğrula
+- [x] GA4 property erişimini doğrula
 - [ ] GSC export formatını kesinleştir
 - [ ] GA4 export formatını kesinleştir
 
@@ -365,3 +379,4 @@ Bu tarihle ilişkilendirilen Search Console/GA4 export’ları ve kontrollü pro
 | 2026-10-30 | İşletme sahibinin teyit ettiği kimyasal grupları, koşullu pompa desteği ve kapsam bazlı coğrafi değerlendirme işlendi | Ana sayfa, kimyasal kategori ve metadata güncellendi; fiyat, marka, ambalaj ve teslimat koşulu uydurulmadı |
 | 2026-11-08 | Vercel production (`главно`, `c77bcdd`) ve apex/www yönlendirmesi panel ve canlı HTTP ile doğrulandı; §1.2, §4, README ve yayın notu güncellendi | GA4, Search Console sitemap, Formspree ve PageSpeed maddeleri açık |
 | 2026-11-08 | Search Console baseline kaydedildi; kaynak ekran okuması, ham export yok | Baseline [docs/search-console-baseline-2026-11-06.md](search-console-baseline-2026-11-06.md) dosyasında; sitemap gönderimi ve GA4 eşleştirmesi açık |
+| 2026-11-09 | Search Console sitemap durumu, GA4 doğrulaması, GBP profil durumu ve yayındaki sayfa PR’ları işlendi | Formspree teslim kanıtı, GBP doğrulaması ve Search Console sayaçları açık |
