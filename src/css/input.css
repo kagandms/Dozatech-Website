@@ -134,9 +134,75 @@
     }
 }
 
+/* Mobile bottom contact bar: injected by build.py, not present in scanned HTML, so it lives outside @layer to avoid purge. Visible only below md (768px). */
+.mobile-cta-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: none;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background-color: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.mobile-cta-button {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.75rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.mobile-cta-call {
+    background-color: #002b49;
+}
+
+.mobile-cta-call:hover {
+    background-color: #001d33;
+}
+
+.mobile-cta-whatsapp {
+    background-color: #16a34a;
+}
+
+.mobile-cta-whatsapp:hover {
+    background-color: #15803d;
+}
+
+.mobile-cta-button:focus-visible {
+    outline: 3px solid #10b981;
+    outline-offset: 2px;
+}
+
 @media (max-width: 767px) {
     /* Product-specific contact CTAs replace the floating button here to avoid covering card content. */
     .chemical-category-page .whatsapp-float {
         display: none;
+    }
+
+    /* The mobile bottom bar already offers WhatsApp, so the floating button is hidden on phones. */
+    .whatsapp-float {
+        display: none;
+    }
+
+    .mobile-cta-bar {
+        display: flex;
+    }
+
+    /* Keeps the footer and last content above the fixed bar; 4.5rem covers the bar height. */
+    body {
+        padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
     }
 }
