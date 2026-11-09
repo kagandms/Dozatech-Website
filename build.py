@@ -509,6 +509,26 @@ def write_clean_route(filename: str, content: str) -> None:
         f.write(content)
 
 
+MOBILE_CTA_BAR_MARKUP = (
+    '<nav class="mobile-cta-bar" aria-label="Hızlı iletişim">'
+    '<a class="mobile-cta-button mobile-cta-call" href="tel:+905322063859" '
+    'data-cta-position="mobile_bar" aria-label="Ara: 0532 206 38 59">Ara</a>'
+    '<a class="mobile-cta-button mobile-cta-whatsapp" '
+    'href="https://wa.me/905322063859?text=Merhaba,%20DOZATECH%20web%20sitesinden%20ileti%C5%9Fime%20ge%C3%A7mek%20istiyorum." '
+    'target="_blank" rel="noopener noreferrer" data-cta-position="mobile_bar" '
+    'aria-label="WhatsApp\'tan Yaz">WhatsApp\'tan Yaz</a>'
+    '</nav>'
+)
+
+
+def add_mobile_cta_bar(content, filename):
+    if filename in NON_ROUTE_HTML_FILES or 'class="mobile-cta-bar"' in content:
+        return content
+    if '</body>' not in content:
+        return content
+    return content.replace('</body>', MOBILE_CTA_BAR_MARKUP + '</body>', 1)
+
+
 def process_html():
     print_step("Processing and Minifying HTML files...")
     html_files = get_source_html_files()
@@ -526,6 +546,7 @@ def process_html():
         content = inject_social_metadata(content, filename)
         content = inject_breadcrumb_schema(content, filename)
         content = normalize_mobile_navigation(content, filename)
+        content = add_mobile_cta_bar(content, filename)
         content = secure_external_links(content)
         content = add_image_decoding_hint(content)
         content = add_font_resource_hints(content)

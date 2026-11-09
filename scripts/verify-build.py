@@ -757,6 +757,45 @@ def verify_vercel_headers() -> None:
         fail('Immutable cache rules for assets and CSS are incomplete.')
 
 
+def verify_mobile_cta_bar() -> None:
+    expected_phone = 'tel:+905322063859'
+    expected_whatsapp_prefix = 'https://wa.me/905322063859?text='
+    for public_path in PAGE_ROUTES.values():
+        html = get_route_output(public_path).read_text(encoding='utf-8')
+        bars = re.findall(r'<nav\b[^>]*class="mobile-cta-bar"[^>]*>.*?</nav>', html, flags=re.DOTALL)
+        if len(bars) != 1:
+            fail(f'Expected one mobile bottom contact bar on {public_path}, found {len(bars)}.')
+        bar = bars[0]
+
+        phone_links = re.findall(r'href="(tel:[^"]*)"', bar)
+        if phone_links != [expected_phone]:
+            fail(f'Mobile bar phone link is wrong on {public_path}: {phone_links}.')
+
+        whatsapp_links = re.findall(r'href="(https://wa\.me/[^"]*)"', bar)
+        if len(whatsapp_links) != 1 or not whatsapp_links[0].startswith(expected_whatsapp_prefix):
+            fail(f'Mobile bar WhatsApp link is wrong on {public_path}: {whatsapp_links}.')
+
+        if '>Ara</a>' not in bar or ">WhatsApp'tan Yaz</a>" not in bar:
+            fail(f'Mobile bar labels are wrong on {public_path}.')
+        if len(re.findall(r'<a\b[^>]*aria-label="[^"]+"', bar)) != 2:
+            fail(f'Mobile bar buttons need aria-label on {public_path}.')
+        if bar.count('data-cta-position="mobile_bar"') != 2:
+            fail(f'Mobile bar analytics position is missing on {public_path}.')
+
+    css = (DIST_DIR / 'css' / 'style.css').read_text(encoding='utf-8')
+    mobile_media = re.search(r'@media \(max-width:767px\)\{(.*?)\}\}', css, flags=re.DOTALL)
+    if not mobile_media:
+        fail('Mobile-only media query for the bottom bar is missing from the CSS.')
+    if '.mobile-cta-bar{display:flex}' not in mobile_media.group(1).replace(' ', ''):
+        fail('Mobile bottom bar is not shown below md in the CSS.')
+    if '.whatsapp-float{display:none}' not in mobile_media.group(1).replace(' ', ''):
+        fail('Floating WhatsApp button is not hidden on mobile in the CSS.')
+    if 'env(safe-area-inset-bottom)' not in css:
+        fail('Safe-area inset is missing from the bottom bar CSS.')
+    if 'min-height:44px' not in css.replace(' ', ''):
+        fail('Mobile bar buttons do not meet the 44px touch target.')
+
+
 def main() -> None:
     verify_route_outputs()
     verify_sitemap()
@@ -782,6 +821,7 @@ def main() -> None:
     verify_target_metadata()
     verify_category_schema_types()
     verify_vercel_headers()
+    verify_mobile_cta_bar()
     print('Build verification passed: routes, sitemap, redirects, and output assets are valid.')
 
 
