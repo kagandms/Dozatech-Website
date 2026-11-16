@@ -78,26 +78,6 @@
                     "contactType": "sales",
                     "availableLanguage": "Turkish"
                 },
-                "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Bahçelievler",
-                    "addressRegion": "İstanbul",
-                    "addressCountry": "TR"
-                },
-                "openingHoursSpecification": {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": [
-                        "Monday",
-                        "Tuesday",
-                        "Wednesday",
-                        "Thursday",
-                        "Friday",
-                        "Saturday",
-                        "Sunday"
-                    ],
-                    "opens": "08:00",
-                    "closes": "18:00"
-                },
                 "founder": {
                     "@type": "Person",
                     "name": "Ahmet Durmuş",
@@ -106,8 +86,8 @@
                     ]
                 },
                 "areaServed": {
-                    "@type": "Country",
-                    "name": "Türkiye"
+                    "@type": "AdministrativeArea",
+                    "name": "İstanbul"
                 },
                 "makesOffer": [
                     {
@@ -115,7 +95,7 @@
                         "itemOffered": {
                             "@type": "Product",
                             "name": "Endüstriyel Bulaşık Makinesi",
-                            "description": "Electrolux, Öztiryakiler ve Giyotin tip endüstriyel bulaşık makineleri"
+                            "description": "Electrolux, Öztiryakiler ve giyotin tip endüstriyel bulaşık makineleri"
                         }
                     },
                     {
@@ -123,7 +103,7 @@
                         "itemOffered": {
                             "@type": "Product",
                             "name": "Dozaj Pompası",
-                            "description": "Atiker uyumlu, Dualdose ve tekli dozaj pompaları"
+                            "description": "Seko, Atiker, tekli ve çift peristaltik dozaj pompaları"
                         }
                     },
                     {
@@ -214,13 +194,15 @@
                     <img src="/assets/images/dozatech_logo.webp" alt="DOZATECH Logo" class="header-logo" width="512" height="178">
                 </a>
                 <!-- Navigasyon Linkleri (Masaüstü) -->
-                <nav class="hidden md:flex space-x-8">
+                <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     <a href="/" data-nav-section="home" class="text-teal-500 font-bold transition duration-300 border-b-2 border-teal-500">Ana
                         Sayfa</a>
                     <a href="/urunler"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Ürünler</a>
                     <a href="/cozumler"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Çözümler</a>
+                    <a href="/hizmetler/dozaj-pompasi-montaj-bakim-onarim"
+                        class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Hizmetler</a>
                     <a href="#cozumler" data-nav-section="cozumler"
                         class="text-gray-600 hover:text-teal-500 transition duration-300 font-medium">Neden Biz?</a>
                     <a href="#hakkimizda" data-nav-section="hakkimizda"
@@ -246,6 +228,8 @@
                 class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Ürünler</a>
             <a href="/cozumler"
                 class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Çözümler</a>
+            <a href="/hizmetler/dozaj-pompasi-montaj-bakim-onarim"
+                class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Hizmetler</a>
             <a href="#cozumler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 transition duration-300">Neden
                 Biz?</a>
             <a href="#hakkimizda"
@@ -412,7 +396,41 @@
         </div>
     </section>
 
-    <!-- 5. İletişim (Contact Section) - FORMSPREE ENTEGRE EDİLDİ -->
+    <!-- 5. Rehber (Guides Section) -->
+    <section id="rehber" class="py-16 sm:py-20 bg-gray-50 border-t border-gray-200" aria-labelledby="guides-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider block mb-2">REHBER</span>
+                <h2 id="guides-heading" class="text-3xl sm:text-4xl font-bold primary-text mb-4">Dozaj ve Makine Kullanım Rehberleri</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Endüstriyel bulaşık makinelerinde doğru kimyasal dozajı, peristaltik pompaların çalışma mantığı ve kireç önleme adımları hakkında pratik bilgiler.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <article class="bg-white p-7 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold primary-text mb-3">Deterjan ve Parlatıcı Dozajı</h3>
+                        <p class="text-gray-600 text-sm mb-5">Endüstriyel bulaşık makinelerinde deterjan ve parlatıcı dozajının makine tipine göre nasıl değerlendirildiğini ve sık yapılan hataları inceleyin.</p>
+                    </div>
+                    <a href="/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir" class="text-teal-600 font-semibold hover:underline">Bulaşık Makinesinde Deterjan Dozajı Nasıl Ayarlanır?</a>
+                </article>
+                <article class="bg-white p-7 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold primary-text mb-3">Peristaltik Pompa Çalışma Mantığı</h3>
+                        <p class="text-gray-600 text-sm mb-5">Peristaltik dozaj pompalarının bulaşık makinelerinde nasıl kullanıldığını, hortum kontrolünü ve bakım gereksinimlerini öğrenin.</p>
+                    </div>
+                    <a href="/rehber/peristaltik-dozaj-pompasi-nedir" class="text-teal-600 font-semibold hover:underline">Peristaltik Dozaj Pompası Nedir, Nasıl Çalışır?</a>
+                </article>
+                <article class="bg-white p-7 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold primary-text mb-3">Kireç Birikimini Azaltma</h3>
+                        <p class="text-gray-600 text-sm mb-5">Endüstriyel bulaşık makinesinde kirecin nedenlerini, belirtilerini ve rezistans ile su kanallarında birikimi azaltmaya yönelik adımları inceleyin.</p>
+                    </div>
+                    <a href="/rehber/bulasik-makinesinde-kirec-nasil-onlenir" class="text-teal-600 font-semibold hover:underline">Bulaşık Makinesinde Kireç Nasıl Önlenir?</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. İletişim (Contact Section) - FORMSPREE ENTEGRE EDİLDİ -->
     <section id="iletisim" class="py-20 sm:py-28 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl font-bold primary-text text-center mb-4 scroll-reveal">Bize Ulaşın</h2>

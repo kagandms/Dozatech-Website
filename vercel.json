@@ -125,6 +125,11 @@
       "permanent": true
     },
     {
+      "source": "/urun_yag_sokucu.html",
+      "destination": "/urunler/endustriyel-yag-sokucu",
+      "permanent": true
+    },
+    {
       "source": "/urunler/",
       "destination": "/urunler",
       "permanent": true
@@ -180,6 +185,11 @@
       "permanent": true
     },
     {
+      "source": "/urunler/endustriyel-yag-sokucu/",
+      "destination": "/urunler/endustriyel-yag-sokucu",
+      "permanent": true
+    },
+    {
       "source": "/hizmet_pompa.html",
       "destination": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim",
       "permanent": true
@@ -187,6 +197,36 @@
     {
       "source": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim/",
       "destination": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim",
+      "permanent": true
+    },
+    {
+      "source": "/rehber_dozaj_ayari.html",
+      "destination": "/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir",
+      "permanent": true
+    },
+    {
+      "source": "/rehber_peristaltik_pompa.html",
+      "destination": "/rehber/peristaltik-dozaj-pompasi-nedir",
+      "permanent": true
+    },
+    {
+      "source": "/rehber_kirec.html",
+      "destination": "/rehber/bulasik-makinesinde-kirec-nasil-onlenir",
+      "permanent": true
+    },
+    {
+      "source": "/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir/",
+      "destination": "/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir",
+      "permanent": true
+    },
+    {
+      "source": "/rehber/peristaltik-dozaj-pompasi-nedir/",
+      "destination": "/rehber/peristaltik-dozaj-pompasi-nedir",
+      "permanent": true
+    },
+    {
+      "source": "/rehber/bulasik-makinesinde-kirec-nasil-onlenir/",
+      "destination": "/rehber/bulasik-makinesinde-kirec-nasil-onlenir",
       "permanent": true
     }
   ],
@@ -236,8 +276,24 @@
       "destination": "/urun_kirec_sokucu.html"
     },
     {
+      "source": "/urunler/endustriyel-yag-sokucu",
+      "destination": "/urun_yag_sokucu.html"
+    },
+    {
       "source": "/hizmetler/dozaj-pompasi-montaj-bakim-onarim",
       "destination": "/hizmet_pompa.html"
+    },
+    {
+      "source": "/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir",
+      "destination": "/rehber_dozaj_ayari.html"
+    },
+    {
+      "source": "/rehber/peristaltik-dozaj-pompasi-nedir",
+      "destination": "/rehber_peristaltik_pompa.html"
+    },
+    {
+      "source": "/rehber/bulasik-makinesinde-kirec-nasil-onlenir",
+      "destination": "/rehber_kirec.html"
     }
   ]
 }

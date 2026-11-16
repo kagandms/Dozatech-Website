@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT_DIR))
 from build import (  # noqa: E402
     BASE_URL,
     PAGE_BREADCRUMBS,
+    PAGE_PRIORITIES,
     PAGE_ROUTES,
     PAGE_SOCIAL_METADATA,
 )
@@ -558,8 +559,12 @@ def verify_target_metadata() -> None:
             'Restoran, otel ve kafeler için deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı, montajı, bakımı ve onarımı. Teklif alın.',
         ),
         '/urunler': (
-            'Endüstriyel Bulaşık Makinesi Kimyasalları ve Dozaj Pompaları | DOZATECH',
+            'Endüstriyel Kimyasal ve Dozaj Pompası Ürünleri | DOZATECH',
             'Restoran, otel ve kafeler için endüstriyel deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
+        ),
+        '/urunler/bulasik-makineleri': (
+            'Endüstriyel Bulaşık Makineleri | DOZATECH',
+            'Electrolux, Öztiryakiler ve giyotin tip endüstriyel bulaşık makineleri. Restoranlar, oteller ve toplu yemekhaneler için yıkama çözümleri.',
         ),
         '/urunler/kimyasallar': (
             'Bulaşık Makinesi Kimyasalları: Efor EF340, EF341 | DOZATECH',
@@ -757,6 +762,128 @@ def verify_vercel_headers() -> None:
         fail('Immutable cache rules for assets and CSS are incomplete.')
 
 
+def verify_new_routes_sitemap_and_breadcrumbs() -> None:
+    expected_new_routes = {
+        'urun_yag_sokucu.html': ('/urunler/endustriyel-yag-sokucu', '0.7'),
+        'rehber_dozaj_ayari.html': ('/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir', '0.6'),
+        'rehber_peristaltik_pompa.html': ('/rehber/peristaltik-dozaj-pompasi-nedir', '0.6'),
+        'rehber_kirec.html': ('/rehber/bulasik-makinesinde-kirec-nasil-onlenir', '0.6'),
+    }
+    for source_file, (public_path, priority) in expected_new_routes.items():
+        if PAGE_ROUTES.get(source_file) != public_path:
+            fail(f'Missing or incorrect PAGE_ROUTES entry for {source_file}.')
+        if PAGE_PRIORITIES.get(source_file) != priority:
+            fail(f'Incorrect PAGE_PRIORITIES entry for {source_file}.')
+        if source_file not in PAGE_SOCIAL_METADATA:
+            fail(f'Missing PAGE_SOCIAL_METADATA entry for {source_file}.')
+        if source_file not in PAGE_BREADCRUMBS:
+            fail(f'Missing PAGE_BREADCRUMBS entry for {source_file}.')
+
+    sitemap = ElementTree.parse(DIST_DIR / 'sitemap.xml')
+    sitemap_entries = {
+        url.findtext('sitemap:loc', default='', namespaces=SITEMAP_NAMESPACE): url.findtext(
+            'sitemap:priority', default='', namespaces=SITEMAP_NAMESPACE
+        )
+        for url in sitemap.findall('sitemap:url', SITEMAP_NAMESPACE)
+    }
+    for public_path, priority in expected_new_routes.values():
+        full_url = f'{BASE_URL}{public_path}'
+        if sitemap_entries.get(full_url) != priority:
+            fail(f'Sitemap entry or priority is invalid for {full_url}.')
+
+    for source_file, expected_crumbs in PAGE_BREADCRUMBS.items():
+        public_path = PAGE_ROUTES[source_file]
+        html = get_route_output(public_path).read_text(encoding='utf-8')
+        schemas = [
+            json.loads(block)
+            for block in re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>',
+                html,
+                flags=re.DOTALL,
+            )
+        ]
+        breadcrumb_schemas = [
+            schema for schema in schemas if schema.get('@type') == 'BreadcrumbList'
+        ]
+        if not breadcrumb_schemas:
+            fail(f'Missing BreadcrumbList JSON-LD on {public_path}.')
+        elements = breadcrumb_schemas[0].get('itemListElement', [])
+        if len(elements) != len(expected_crumbs):
+            fail(f'Breadcrumb item count mismatch on {public_path}.')
+        for index, ((expected_name, expected_path), item) in enumerate(zip(expected_crumbs, elements), start=1):
+            if item.get('position') != index or item.get('name') != expected_name:
+                fail(f'Breadcrumb entry {index} mismatch on {public_path}.')
+            expected_item_url = f'{BASE_URL}{expected_path}' if expected_path is not None else None
+            if item.get('item') != expected_item_url:
+                fail(f'Breadcrumb URL mismatch at position {index} on {public_path}.')
+
+
+def verify_homepage_schema_and_navigation() -> None:
+    homepage = get_route_output('/').read_text(encoding='utf-8')
+    json_ld_blocks = [
+        json.loads(block)
+        for block in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>',
+            homepage,
+            flags=re.DOTALL,
+        )
+    ]
+    graph_nodes = [
+        node
+        for block in json_ld_blocks
+        for node in (block.get('@graph', []) if '@graph' in block else [block])
+    ]
+    local_businesses = [node for node in graph_nodes if node.get('@type') == 'LocalBusiness']
+    if len(local_businesses) != 1:
+        fail('Homepage must define exactly one LocalBusiness JSON-LD node.')
+    business = local_businesses[0]
+    if 'address' in business or 'PostalAddress' in homepage:
+        fail('Homepage JSON-LD must not contain PostalAddress.')
+    if 'openingHoursSpecification' in business or 'openingHoursSpecification' in homepage:
+        fail('Homepage JSON-LD must not contain openingHoursSpecification.')
+    if business.get('founder', {}).get('name') != 'Ahmet Durmuş' or not business.get('founder', {}).get('sameAs'):
+        fail('Homepage LocalBusiness JSON-LD must retain the founder and sameAs fields.')
+    if business.get('areaServed', {}).get('@type') not in {'AdministrativeArea', 'City'} or business.get('areaServed', {}).get('name') != 'İstanbul':
+        fail('Homepage LocalBusiness areaServed must be AdministrativeArea/City İstanbul.')
+    if not business.get('telephone') or not business.get('makesOffer'):
+        fail('Homepage LocalBusiness JSON-LD must retain telephone and makesOffer.')
+
+    for required_href in (
+        '/cozumler',
+        '/hizmetler/dozaj-pompasi-montaj-bakim-onarim',
+        '#cozumler',
+        '#hakkimizda',
+        '#iletisim',
+        '/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir',
+        '/rehber/peristaltik-dozaj-pompasi-nedir',
+        '/rehber/bulasik-makinesinde-kirec-nasil-onlenir',
+    ):
+        if f'href="{required_href}"' not in homepage:
+            fail(f'Homepage is missing required navigation or guide link: {required_href}.')
+
+
+def verify_catalog_and_dishwasher_pages() -> None:
+    catalog_html = get_route_output('/urunler').read_text(encoding='utf-8')
+    for required_link in (
+        '/urunler/kimyasallar',
+        '/urunler/dozaj-pompalari',
+        '/urunler/bulasik-makineleri',
+        '/urunler/endustriyel-kirec-sokucu',
+        '/urunler/endustriyel-yag-sokucu',
+        '/hizmetler/dozaj-pompasi-montaj-bakim-onarim',
+        '/cozumler',
+    ):
+        if f'href="{required_link}"' not in catalog_html:
+            fail(f'Catalog page /urunler is missing required internal link: {required_link}.')
+
+    dishwasher_html = get_route_output('/urunler/bulasik-makineleri').read_text(encoding='utf-8')
+    lowered_dishwasher = dishwasher_html.casefold()
+    if 'yalnızca' not in lowered_dishwasher or 'satışı' not in lowered_dishwasher:
+        fail('Dishwasher page must state that only machine sales are offered.')
+    if 'tamiri veya bakımı' not in lowered_dishwasher or 'ayrı bir hizmettir' not in lowered_dishwasher:
+        fail('Dishwasher page must state that machine repair/maintenance is not offered and pump installation is separate.')
+
+
 def main() -> None:
     verify_route_outputs()
     verify_sitemap()
@@ -781,6 +908,9 @@ def main() -> None:
     verify_service_page_content()
     verify_target_metadata()
     verify_category_schema_types()
+    verify_new_routes_sitemap_and_breadcrumbs()
+    verify_homepage_schema_and_navigation()
+    verify_catalog_and_dishwasher_pages()
     verify_vercel_headers()
     print('Build verification passed: routes, sitemap, redirects, and output assets are valid.')
 

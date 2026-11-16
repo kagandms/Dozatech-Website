@@ -39,7 +39,11 @@ PAGE_ROUTES = {
     'urun_seko_pr4.html': '/urunler/seko-pr4-deterjan-pompasi',
     'urun_atiker_apm_0300.html': '/urunler/atiker-apm-0300-deterjan-parlatici-pompasi',
     'urun_kirec_sokucu.html': '/urunler/endustriyel-kirec-sokucu',
+    'urun_yag_sokucu.html': '/urunler/endustriyel-yag-sokucu',
     'hizmet_pompa.html': '/hizmetler/dozaj-pompasi-montaj-bakim-onarim',
+    'rehber_dozaj_ayari.html': '/rehber/bulasik-makinesi-deterjan-dozaji-nasil-ayarlanir',
+    'rehber_peristaltik_pompa.html': '/rehber/peristaltik-dozaj-pompasi-nedir',
+    'rehber_kirec.html': '/rehber/bulasik-makinesinde-kirec-nasil-onlenir',
 }
 PAGE_PRIORITIES = {
     'index.html': '1.0',
@@ -54,7 +58,11 @@ PAGE_PRIORITIES = {
     'urun_seko_pr4.html': '0.7',
     'urun_atiker_apm_0300.html': '0.7',
     'urun_kirec_sokucu.html': '0.7',
+    'urun_yag_sokucu.html': '0.7',
     'hizmet_pompa.html': '0.7',
+    'rehber_dozaj_ayari.html': '0.6',
+    'rehber_peristaltik_pompa.html': '0.6',
+    'rehber_kirec.html': '0.6',
 }
 PAGE_SOCIAL_METADATA = {
     'index.html': (
@@ -65,13 +73,13 @@ PAGE_SOCIAL_METADATA = {
     ),
     'urunler.html': (
         'website',
-        'Endüstriyel Bulaşık Makinesi Kimyasalları ve Dozaj Pompaları | DOZATECH',
+        'Endüstriyel Kimyasal ve Dozaj Pompası Ürünleri | DOZATECH',
         'Restoran, otel ve kafeler için endüstriyel deterjan, parlatıcı, yağ sökücü ve kireç sökücü tedariki; dozaj pompası satışı ve montajı.',
         'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'urunler_bulasikmakineleri.html': (
         'website',
-        'DOZATECH | Endüstriyel Bulaşık Makineleri',
+        'Endüstriyel Bulaşık Makineleri | DOZATECH',
         'Electrolux, Öztiryakiler ve giyotin tip endüstriyel bulaşık makineleri. Restoranlar, oteller ve toplu yemekhaneler için yıkama çözümleri.',
         'https://dozatech.com.tr/assets/images/makineler_kolaj.webp',
     ),
@@ -125,15 +133,39 @@ PAGE_SOCIAL_METADATA = {
     ),
     'urun_kirec_sokucu.html': (
         'product',
-        'Endüstriyel Kireç Sökücü | Bulaşık Makinesi Bakımı | DOZATECH',
-        'Endüstriyel bulaşık makineleri için güçlü kireç sökücü: rezistans, su kanalı ve püskürtme kollarında biriken kirecin temizlenmesine yardımcı olur.',
+        'Endüstriyel Kireç Çözücü ve Sökücü | DOZATECH',
+        'Endüstriyel bulaşık makineleri için kireç çözücü ve kireç sökücü: rezistans, su kanalı ve püskürtme kollarındaki birikimin temizlenmesine yardımcı olur.',
         'https://dozatech.com.tr/assets/images/kirecsokucu.webp',
+    ),
+    'urun_yag_sokucu.html': (
+        'product',
+        'Endüstriyel Yağ Sökücü | Profesyonel Mutfak | DOZATECH',
+        'Restoran ve otel mutfakları için endüstriyel yağ sökücü: yağlı yüzey ve ekipmanların temizliğine yardımcı olur. WhatsApp\'tan teklif alın.',
+        'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
     'hizmet_pompa.html': (
         'website',
         'Dozaj Pompası Montajı, Bakımı ve Onarımı | DOZATECH',
         'Restoran, otel, kafe ve toplu yemek işletmeleri için dozaj pompası montajı, bakımı ve onarımı. Seko, Atiker ve tekli pompalar için teklif isteyebilirsiniz.',
         'https://dozatech.com.tr/assets/images/montaj_pompa_setleri.webp',
+    ),
+    'rehber_dozaj_ayari.html': (
+        'article',
+        'Bulaşık Makinesinde Deterjan Dozajı Nasıl Ayarlanır? | DOZATECH',
+        'Endüstriyel bulaşık makinelerinde deterjan ve parlatıcı dozajı, dozaj pompası ve sık yapılan hatalar hakkında pratik rehber.',
+        'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
+    ),
+    'rehber_peristaltik_pompa.html': (
+        'article',
+        'Peristaltik Dozaj Pompası Nedir, Nasıl Çalışır? | DOZATECH',
+        'Peristaltik dozaj pompasının çalışma mantığı, bulaşık makinesinde kullanımı ve bakım ihtiyacı hakkında kısa rehber.',
+        'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
+    ),
+    'rehber_kirec.html': (
+        'article',
+        'Bulaşık Makinesinde Kireç Nasıl Önlenir? | DOZATECH',
+        'Endüstriyel bulaşık makinesinde kirecin nedenleri, belirtileri ve birikimi azaltmaya yönelik pratik adımlar.',
+        'https://dozatech.com.tr/assets/images/dozatech_logo.webp',
     ),
 }
 PAGE_BREADCRUMBS = {
@@ -189,9 +221,30 @@ PAGE_BREADCRUMBS = {
         ('Kimyasallar', '/urunler/kimyasallar'),
         ('Kireç Sökücü', PAGE_ROUTES['urun_kirec_sokucu.html']),
     ],
+    'urun_yag_sokucu.html': [
+        ('Ana Sayfa', '/'),
+        ('Ürünler', '/urunler'),
+        ('Kimyasallar', '/urunler/kimyasallar'),
+        ('Yağ Sökücü', PAGE_ROUTES['urun_yag_sokucu.html']),
+    ],
     'hizmet_pompa.html': [
         ('Ana Sayfa', '/'),
         ('Dozaj Pompası Montajı, Bakımı ve Onarımı', PAGE_ROUTES['hizmet_pompa.html']),
+    ],
+    'rehber_dozaj_ayari.html': [
+        ('Ana Sayfa', '/'),
+        ('Rehber', None),
+        ('Bulaşık Makinesinde Deterjan Dozajı Nasıl Ayarlanır?', PAGE_ROUTES['rehber_dozaj_ayari.html']),
+    ],
+    'rehber_peristaltik_pompa.html': [
+        ('Ana Sayfa', '/'),
+        ('Rehber', None),
+        ('Peristaltik Dozaj Pompası Nedir, Nasıl Çalışır?', PAGE_ROUTES['rehber_peristaltik_pompa.html']),
+    ],
+    'rehber_kirec.html': [
+        ('Ana Sayfa', '/'),
+        ('Rehber', None),
+        ('Bulaşık Makinesinde Kireç Nasıl Önlenir?', PAGE_ROUTES['rehber_kirec.html']),
     ],
 }
 
@@ -333,15 +386,16 @@ def inject_breadcrumb_schema(content, filename):
     if not breadcrumbs or '"BreadcrumbList"' in content:
         return content
 
-    item_list = [
-        {
+    item_list = []
+    for position, (name, path) in enumerate(breadcrumbs, start=1):
+        entry = {
             '@type': 'ListItem',
             'position': position,
             'name': name,
-            'item': f'{BASE_URL}{path}',
         }
-        for position, (name, path) in enumerate(breadcrumbs, start=1)
-    ]
+        if path is not None:
+            entry['item'] = f'{BASE_URL}{path}'
+        item_list.append(entry)
     schema = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -360,6 +414,7 @@ def get_mobile_navigation_markup():
         <a href="/" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Ana Sayfa</a>
         <a href="/urunler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Ürünler</a>
         <a href="/cozumler" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Çözümler</a>
+        <a href="/hizmetler/dozaj-pompasi-montaj-bakim-onarim" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">Hizmetler</a>
         <a href="/#iletisim" class="block py-3 px-4 text-gray-700 hover:bg-gray-100">İletişim</a>
     </div>'''
 
